@@ -1,0 +1,29 @@
+<resources>
+	<string name="app_name">校园出租屋</string>
+	<string name="app_title">大学生出租屋平台</string>
+
+	<string-array name="toolbar_names">
+		<item>校园出租屋</item>
+	</string-array>
+
+	<string-array name="tab_names">
+		<item>校内出租</item>
+		<item>整租</item>
+		<item>单间</item>
+		<item>日租</item>
+		<item>办公</item>
+	</string-array>
+
+	<string-array name="label_names">
+		<item>WIFI</item>
+		<item>热水器</item>
+		<item>空调</item>
+		<item>洗衣机</item>
+		<item>地铁房</item>
+		<item>设备齐全</item>
+		<item>超市</item>
+		<item>公交</item>
+		<item>学校</item>
+		<item>随时看房</item>
+	</string-array>
+</resources>

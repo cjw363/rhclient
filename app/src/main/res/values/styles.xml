@@ -1,0 +1,95 @@
+<resources>
+
+	<!-- Base application theme. -->
+	<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+		<!-- Customize your theme here. -->
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorAccent">@color/colorAccent</item>
+	</style>
+
+	<style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+		<item name="windowActionBar">false</item>
+		<item name="windowNoTitle">true</item>
+
+		<!-- 状态栏颜色，会被statusBarColor效果覆盖 -->
+		<item name="colorPrimaryDark">@color/colorPrimary</item>
+		<!-- 状态栏颜色，继承自colorPrimaryDark -->
+		<!-- <item name="statusBarColor">@color/status_cyan</item> -->
+		<!-- actionBar颜色 -->
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<!-- 背景颜色 -->
+		<item name="android:windowBackground">@color/window_bg_cyan</item>
+		<!-- 底部栏颜色 -->
+		<!-- <item name="navigationBarColor">@color/navigation_cyan</item> -->
+
+		<!-- ListView的分割线颜色，switch滑动区域色 -->
+		<item name="android:colorForeground">@color/fg_cyan</item>
+		<!-- popMenu的背景色 -->
+		<!-- <item name="colorBackground">@color/bg_cyan</item> -->
+
+		<!-- 控件默认颜色 ，效果会被colorControlActivated取代 -->
+		<item name="colorAccent">@color/control_activated_cyan</item>
+
+		<!-- 控件默认时颜色 -->
+		<item name="colorControlNormal">@color/control_normal_cyan</item>
+		<!-- 控件按压时颜色，会影响水波纹效果，继承自colorAccent -->
+		<item name="colorControlHighlight">@color/control_highlight_cyan</item>
+		<!-- 控件选中时颜色 -->
+		<item name="colorControlActivated">@color/control_activated_cyan</item>
+		<!-- Button的默认背景 -->
+		<item name="colorButtonNormal">@color/button_normal_cyan</item>
+
+		<!-- Button，textView的文字颜色 -->
+		<item name="android:textColor">@color/tv_black</item>
+		<!-- RadioButton checkbox等控件的文字 -->
+		<item name="android:textColorPrimaryDisableOnly">@color/tv_black</item>
+		<!-- actionBar的标题文字颜色 -->
+		<item name="android:textColorPrimary">@color/tv_black</item>
+	</style>
+
+	<style name="view_divider_1">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">1dp</item>
+		<item name="android:background">@color/divider</item>
+	</style>
+
+	<style name="view_divider_2">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">1dp</item>
+		<item name="android:layout_marginStart">10dp</item>
+		<item name="android:layout_marginEnd">10dp</item>
+		<item name="android:background">@color/divider</item>
+	</style>
+
+	<style name="view_divider_3">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">15dp</item>
+		<item name="android:background">@color/bg_label</item>
+	</style>
+
+	<style name="radio_button_label">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">35dp</item>
+		<item name="android:background">@drawable/bg_selector_label</item>
+		<item name="android:button">@null</item>
+		<item name="android:gravity">center</item>
+		<item name="android:paddingStart">15dp</item>
+		<item name="android:paddingEnd">15dp</item>
+		<item name="android:layout_marginStart">10dp</item>
+		<item name="android:layout_marginEnd">10dp</item>
+	</style>
+
+	<style name="tv_normal">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textSize">16sp</item>
+		<item name="android:textColor">@color/tv_colorPrimary</item>
+	</style>
+	<style name="tv_hint">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="android:textSize">16sp</item>
+		<item name="android:textColor">@color/tv_colorPrimaryHint</item>
+	</style>
+</resources>

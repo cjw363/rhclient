@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	              android:layout_width="match_parent"
+	              android:layout_height="match_parent"
+	              android:gravity="center"
+	              android:orientation="vertical"
+	              android:padding="20dp">
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="10dp"
+			android:gravity="center"
+			android:text="@string/app_title"
+			android:textColor="@color/window_bg_orange"
+			android:textSize="24dp"/>
+
+		<android.support.v7.widget.AppCompatImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="10dp"
+			android:background="@mipmap/ic_launcher"
+			/>
+
+		<EditText
+			android:id="@+id/et_register_name"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:background="@drawable/bg_rectangle_stroke_gray"
+			android:gravity="center_vertical"
+			android:hint="请输入用户名"
+			android:padding="10dp"
+			android:paddingStart="15dp"
+			/>
+
+		<EditText
+			android:id="@+id/et_register_password"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:layout_marginTop="10dp"
+			android:background="@drawable/bg_rectangle_stroke_gray"
+			android:gravity="center_vertical"
+			android:hint="请输入密码"
+			android:inputType="textPassword"
+			android:padding="10dp"
+			android:paddingStart="15dp"
+			/>
+
+		<EditText
+			android:id="@+id/et_register_sure_password"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:layout_marginTop="10dp"
+			android:background="@drawable/bg_rectangle_stroke_gray"
+			android:gravity="center_vertical"
+			android:hint="请再输入密码"
+			android:inputType="textPassword"
+			android:padding="10dp"
+			android:paddingStart="15dp"
+			/>
+
+		<AutoCompleteTextView
+			android:id="@+id/auto_tv_school"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:layout_marginTop="10dp"
+			android:background="@drawable/bg_rectangle_stroke_gray"
+			android:gravity="center_vertical"
+			android:completionThreshold="1"
+			android:hint="请输入学校"
+			android:paddingStart="15dp"
+			/>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="10dp"
+			android:layout_marginTop="10dp"
+			>
+
+			<TextView
+				android:id="@+id/tv_to_login"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="已有账号？"
+				/>
+		</RelativeLayout>
+
+		<Button
+			android:id="@+id/bt_register"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@drawable/bg_selector_bt_login"
+			android:text="注册"
+			android:textColor="@color/tv_white"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:background="@drawable/bg_rectangle_stroke_gray"
+			android:padding="10dp"
+			android:text="温馨提示:用户名和密码只能是数字或字母(区分大小写)组合,6位到12位之间，不包含特殊字符"
+			android:textColor="@color/tv_colorPrimaryHint"
+			/>
+	</LinearLayout>
+</FrameLayout>
