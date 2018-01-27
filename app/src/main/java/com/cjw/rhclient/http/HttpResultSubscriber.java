@@ -37,7 +37,7 @@ public abstract class HttpResultSubscriber<T> extends Subscriber<HttpResult<T>> 
 
 	public abstract void _onSuccess(T t);
 
-	private void _onError(Throwable e) {
+	public void _onError(final Throwable e) {
 		LoadingDialog.close();
 		UI.showToast(e.getMessage());
 		e.printStackTrace();

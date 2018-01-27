@@ -44,8 +44,8 @@ public class UI {
 		BaseApplication.putActivity(activity);
 	}
 
-	public static void removeActivity() {
-		BaseApplication.removeActivity();
+	public static void removeActivity(Activity activity) {
+		BaseApplication.removeActivity(activity);
 	}
 
 	public static Activity getActivity() {

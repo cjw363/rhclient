@@ -13,9 +13,9 @@ public class BaseApplication extends Application {
 	private static Context context;
 	private static Handler handler;
 	private static int mainThreadId;
-	private static Stack<Activity> mStack = new Stack<Activity>();
-//	private static String baseUrl = "http://10.0.3.2:8090/mipserver/rh/";
-	private static String baseUrl = "http://cjw2529275344.free.ngrok.cc/mipserver/rh/";
+	private static Stack<Activity> mStack = new Stack<>();
+	private static String baseUrl = "http://10.0.3.2:8090/mipserver/rh/";
+//	private static String baseUrl = "http://cjw2529275344.free.ngrok.cc/mipserver/rh/";
 	private static User user;
 
 	@Override
@@ -59,8 +59,8 @@ public class BaseApplication extends Application {
 		mStack.push(activity);
 	}
 
-	public static void removeActivity() {
-		mStack.pop();
+	public static void removeActivity(Activity activity) {
+		mStack.remove(activity);
 	}
 
 	public static Activity getActivity() {
