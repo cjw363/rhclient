@@ -13,12 +13,12 @@ public class LoadingDialog extends ProgressDialog {
 	}
 
 	public static void show(Context context) {
-		if (UI.getHasWindowFocus()) {
+//		if (UI.getHasWindowFocus()) {
 			close();
 			dialog = new LoadingDialog(context);
 			dialog.setMessage("加载中..");
 			dialog.show();
-		}
+//		}
 	}
 
 	public static void close() {

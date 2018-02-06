@@ -1,8 +1,11 @@
 package com.cjw.rhclient.view.dialog;
 
 import android.content.Context;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cjw.rhclient.R;
@@ -13,25 +16,46 @@ public class ContentDialog {
 	public static final class Builder {
 
 		private Context context;
-		private int height = UI.dip2px(120);
-		private int width = UI.dip2px(150);
+		private int height = UI.dip2px(300), width = UI.dip2px(400);
 		private View view;
 		private String title;
 		private String content;
 		private TextView mTvTitle;
 		private TextView mTvContent;
+		private RelativeLayout mRlContent;
 		private View.OnClickListener cancelListener;
 		private View.OnClickListener okListener;
+		private final RelativeLayout.LayoutParams mParams;
 
 		public Builder(Context context) {
 			this.context = context;
 			view = LayoutInflater.from(context).inflate(R.layout.layout_dialog_common, null);
 			mTvTitle = (TextView) view.findViewById(R.id.title);
-			mTvContent = (TextView) view.findViewById(R.id.content);
+			mRlContent = (RelativeLayout) view.findViewById(R.id.content);
+
+			mTvContent = new TextView(context);
+			mTvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			mTvContent.setTextColor(UI.getColor(R.color.tv_colorPrimary));
+			mTvContent.setMaxLines(4);
+			mTvContent.setGravity(Gravity.CENTER);
+			mRlContent.addView(mTvContent);
+
+			mParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+			mParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 		}
 
 		public Builder contentView(int resId) {
 			View contentView = LayoutInflater.from(context).inflate(resId, null);
+			contentView.setLayoutParams(mParams);
+			mRlContent.removeAllViews();
+			mRlContent.addView(contentView);
+			return this;
+		}
+
+		public Builder contentView(View contentView) {
+			contentView.setLayoutParams(mParams);
+			mRlContent.removeAllViews();
+			mRlContent.addView(contentView);
 			return this;
 		}
 
@@ -78,7 +102,14 @@ public class ContentDialog {
 		}
 
 		public BaseCustomDialog build() {
-			final BaseCustomDialog dialog = new BaseCustomDialog.Builder(context).height(height).width(width).isBackCancelable(true).isTouchOutCancel(false).view(view).addViewOnclick(R.id.cancel, cancelListener).addViewOnclick(R.id.ok, okListener).build();
+			final BaseCustomDialog dialog = new BaseCustomDialog.Builder(context).height(height)
+			  .width(width)
+			  .isBackCancelable(true)
+			  .isTouchOutCancel(false)
+			  .view(view)
+			  .addViewOnclick(R.id.cancel, cancelListener)
+			  .addViewOnclick(R.id.ok, okListener)
+			  .build();
 
 			if (cancelListener == null) {
 				cancelListener = new View.OnClickListener() {

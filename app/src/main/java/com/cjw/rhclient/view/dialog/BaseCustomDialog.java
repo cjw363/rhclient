@@ -69,6 +69,10 @@ public class BaseCustomDialog extends Dialog {
 		window.setAttributes(params);
 	}
 
+	public View getView(int viewRes) {
+		return view.findViewById(viewRes);
+	}
+
 	public static final class Builder {
 
 		private Context context;

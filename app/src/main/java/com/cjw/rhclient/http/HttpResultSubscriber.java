@@ -2,6 +2,7 @@ package com.cjw.rhclient.http;
 
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.view.LoadingDialog;
+import com.cjw.rhclient.view.dialog.MyDialogFragment;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
@@ -13,7 +14,7 @@ public abstract class HttpResultSubscriber<T> extends Subscriber<HttpResult<T>> 
 
 	@Override
 	public void onCompleted() {
-		LoadingDialog.close();
+//		LoadingDialog.close();
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public abstract class HttpResultSubscriber<T> extends Subscriber<HttpResult<T>> 
 	public abstract void _onSuccess(T t);
 
 	public void _onError(final Throwable e) {
-		LoadingDialog.close();
+//		LoadingDialog.close();
 		UI.showToast(e.getMessage());
 		e.printStackTrace();
 	}
