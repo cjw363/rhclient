@@ -15,7 +15,6 @@
 
 		<activity
 			android:name=".main.login.LoginActivity"
-			android:launchMode="singleTask"
 			android:windowSoftInputMode="adjustPan">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -26,7 +25,6 @@
 
 		<activity
 			android:name=".main.register.RegisterActivity"
-			android:launchMode="singleTask"
 			android:windowSoftInputMode="adjustPan"/>
 
 		<activity android:name=".main.MainActivity"/>
