@@ -1,7 +1,11 @@
 package com.cjw.rhclient.http;
 
+import android.app.Activity;
+import android.content.Context;
+
 import com.cjw.rhclient.utils.UI;
-import com.cjw.rhclient.view.LoadingDialog;
+import com.cjw.rhclient.view.dialog.LoadingDialog;
+import com.cjw.rhclient.view.dialog.TipDialog;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
@@ -10,6 +14,14 @@ import rx.Subscriber;
  * Created by Administrator on 17-2-23.
  */
 public abstract class HttpResultSubscriber<T> extends Subscriber<HttpResult<T>> {
+
+	private Context mContext;
+
+	protected HttpResultSubscriber() {}
+
+	protected HttpResultSubscriber(Context context) {
+		this.mContext = context;
+	}
 
 	@Override
 	public void onCompleted() {
@@ -39,7 +51,8 @@ public abstract class HttpResultSubscriber<T> extends Subscriber<HttpResult<T>> 
 
 	public void _onError(final Throwable e) {
 		LoadingDialog.close();
-		UI.showToast(e.getMessage());
+		if (mContext != null) TipDialog.show((Activity) mContext, e.getMessage());
+		else UI.showToast(e.getMessage());
 		e.printStackTrace();
 	}
 }

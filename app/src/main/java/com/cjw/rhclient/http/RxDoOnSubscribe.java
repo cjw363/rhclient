@@ -3,7 +3,7 @@ package com.cjw.rhclient.http;
 import android.app.Activity;
 import android.content.Context;
 
-import com.cjw.rhclient.view.LoadingDialog;
+import com.cjw.rhclient.view.dialog.LoadingDialog;
 
 import rx.functions.Action0;
 

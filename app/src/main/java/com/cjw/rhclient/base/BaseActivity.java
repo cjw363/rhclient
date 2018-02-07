@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.cjw.rhclient.utils.UI;
-import com.cjw.rhclient.view.LoadingDialog;
+import com.cjw.rhclient.view.dialog.LoadingDialog;
 
 import butterknife.ButterKnife;
 

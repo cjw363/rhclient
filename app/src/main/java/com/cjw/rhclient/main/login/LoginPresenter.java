@@ -34,7 +34,7 @@ class LoginPresenter implements LoginContract.LoginPresenter {
 		map.put("name", name);
 		map.put("password", password);
 
-		RxTrHttpMethod.getInstance().createService(UserService.class).login(map).compose(RxSchedulers.<HttpResult<User>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<User>() {
+		RxTrHttpMethod.getInstance().createService(UserService.class).login(map).compose(RxSchedulers.<HttpResult<User>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<User>(mContext) {
 			@Override
 			public void _onSuccess(User result) {
 				UI.showToast("登录成功");

@@ -1,4 +1,4 @@
-package com.cjw.rhclient.view;
+package com.cjw.rhclient.view.dialog;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

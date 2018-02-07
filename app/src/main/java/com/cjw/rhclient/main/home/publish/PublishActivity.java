@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.cjw.rhclient.R;
 import com.cjw.rhclient.base.BaseActivity;
 import com.cjw.rhclient.utils.UI;
-import com.cjw.rhclient.view.BottomDialog;
+import com.cjw.rhclient.view.dialog.BottomDialog;
 import com.cjw.rhclient.view.FlowLayout;
 import com.cjw.rhclient.view.PublishTypeContentView;
 import com.cjw.rhclient.view.wheelview.WheelView;

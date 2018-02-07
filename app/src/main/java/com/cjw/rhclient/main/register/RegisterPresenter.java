@@ -36,7 +36,7 @@ class RegisterPresenter implements RegisterContract.RegisterPresenter {
 		map.put("password", password);
 		map.put("school", school);
 
-		RxTrHttpMethod.getInstance().createService(UserService.class).register(map).compose(RxSchedulers.<HttpResult<String>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<String>() {
+		RxTrHttpMethod.getInstance().createService(UserService.class).register(map).compose(RxSchedulers.<HttpResult<String>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<String>(mContext) {
 			@Override
 			public void _onSuccess(String result) {
 				UI.showToast("注册成功，请登录");

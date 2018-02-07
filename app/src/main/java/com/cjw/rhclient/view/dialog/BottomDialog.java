@@ -1,4 +1,4 @@
-package com.cjw.rhclient.view;
+package com.cjw.rhclient.view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

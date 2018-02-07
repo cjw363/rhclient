@@ -15,7 +15,7 @@ public class ContentDialog {
 	public static final class Builder {
 
 		private Context context;
-		private int height = UI.dip2px(300), width = UI.dip2px(400);
+		private int height = UI.dip2px(120), width = UI.dip2px(140);
 		private View view;
 		private String title;
 		private String content;
@@ -33,7 +33,7 @@ public class ContentDialog {
 			mRlContent = (RelativeLayout) view.findViewById(R.id.content);
 
 			mTvContent = new TextView(context);
-			mTvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			mTvContent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
 			mTvContent.setTextColor(UI.getColor(R.color.tv_colorPrimary));
 			mTvContent.setMaxLines(4);
 			mTvContent.setGravity(Gravity.CENTER);

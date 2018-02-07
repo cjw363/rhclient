@@ -30,7 +30,7 @@ class CampusPresenter implements CampusContract.CampusPresenter {
 
 	@Override
 	public void getCampusList() {
-		RxTrHttpMethod.getInstance().createService(RentService.class).getCampusList(UI.getUser().getToken()).compose(RxSchedulers.<HttpResult<List<Rent>>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<List<Rent>>() {
+		RxTrHttpMethod.getInstance().createService(RentService.class).getCampusList(UI.getUser().getToken()).compose(RxSchedulers.<HttpResult<List<Rent>>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<List<Rent>>(mContext) {
 			@Override
 			public void _onSuccess(List<Rent> result) {
 				mCampusView.showCampusList(result);
