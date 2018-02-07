@@ -1,5 +1,6 @@
 package com.cjw.rhclient.main.home.campus;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import com.cjw.rhclient.adapter.CampusAdapter;
 import com.cjw.rhclient.base.BaseFragment;
 import com.cjw.rhclient.base.BaseRecyclerViewAdapter;
 import com.cjw.rhclient.been.Rent;
+import com.cjw.rhclient.main.home.detail.DetailActivity;
 import com.cjw.rhclient.utils.UI;
 
 import java.util.List;
@@ -53,7 +55,7 @@ public class CampusFragment extends BaseFragment implements CampusContract.Campu
 		campusAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<Rent>() {
 			@Override
 			public void onItemClick(View view, int position, Rent data) {
-				UI.showToast("1");
+				startActivity(new Intent(getActivity(), DetailActivity.class));
 			}
 		});
 	}

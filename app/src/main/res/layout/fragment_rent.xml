@@ -1,48 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/swipeRefresh"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
 
-	<LinearLayout
+	<RadioGroup
+		android:id="@+id/rg_sort"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal">
+		android:orientation="horizontal"
+		android:padding="10dp">
 
-		<RadioGroup
-			android:id="@+id/rg_sort"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			android:padding="10dp">
+		<RadioButton
+			android:id="@+id/rb_sort_1"
+			style="@style/radio_button_label"
+			android:text="综合"/>
 
-			<RadioButton
-				android:id="@+id/rb_sort_1"
-				style="@style/radio_button_label"
-				android:text="综合"/>
+		<RadioButton
+			android:id="@+id/rb_sort_2"
+			style="@style/radio_button_label"
+			android:text="发布时间"/>
 
-			<RadioButton
-				android:id="@+id/rb_sort_2"
-				style="@style/radio_button_label"
-				android:text="发布时间"/>
+		<RadioButton
+			android:id="@+id/rb_sort_3"
+			style="@style/radio_button_label"
+			android:text="距离"/>
 
-			<RadioButton
-				android:id="@+id/rb_sort_3"
-				style="@style/radio_button_label"
-				android:text="距离"/>
+		<RadioButton
+			android:id="@+id/rb_sort_4"
+			style="@style/radio_button_label"
+			android:text="价格"/>
+	</RadioGroup>
 
-			<RadioButton
-				android:id="@+id/rb_sort_4"
-				style="@style/radio_button_label"
-				android:text="价格"/>
-		</RadioGroup>
-	</LinearLayout>
+	<View style="@style/view_divider_1"/>
 
-	<android.support.v7.widget.RecyclerView
-		android:id="@+id/recyclerView"
+	<android.support.v4.widget.SwipeRefreshLayout
+		android:id="@+id/swipeRefresh"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		/>
+		android:layout_height="match_parent">
 
-</android.support.v4.widget.SwipeRefreshLayout>
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/recyclerView"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			/>
+
+	</android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>
