@@ -15,15 +15,15 @@ import com.cjw.rhclient.been.User;
 
 public class UI {
 
-	public static User getUser(){
+	public static User getUser() {
 		return BaseApplication.getUser();
 	}
 
-	public static void setUser(User user){
+	public static void setUser(User user) {
 		BaseApplication.setUser(user);
 	}
 
-	public static boolean getHasWindowFocus(){
+	public static boolean getHasWindowFocus() {
 		return BaseActivity.hasWindowFocus;
 	}
 

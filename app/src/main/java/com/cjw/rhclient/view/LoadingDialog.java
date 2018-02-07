@@ -1,30 +1,104 @@
 package com.cjw.rhclient.view;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 
-import com.cjw.rhclient.utils.UI;
+import com.cjw.rhclient.utils.LogUtils;
 
-public class LoadingDialog extends ProgressDialog {
-	private static LoadingDialog dialog;
+import java.lang.ref.WeakReference;
 
-	private LoadingDialog(Context context) {
-		super(context);
+public class LoadingDialog {
+	private static WeakReference<Activity> mWeakReference;
+	private static ProgressDialog mProgressDialog;
+
+	public static void show(Activity activity) {
+		show(activity, "加载中...");
 	}
 
-	public static void show(Context context) {
-//		if (UI.getHasWindowFocus()) {
-			close();
-			dialog = new LoadingDialog(context);
-			dialog.setMessage("加载中..");
-			dialog.show();
+	public static void show(Activity activity, String message) {
+		show(activity, message, true);
+	}
+
+	/**
+	 * @param activity 需要弹窗的activity
+	 * @param message  弹窗展示的内容
+	 * @param flag     触摸弹窗外区域，是否取消窗口
+	 */
+	public static void show(Activity activity, String message, boolean flag) {
+		if (!isLiving(activity)) {
+			return;
+		}
+		if (mWeakReference == null) {
+			mWeakReference = new WeakReference<>(activity);
+		}
+		activity = mWeakReference.get();
+
+		if (mProgressDialog == null) {
+			if (activity.getParent() != null) {
+				mProgressDialog = new ProgressDialog(activity.getParent());
+			} else {
+				mProgressDialog = new ProgressDialog(activity);
+			}
+		}
+//		if (!mProgressDialog.isShowing()) {
+//			mProgressDialog.dismiss();
+			mProgressDialog.setMessage(message);
+			mProgressDialog.setIndeterminate(false);
+			mProgressDialog.setCancelable(flag);
+			mProgressDialog.show();
+//		} else {
+//			mProgressDialog.setMessage(message);
 //		}
 	}
 
-	public static void close() {
-		if (dialog != null) {
-			dialog.dismiss();
-			dialog = null;
+	/**
+	 * 判断activity是否存活
+	 */
+	private static boolean isLiving(Activity activity) {
+		if (activity == null) {
+			LogUtils.d("activity == null");
+			return false;
 		}
+		if (activity.isFinishing()) {
+			LogUtils.d("activity is finishing");
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * 关闭进度框
+	 */
+	public static void close() {
+		if (isShowing(mProgressDialog) ) {//&& isExistLiving(mWeakReference)
+			LogUtils.d("dialog close");
+			mProgressDialog.dismiss();
+			mProgressDialog = null;
+			mWeakReference.clear();
+			mWeakReference = null;
+		}
+	}
+
+	/**
+	 * 判断进度框是否正在显示
+	 */
+	private static boolean isShowing(ProgressDialog dialog) {
+		boolean isShowing = dialog != null && dialog.isShowing();
+		LogUtils.d(">------isShow:" + isShowing);
+		return isShowing;
+	}
+
+	private static boolean isExistLiving(WeakReference<Activity> weakReference) {
+		if (weakReference != null) {
+			Activity activity = weakReference.get();
+			if (activity == null) {
+				return false;
+			}
+			if (activity.isFinishing()) {
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 }

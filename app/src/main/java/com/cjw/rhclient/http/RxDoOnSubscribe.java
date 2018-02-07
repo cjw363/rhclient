@@ -1,5 +1,6 @@
 package com.cjw.rhclient.http;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.cjw.rhclient.view.LoadingDialog;
@@ -7,14 +8,20 @@ import com.cjw.rhclient.view.LoadingDialog;
 import rx.functions.Action0;
 
 public class RxDoOnSubscribe implements Action0 {
-	private final Context mContext;
+	private boolean mIsShowDialog = true;
+	private Context mContext;
 
 	public RxDoOnSubscribe(Context context) {
 		this.mContext = context;
 	}
 
+	public RxDoOnSubscribe(Context context, boolean isShowDialog) {
+		this.mContext = context;
+		this.mIsShowDialog = isShowDialog;
+	}
+
 	@Override
 	public void call() {
-		LoadingDialog.show(mContext);
+		if (mIsShowDialog) LoadingDialog.show((Activity) mContext);
 	}
 }
