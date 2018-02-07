@@ -1,4 +1,4 @@
-package com.cjw.rhclient.holder;
+package com.cjw.rhclient.adapter.holder;
 
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
@@ -14,7 +14,7 @@ import com.cjw.rhclient.utils.UrlUtils;
 
 import butterknife.BindView;
 
-public class CampusHolder extends BaseHolder<Rent> {
+public class RentHolder extends BaseHolder<Rent> {
 	@BindView(R.id.aiv_head)
 	AppCompatImageView mAivHead;
 	@BindView(R.id.tv_distance)
@@ -34,7 +34,7 @@ public class CampusHolder extends BaseHolder<Rent> {
 	@BindView(R.id.tv_amount)
 	TextView mTvAmount;
 
-	public CampusHolder(View itemView, BaseRecyclerViewAdapter.OnItemClickListener<Rent> itemClickListener) {
+	public RentHolder(View itemView, BaseRecyclerViewAdapter.OnItemClickListener<Rent> itemClickListener) {
 		super(itemView, itemClickListener);
 	}
 

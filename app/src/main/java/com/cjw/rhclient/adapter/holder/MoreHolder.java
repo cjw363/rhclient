@@ -1,4 +1,4 @@
-package com.cjw.rhclient.holder;
+package com.cjw.rhclient.adapter.holder;
 
 import android.view.View;
 import android.widget.LinearLayout;

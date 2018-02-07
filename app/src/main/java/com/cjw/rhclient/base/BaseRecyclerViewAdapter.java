@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cjw.rhclient.R;
-import com.cjw.rhclient.holder.MoreHolder;
+import com.cjw.rhclient.adapter.holder.MoreHolder;
 import com.cjw.rhclient.utils.UI;
 
 import java.util.List;
