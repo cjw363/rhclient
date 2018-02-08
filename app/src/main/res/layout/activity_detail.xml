@@ -1,8 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 
-	<include layout="@layout/layout_toolbar"/>
-</LinearLayout>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<include layout="@layout/layout_toolbar"/>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="10dp">
+
+			<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/aiv_head"
+				android:layout_width="45dp"
+				android:layout_height="45dp"
+				android:scaleType="centerCrop"
+				app:srcCompat="@mipmap/ic_launcher_round"
+				/>
+
+			<TextView
+				android:id="@+id/tv_name"
+				style="@style/tv_normal"
+				android:layout_alignTop="@id/aiv_head"
+				android:layout_marginStart="10dp"
+				android:layout_marginTop="10dp"
+				android:layout_toEndOf="@id/aiv_head"
+				android:text="name"/>
+		</RelativeLayout>
+
+		<View style="@style/view_divider_1"/>
+
+		<TextView
+			android:id="@+id/tv_content"
+			style="@style/tv_normal"/>
+
+		<View
+			style="@style/view_divider_1"
+			android:layout_marginTop="20dp"/>
+
+		<android.support.v7.widget.AppCompatImageView
+			android:id="@+id/aiv_pic"
+			android:layout_width="match_parent"
+			android:layout_height="250dp"
+			android:scaleType="centerCrop"
+			app:srcCompat="@mipmap/ic_launcher_round"
+			/>
+
+		<View
+			style="@style/view_divider_1"
+			android:layout_marginTop="20dp"/>
+
+		<TextView
+			style="@style/tv_normal"
+			android:padding="10dp"
+			android:text="留言区"/>
+
+		<View
+			style="@style/view_divider_1"/>
+	</LinearLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:gravity="center_vertical"
+		android:padding="8dp">
+
+		<android.support.v7.widget.AppCompatImageView
+			android:id="@+id/aiv_favorite"
+			android:layout_width="45dp"
+			android:layout_height="45dp"
+			android:scaleType="centerCrop"
+			app:srcCompat="@mipmap/ic_launcher_round"
+			/>
+
+		<Button
+			android:id="@+id/bt_bbs"
+			android:layout_width="60dp"
+			android:layout_height="45dp"
+			android:layout_alignParentEnd="true"
+			android:text="留言"
+			/>
+
+		<EditText
+			android:id="@+id/et_input"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:layout_toEndOf="@id/aiv_favorite"
+			android:layout_toStartOf="@id/bt_bbs"
+			android:layout_marginStart="5dp"
+			android:layout_marginEnd="5dp"
+			android:background="@drawable/bg_rectangle_stroke_gray"/>
+	</RelativeLayout>
+</RelativeLayout>

@@ -17,14 +17,14 @@ public class ContentDialog {
 		private Context context;
 		private int height = UI.dip2px(120), width = UI.dip2px(140);
 		private View view;
-		private String title;
-		private String content;
 		private TextView mTvTitle;
 		private TextView mTvContent;
 		private RelativeLayout mRlContent;
 		private View.OnClickListener cancelListener;
 		private View.OnClickListener okListener;
 		private final RelativeLayout.LayoutParams mParams;
+		private boolean cancelTouchOut = true;
+		private boolean backCancelable = true;
 
 		public Builder(Context context) {
 			this.context = context;
@@ -40,7 +40,7 @@ public class ContentDialog {
 			mRlContent.addView(mTvContent);
 
 			mParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-//			mParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+			//			mParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 		}
 
 		public Builder contentView(int resId) {
@@ -74,13 +74,11 @@ public class ContentDialog {
 		}
 
 		public Builder setTitle(String title) {
-			this.title = title;
 			mTvTitle.setText(title);
 			return this;
 		}
 
 		public Builder setContent(String content) {
-			this.content = content;
 			mTvContent.setText(content);
 			return this;
 		}
@@ -106,11 +104,21 @@ public class ContentDialog {
 			return this;
 		}
 
+		public Builder isTouchOutCancel(boolean val) {
+			cancelTouchOut = val;
+			return this;
+		}
+
+		public Builder isBackCancelable(boolean val) {
+			backCancelable = val;
+			return this;
+		}
+
 		public BaseCustomDialog build() {
 			final BaseCustomDialog dialog = new BaseCustomDialog.Builder(context).height(height)
 			  .width(width)
-			  .isBackCancelable(true)
-			  .isTouchOutCancel(false)
+			  .isBackCancelable(backCancelable)
+			  .isTouchOutCancel(cancelTouchOut)
 			  .view(view)
 			  .addViewOnclick(R.id.cancel, cancelListener)
 			  .addViewOnclick(R.id.ok, okListener)

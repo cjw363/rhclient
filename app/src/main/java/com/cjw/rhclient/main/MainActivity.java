@@ -1,6 +1,10 @@
 package com.cjw.rhclient.main;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -18,10 +22,13 @@ import com.cjw.rhclient.been.User;
 import com.cjw.rhclient.main.home.publish.PublishActivity;
 import com.cjw.rhclient.utils.FragmentFactory;
 import com.cjw.rhclient.utils.UI;
+import com.cjw.rhclient.view.dialog.BaseCustomDialog;
+import com.cjw.rhclient.view.dialog.ContentDialog;
 
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
+	private static final int MY_PERMISSION_REQUEST_CODE = 6;
 
 	@BindView(R.id.toolbar)
 	Toolbar mToolbar;
@@ -31,6 +38,7 @@ public class MainActivity extends BaseActivity {
 	ViewPager mViewpager;
 	@BindView(R.id.tv_toolbar_right)
 	TextView mTvToolbarRight;
+	private BaseCustomDialog mDialog;
 
 	@Override
 	public int getContentLayoutId() {
@@ -40,13 +48,42 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void initView() {
 		initToolBar();// 初始化toolbar
+		checkLocationPermission();
 		initPager();// 初始化radiobutton点击事件和viewpager
+	}
+
+	private void checkLocationPermission() {
+		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat
+		  .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSION_REQUEST_CODE);
+		} else {
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (requestCode == MY_PERMISSION_REQUEST_CODE) {
+		} else {
+			mDialog = new ContentDialog.Builder(this).setContent("注意：没有定位权限，部分功能将不可用！请授予权限")
+			  .isTouchOutCancel(false)
+			  .isBackCancelable(false)
+			  .setOkListener(new View.OnClickListener() {
+				  @Override
+				  public void onClick(View view) {
+					  checkLocationPermission();
+					  mDialog.dismiss();
+				  }
+			  })
+			  .build();
+			mDialog.showDialog();
+		}
 	}
 
 	@Override
 	public void initData() {
 		Intent intent = getIntent();
-		User user = (User)intent.getSerializableExtra("user");
+		User user = (User) intent.getSerializableExtra("user");
 		UI.setUser(user);
 	}
 
@@ -63,10 +100,9 @@ public class MainActivity extends BaseActivity {
 		mViewpager.setCurrentItem(0, true);
 	}
 
-	public void onClickToolbar(View v){
+	public void onClickToolbar(View v) {
 		startActivity(new Intent(MainActivity.this, PublishActivity.class));
 	}
-
 
 	private class InnerFraPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -91,5 +127,10 @@ public class MainActivity extends BaseActivity {
 		public void destroyItem(ViewGroup container, int position, Object object) {
 			//super.destroyItem(container, position, object);
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 	}
 }
