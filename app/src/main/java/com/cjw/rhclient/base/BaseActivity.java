@@ -17,7 +17,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//注意该方法要再setContentView方法之前实现
-		SDKInitializer.initialize(getApplicationContext());
+//		SDKInitializer.initialize(getApplicationContext());
 		setContentView(getContentLayoutId());
 		ButterKnife.bind(this);
 		initView();

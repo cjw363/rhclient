@@ -186,7 +186,7 @@ public class MainActivity extends BaseActivity {
 		  .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSION_REQUEST_CODE);
 		} else {
-			startLocation();
+//			startLocation();
 		}
 	}
 

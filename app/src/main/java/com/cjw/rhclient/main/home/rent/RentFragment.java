@@ -81,7 +81,7 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 	public void initData() {
 		Bundle bundle = getArguments();
 		if (bundle != null) bundle.getInt("type");
-		mRentPresenter.getRentList();
+//		mRentPresenter.getRentList();
 	}
 
 	@Override
