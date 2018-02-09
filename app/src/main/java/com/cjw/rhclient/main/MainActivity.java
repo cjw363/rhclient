@@ -20,11 +20,19 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.cjw.rhclient.R;
 import com.cjw.rhclient.base.BaseActivity;
 import com.cjw.rhclient.been.User;
 import com.cjw.rhclient.main.home.publish.PublishActivity;
 import com.cjw.rhclient.utils.FragmentFactory;
+import com.cjw.rhclient.utils.LogUtils;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.view.dialog.BaseCustomDialog;
 import com.cjw.rhclient.view.dialog.ContentDialog;
@@ -46,10 +54,11 @@ public class MainActivity extends BaseActivity {
 
 	public LocationClient mLocationClient = null;
 	private MyLocationListener myListener = new MyLocationListener();
+	private GeoCoder mGeoCoder;
 
 	//BDAbstractLocationListener为7.2版本新增的Abstract类型的监听接口
 	//原有BDLocationListener接口暂时同步保留。具体介绍请参考后文中的说明
-	public void onCreate() {
+	public void startLocation() {
 		mLocationClient = new LocationClient(getApplicationContext());
 		//声明LocationClient类
 		mLocationClient.registerLocationListener(myListener);
@@ -69,7 +78,7 @@ public class MainActivity extends BaseActivity {
 		//bd09：百度墨卡托坐标；
 		//海外地区定位，无需设置坐标类型，统一返回wgs84类型坐标
 
-		option.setScanSpan(1000);
+		option.setScanSpan(10000);
 		//可选，设置发起定位请求的间隔，int类型，单位ms
 		//如果设置为0，则代表单次定位，即仅定位一次，默认为0
 		//如果设置非0，需设置1000ms以上才有效
@@ -95,14 +104,44 @@ public class MainActivity extends BaseActivity {
 		option.setEnableSimulateGps(false);
 		//可选，设置是否需要过滤GPS仿真结果，默认需要，即参数为false
 
+		option.setIsNeedAddress(true);//如果开发者需要获得当前点的地址信息，此处必须为true
 		mLocationClient.setLocOption(option);
 		//mLocationClient为第二步初始化过的LocationClient对象
 		//需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
 		//更多LocationClientOption的配置，请参照类参考中LocationClientOption类的详细说明
 		mLocationClient.start();//；stop()：关闭定位SDK
+
+		mGeoCoder = GeoCoder.newInstance();
+		mGeoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+			@Override
+			public void onGetGeoCodeResult(GeoCodeResult result) {
+				if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+					//没有检索到结果
+					System.out.println("null");
+				} else {
+					//获取地理编码结果
+					LatLng location = result.getLocation();
+					System.out.println(location.latitude + " " + location.longitude);
+				}
+
+			}
+
+			@Override
+			public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+				if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+					//没有找到检索结果
+					System.out.println("null");
+				} else {
+					//获取反向地理编码结果
+					LatLng location = result.getLocation();
+					System.out.println(location.latitude + " " + location.longitude);
+				}
+			}
+		});
+		mGeoCoder.geocode(new GeoCodeOption().city("北京").address("海淀区上地十街10号"));
 	}
 
-	public class MyLocationListener extends BDAbstractLocationListener {
+	private class MyLocationListener extends BDAbstractLocationListener {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
 			//此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
@@ -118,7 +157,14 @@ public class MainActivity extends BaseActivity {
 
 			int errorCode = location.getLocType();
 			//获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明
-			System.out.println(latitude+" "+longitude);
+
+			String addr = location.getAddrStr();    //获取详细地址信息
+			String country = location.getCountry();    //获取国家
+			String province = location.getProvince();    //获取省份
+			String city = location.getCity();    //获取城市
+			String district = location.getDistrict();    //获取区县
+			String street = location.getStreet();    //获取街道信息
+			LogUtils.d(addr);
 			mLocationClient.stop();
 		}
 	}
@@ -136,10 +182,11 @@ public class MainActivity extends BaseActivity {
 	}
 
 	private void checkLocationPermission() {
-		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat
+		  .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSION_REQUEST_CODE);
 		} else {
-			onCreate();
+			startLocation();
 		}
 	}
 
@@ -148,13 +195,17 @@ public class MainActivity extends BaseActivity {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		if (requestCode == MY_PERMISSION_REQUEST_CODE) {
 		} else {
-			mDialog = new ContentDialog.Builder(this).setContent("注意：没有定位权限，部分功能将不可用！请授予权限").isTouchOutCancel(false).isBackCancelable(false).setOkListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					checkLocationPermission();
-					mDialog.dismiss();
-				}
-			}).build();
+			mDialog = new ContentDialog.Builder(this).setContent("注意：没有定位权限，部分功能将不可用！请授予权限")
+			  .isTouchOutCancel(false)
+			  .isBackCancelable(false)
+			  .setOkListener(new View.OnClickListener() {
+				  @Override
+				  public void onClick(View view) {
+					  checkLocationPermission();
+					  mDialog.dismiss();
+				  }
+			  })
+			  .build();
 			mDialog.showDialog();
 		}
 	}
