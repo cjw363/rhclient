@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.view.dialog.LoadingDialog;
 
@@ -16,8 +15,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//注意该方法要再setContentView方法之前实现
-//		SDKInitializer.initialize(getApplicationContext());
 		setContentView(getContentLayoutId());
 		ButterKnife.bind(this);
 		initView();

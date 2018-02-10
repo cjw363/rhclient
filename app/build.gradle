@@ -12,10 +12,10 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-//        sourceSets.main {
-//            jni.srcDirs = []
-//            jniLibs.srcDir "libs"
-//        }
+        sourceSets.main {
+            jniLibs.srcDir "libs"
+            jni.srcDirs = []
+        }
     }
     buildTypes {
         release {

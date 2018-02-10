@@ -7,9 +7,7 @@ import android.support.annotation.IdRes;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -26,9 +24,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 import static com.cjw.rhclient.R.id.rb_sort_1;
 
@@ -62,15 +58,12 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 
 	@Override
 	protected void initView() {
-		DaggerRentComponent.builder()
-		  .rentPresenterModule(new RentPresenterModule(this, getActivity()))
-		  .build()
-		  .inject(this);
+		DaggerRentComponent.builder().rentPresenterModule(new RentPresenterModule(this, getActivity())).build().inject(this);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(UI.getContext());
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mRecyclerView.setLayoutManager(layoutManager);
 
-		Drawable drawable = UI.getDrawable(R.drawable.arrow_rank_down);
+		Drawable drawable = UI.getDrawable(R.mipmap.arrow_rank_down);
 		drawable.setBounds(0, 0, UI.dip2px(20), UI.dip2px(20));
 		mRbSort4.setCompoundDrawables(null, null, drawable, null);
 		mRbSort4.setTag(ARROW_DOWN);
@@ -80,8 +73,8 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 	@Override
 	public void initData() {
 		Bundle bundle = getArguments();
-		if (bundle != null) bundle.getInt("type");
-//		mRentPresenter.getRentList();
+		if (bundle != null)
+		mRentPresenter.getRentList(bundle.getInt("type"));
 	}
 
 	@Override
@@ -116,10 +109,10 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 		Drawable drawable;
 		if (ARROW_DOWN == state) {
 			v.setTag(ARROW_UP);
-			drawable = UI.getDrawable(R.drawable.arrow_rank_up);
+			drawable = UI.getDrawable(R.mipmap.arrow_rank_up);
 		} else {
 			v.setTag(ARROW_DOWN);
-			drawable = UI.getDrawable(R.drawable.arrow_rank_down);
+			drawable = UI.getDrawable(R.mipmap.arrow_rank_down);
 		}
 		drawable.setBounds(0, 0, UI.dip2px(20), UI.dip2px(20));
 		mRbSort4.setCompoundDrawables(null, null, drawable, null);

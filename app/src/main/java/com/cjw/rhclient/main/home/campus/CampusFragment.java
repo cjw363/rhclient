@@ -45,7 +45,7 @@ public class CampusFragment extends BaseFragment implements CampusContract.Campu
 
 	@Override
 	public void initData() {
-//		mCampusPresenter.getCampusList();
+		mCampusPresenter.getCampusList();
 	}
 
 	@Override

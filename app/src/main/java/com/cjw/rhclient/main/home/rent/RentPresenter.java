@@ -29,8 +29,8 @@ class RentPresenter implements RentContract.RentPresenter {
 	}
 
 	@Override
-	public void getRentList() {
-		RxTrHttpMethod.getInstance().createService(RentService.class).getCampusList(UI.getUser().getToken()).compose(RxSchedulers.<HttpResult<List<Rent>>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<List<Rent>>(mContext) {
+	public void getRentList(int type) {
+		RxTrHttpMethod.getInstance().createService(RentService.class).getCampusList(UI.getUser().getToken(), type).compose(RxSchedulers.<HttpResult<List<Rent>>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<List<Rent>>(mContext) {
 			@Override
 			public void _onSuccess(List<Rent> result) {
 				mRentView.showRentList(result);

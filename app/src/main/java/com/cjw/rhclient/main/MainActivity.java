@@ -3,7 +3,9 @@ package com.cjw.rhclient.main;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,13 +22,7 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.geocode.GeoCodeOption;
-import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.cjw.rhclient.R;
 import com.cjw.rhclient.base.BaseActivity;
 import com.cjw.rhclient.been.User;
@@ -65,7 +61,7 @@ public class MainActivity extends BaseActivity {
 		//注册监听函数
 		LocationClientOption option = new LocationClientOption();
 
-		option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+		option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
 		//可选，设置定位模式，默认高精度
 		//LocationMode.Hight_Accuracy：高精度；
 		//LocationMode. Battery_Saving：低功耗；
@@ -83,7 +79,7 @@ public class MainActivity extends BaseActivity {
 		//如果设置为0，则代表单次定位，即仅定位一次，默认为0
 		//如果设置非0，需设置1000ms以上才有效
 
-		option.setOpenGps(true);
+		option.setOpenGps(false);
 		//可选，设置是否使用gps，默认false
 		//使用高精度和仅用设备两种定位模式的，参数必须设置为true
 
@@ -111,34 +107,34 @@ public class MainActivity extends BaseActivity {
 		//更多LocationClientOption的配置，请参照类参考中LocationClientOption类的详细说明
 		mLocationClient.start();//；stop()：关闭定位SDK
 
-		mGeoCoder = GeoCoder.newInstance();
-		mGeoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
-			@Override
-			public void onGetGeoCodeResult(GeoCodeResult result) {
-				if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-					//没有检索到结果
-					System.out.println("null");
-				} else {
-					//获取地理编码结果
-					LatLng location = result.getLocation();
-					System.out.println(location.latitude + " " + location.longitude);
-				}
-
-			}
-
-			@Override
-			public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
-				if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-					//没有找到检索结果
-					System.out.println("null");
-				} else {
-					//获取反向地理编码结果
-					LatLng location = result.getLocation();
-					System.out.println(location.latitude + " " + location.longitude);
-				}
-			}
-		});
-		mGeoCoder.geocode(new GeoCodeOption().city("北京").address("海淀区上地十街10号"));
+//		mGeoCoder = GeoCoder.newInstance();
+//		mGeoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+//			@Override
+//			public void onGetGeoCodeResult(GeoCodeResult result) {
+//				if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+//					//没有检索到结果
+//					System.out.println("null");
+//				} else {
+//					//获取地理编码结果
+//					LatLng location = result.getLocation();
+//					System.out.println(location.latitude + " " + location.longitude);
+//				}
+//
+//			}
+//
+//			@Override
+//			public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+//				if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+//					//没有找到检索结果
+//					System.out.println("null");
+//				} else {
+//					//获取反向地理编码结果
+//					LatLng location = result.getLocation();
+//					System.out.println(location.latitude + " " + location.longitude);
+//				}
+//			}
+//		});
+//		mGeoCoder.geocode(new GeoCodeOption().city("北京").address("海淀区上地十街10号"));
 	}
 
 	private class MyLocationListener extends BDAbstractLocationListener {
@@ -164,9 +160,16 @@ public class MainActivity extends BaseActivity {
 			String city = location.getCity();    //获取城市
 			String district = location.getDistrict();    //获取区县
 			String street = location.getStreet();    //获取街道信息
-			LogUtils.d(addr);
+			LogUtils.d(latitude+" "+longitude);
 			mLocationClient.stop();
 		}
+	}
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		//注意该方法要再setContentView方法之前实现
+//		SDKInitializer.initialize(getApplicationContext());
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -182,11 +185,10 @@ public class MainActivity extends BaseActivity {
 	}
 
 	private void checkLocationPermission() {
-		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat
-		  .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSION_REQUEST_CODE);
 		} else {
-//			startLocation();
+			startLocation();
 		}
 	}
 
@@ -195,17 +197,13 @@ public class MainActivity extends BaseActivity {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		if (requestCode == MY_PERMISSION_REQUEST_CODE) {
 		} else {
-			mDialog = new ContentDialog.Builder(this).setContent("注意：没有定位权限，部分功能将不可用！请授予权限")
-			  .isTouchOutCancel(false)
-			  .isBackCancelable(false)
-			  .setOkListener(new View.OnClickListener() {
-				  @Override
-				  public void onClick(View view) {
-					  checkLocationPermission();
-					  mDialog.dismiss();
-				  }
-			  })
-			  .build();
+			mDialog = new ContentDialog.Builder(this).setContent("注意：没有定位权限，部分功能将不可用！请授予权限").isTouchOutCancel(false).isBackCancelable(false).setOkListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					checkLocationPermission();
+					mDialog.dismiss();
+				}
+			}).build();
 			mDialog.showDialog();
 		}
 	}

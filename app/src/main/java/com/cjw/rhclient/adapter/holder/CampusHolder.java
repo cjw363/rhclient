@@ -17,18 +17,18 @@ import butterknife.BindView;
 public class CampusHolder extends BaseHolder<Rent> {
 	@BindView(R.id.aiv_head)
 	AppCompatImageView mAivHead;
-	@BindView(R.id.aiv_pic1)
-	AppCompatImageView mAivPic1;
-	@BindView(R.id.aiv_pic2)
-	AppCompatImageView mAivPic2;
-	@BindView(R.id.aiv_pic3)
-	AppCompatImageView mAivPic3;
+	@BindView(R.id.aiv_pic)
+	AppCompatImageView mAivPic;
 	@BindView(R.id.tv_distance)
 	TextView mTvDistance;
+	@BindView(R.id.tv_name)
+	TextView mTvName;
 	@BindView(R.id.tv_location)
 	TextView mTvLocation;
 	@BindView(R.id.tv_amount)
 	TextView mTvAmount;
+	@BindView(R.id.tv_content)
+	TextView mTvContent;
 
 	public CampusHolder(View itemView, BaseRecyclerViewAdapter.OnItemClickListener<Rent> itemClickListener) {
 		super(itemView, itemClickListener);
@@ -36,9 +36,11 @@ public class CampusHolder extends BaseHolder<Rent> {
 
 	@Override
 	public void refreshData(Rent data) {
+		mTvName.setText(data.getTitle());
 		mTvLocation.setText(data.getLocation());
+		mTvContent.setText(data.getContent());
 		mTvAmount.setText("￥" + data.getAmount() + "/月");
-		Glide.with(UI.getContext()).load(UrlUtils.getImageUrl(data.getTitleImg())).into(mAivPic1);
+		Glide.with(UI.getContext()).load(UrlUtils.getImageUrl(data.getTitleImg())).into(mAivPic);
 	}
 
 }

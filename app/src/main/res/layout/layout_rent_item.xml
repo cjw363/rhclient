@@ -39,7 +39,9 @@
 			android:id="@+id/tv_title"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:maxLength="15"
+			android:ellipsize="end"
+			android:maxEms="12"
+			android:maxLines="1"
 			android:text="一间风景好房子"
 			android:textColor="@color/tv_black"
 			android:textSize="16sp"/>
@@ -73,50 +75,52 @@
 			android:layout_height="wrap_content"
 			android:layout_below="@id/tv_house_type"
 			android:layout_marginTop="5dp"
-			android:padding="4dp"
+			android:background="@drawable/bg_rectangle_label"
 			android:maxLength="6"
+			android:padding="4dp"
 			android:text="地铁"
 			android:textColor="@color/tv_colorPrimary"
-			android:background="@drawable/bg_rectangle_label"
-			android:textSize="12sp"/>
+			android:textSize="12sp"
+			android:visibility="gone"/>
 
 		<TextView
 			android:id="@+id/tv_label2"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/tv_house_type"
-			android:layout_toEndOf="@id/tv_label1"
-			android:layout_marginTop="5dp"
 			android:layout_marginStart="8dp"
-			android:padding="4dp"
+			android:layout_marginTop="5dp"
+			android:layout_toEndOf="@id/tv_label1"
+			android:background="@drawable/bg_rectangle_label"
 			android:maxLength="6"
+			android:padding="4dp"
 			android:text="独立阳台"
 			android:textColor="@color/tv_colorPrimary"
-			android:background="@drawable/bg_rectangle_label"
-			android:textSize="12sp"/>
+			android:textSize="12sp"
+			android:visibility="gone"/>
 
 		<TextView
 			android:id="@+id/tv_label3"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/tv_house_type"
-			android:layout_toEndOf="@id/tv_label2"
-			android:layout_marginTop="5dp"
 			android:layout_marginStart="8dp"
-			android:padding="4dp"
+			android:layout_marginTop="5dp"
+			android:layout_toEndOf="@id/tv_label2"
+			android:background="@drawable/bg_rectangle_label"
 			android:maxLength="6"
+			android:padding="4dp"
 			android:text="公交"
 			android:textColor="@color/tv_colorPrimary"
-			android:background="@drawable/bg_rectangle_label"
-			android:textSize="12sp"/>
+			android:textSize="12sp"
+			android:visibility="gone"/>
 
 		<TextView
 			android:id="@+id/tv_amount"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_below="@id/tv_label1"
-			android:layout_marginTop="5dp"
 			android:layout_alignParentBottom="true"
+			android:layout_marginTop="5dp"
 			android:text="￥1500/月"
 			android:textColor="@color/bg_pink"
 			android:textSize="18sp"/>

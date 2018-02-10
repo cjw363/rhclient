@@ -1,7 +1,5 @@
 package com.cjw.rhclient.utils;
 
-import android.os.Bundle;
-
 import com.cjw.rhclient.base.BaseFragment;
 import com.cjw.rhclient.main.home.HomeFragment;
 import com.cjw.rhclient.main.home.campus.CampusFragment;
@@ -49,9 +47,6 @@ public class FragmentFactory {
 					break;
 			}
 			assert fragment != null;
-			Bundle bundle = new Bundle();
-			bundle.putInt("type", position + 1);
-			fragment.setArguments(bundle);
 			tabFragMap.put(position, fragment);
 		}
 		return fragment;

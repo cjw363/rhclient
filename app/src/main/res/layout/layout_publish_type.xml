@@ -23,7 +23,7 @@
 		android:layout_alignParentEnd="true"
 		android:layout_centerVertical="true"
 		android:layout_marginEnd="10dp"
-		android:background="@drawable/arrow_right_gray"/>
+		android:background="@mipmap/arrow_right_gray"/>
 
 	<View
 		style="@style/view_divider_1"

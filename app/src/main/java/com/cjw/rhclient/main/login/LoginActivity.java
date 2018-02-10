@@ -47,7 +47,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 	@Override
 	public void initData() {
 		mEtLoginName.setText(SPUtils.getString("name"));//读取数据库
-		mEtLoginPassword.setText("");//清空之前输入
+		mEtLoginPassword.setText(SPUtils.getString("password"));
 
 		Intent intent = getIntent();
 		String registerName = intent.getStringExtra("register_name");
@@ -80,7 +80,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 	@Override
 	public void toHome(User result) {
 		//登录成功，保存登录用户
-		SPUtils.putString("name", mEtLoginName.getText().toString().trim());
+		SPUtils.putString("name", result.getName());
+		SPUtils.putString("password", result.getPassword());
 
 		Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 		intent.putExtra("user", result);

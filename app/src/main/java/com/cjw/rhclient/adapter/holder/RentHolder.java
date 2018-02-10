@@ -1,6 +1,7 @@
 package com.cjw.rhclient.adapter.holder;
 
 import android.support.v7.widget.AppCompatImageView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +14,8 @@ import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.utils.UrlUtils;
 
 import butterknife.BindView;
+
+import static com.cjw.rhclient.R.id.tv_label2;
 
 public class RentHolder extends BaseHolder<Rent> {
 	@BindView(R.id.aiv_head)
@@ -27,7 +30,7 @@ public class RentHolder extends BaseHolder<Rent> {
 	TextView mTvLocation;
 	@BindView(R.id.tv_label1)
 	TextView mTvLabel1;
-	@BindView(R.id.tv_label2)
+	@BindView(tv_label2)
 	TextView mTvLabel2;
 	@BindView(R.id.tv_label3)
 	TextView mTvLabel3;
@@ -40,10 +43,30 @@ public class RentHolder extends BaseHolder<Rent> {
 
 	@Override
 	public void refreshData(Rent data) {
+		String labels = data.getLabel();
+		if (!TextUtils.isEmpty(labels)) {
+			String[] splitLabels = labels.split(",");
+			if (splitLabels.length == 1) {
+				mTvLabel1.setVisibility(View.VISIBLE);
+				mTvLabel1.setText(splitLabels[0]);
+			} else if (splitLabels.length == 2) {
+				mTvLabel1.setVisibility(View.VISIBLE);
+				mTvLabel2.setVisibility(View.VISIBLE);
+				mTvLabel1.setText(splitLabels[0]);
+				mTvLabel2.setText(splitLabels[1]);
+			} else if (splitLabels.length == 3) {
+				mTvLabel1.setVisibility(View.VISIBLE);
+				mTvLabel2.setVisibility(View.VISIBLE);
+				mTvLabel3.setVisibility(View.VISIBLE);
+				mTvLabel1.setText(splitLabels[0]);
+				mTvLabel2.setText(splitLabels[1]);
+				mTvLabel3.setText(splitLabels[2]);
+			}
+		}
+
 		mTvTitle.setText(data.getTitle());
 		mTvHouseType.setText(data.getHouseType());
 		mTvLocation.setText(data.getLocation());
-		mTvLabel1.setText(data.getLabel());
 		mTvAmount.setText("￥" + data.getAmount() + "/月");
 		Glide.with(UI.getContext()).load(UrlUtils.getImageUrl(data.getTitleImg())).into(mAivHead);
 	}

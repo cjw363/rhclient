@@ -11,5 +11,5 @@ import rx.Observable;
 
 public interface RentService {
 	@GET("campusList")
-	Observable<HttpResult<List<Rent>>> getCampusList(@Query("token") String token);
+	Observable<HttpResult<List<Rent>>> getCampusList(@Query("token") String token, @Query("type") int type);
 }

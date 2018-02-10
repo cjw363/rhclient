@@ -3,9 +3,11 @@ package com.cjw.rhclient.http;
 import android.app.Activity;
 import android.content.Context;
 
+import com.cjw.rhclient.utils.LogUtils;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.view.dialog.LoadingDialog;
 import com.cjw.rhclient.view.dialog.TipDialog;
+import com.google.gson.Gson;
 
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
@@ -40,6 +42,7 @@ public abstract class HttpResultSubscriber<T> extends Subscriber<HttpResult<T>> 
 
 	@Override
 	public void onNext(HttpResult<T> t) {
+		LogUtils.d(new Gson().toJson(t));
 		if (t.code == 1) {
 			_onSuccess(t.result);
 		} else {

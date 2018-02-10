@@ -1,5 +1,6 @@
 package com.cjw.rhclient.main.home;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -48,7 +49,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.HomeView 
 
 		@Override
 		public Fragment getItem(int position) {
-			return FragmentFactory.createTabFragment(position);
+			BaseFragment fragment = FragmentFactory.createTabFragment(position);
+			Bundle bundle = new Bundle();
+			bundle.putInt("type", position);
+			fragment.setArguments(bundle);
+			return fragment;
 		}
 
 		@Override

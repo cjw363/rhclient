@@ -40,15 +40,15 @@ public class LoadingDialog {
 				mProgressDialog = new ProgressDialog(activity);
 			}
 		}
-//		if (!mProgressDialog.isShowing()) {
-//			mProgressDialog.dismiss();
-			mProgressDialog.setMessage(message);
-			mProgressDialog.setIndeterminate(false);
-			mProgressDialog.setCancelable(flag);
-			mProgressDialog.show();
-//		} else {
-//			mProgressDialog.setMessage(message);
-//		}
+		//		if (!mProgressDialog.isShowing()) {
+		//			mProgressDialog.dismiss();
+		mProgressDialog.setMessage(message);
+		mProgressDialog.setIndeterminate(false);
+		mProgressDialog.setCancelable(flag);
+		mProgressDialog.show();
+		//		} else {
+		//			mProgressDialog.setMessage(message);
+		//		}
 	}
 
 	/**
@@ -70,8 +70,7 @@ public class LoadingDialog {
 	 * 关闭进度框
 	 */
 	public static void close() {
-		if (isShowing(mProgressDialog) ) {//&& isExistLiving(mWeakReference)
-			LogUtils.d("dialog close");
+		if (isShowing(mProgressDialog)) {//&& isExistLiving(mWeakReference)
 			mProgressDialog.dismiss();
 			mProgressDialog = null;
 			mWeakReference.clear();
@@ -83,9 +82,7 @@ public class LoadingDialog {
 	 * 判断进度框是否正在显示
 	 */
 	private static boolean isShowing(ProgressDialog dialog) {
-		boolean isShowing = dialog != null && dialog.isShowing();
-		LogUtils.d(">------isShow:" + isShowing);
-		return isShowing;
+		return dialog != null && dialog.isShowing();
 	}
 
 	private static boolean isExistLiving(WeakReference<Activity> weakReference) {
