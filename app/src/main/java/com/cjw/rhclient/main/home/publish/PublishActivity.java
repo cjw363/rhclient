@@ -49,7 +49,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 	EditText mEtTitle;
 	@BindView(R.id.et_publish_content)
 	EditText mEtContent;
-	@BindView(R.id.et_publish_location)
+	@BindView(R.id.tv_location)
 	TextView mEtLocation;
 	@BindView(R.id.rg_publish_type)
 	RadioGroup mRgType;

@@ -51,11 +51,33 @@
 					android:textColor="@color/tv_colorPrimary"
 					android:textSize="16sp"/>
 
-				<TextView
-					android:id="@+id/et_publish_location"
+				<RelativeLayout
+					android:id="@+id/rl_location"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="广东 广州 海珠区"/>
+					android:gravity="center_vertical">
+
+					<android.support.v7.widget.AppCompatImageView
+						android:id="@+id/aiv_nav"
+						android:layout_width="15dp"
+						android:layout_height="15dp"
+						android:layout_marginStart="5dp"
+						app:srcCompat="@mipmap/navi_location"/>
+
+					<TextView
+						android:id="@+id/tv_location"
+						style="@style/tv_hint"
+						android:layout_toEndOf="@id/aiv_nav"
+						/>
+
+					<android.support.v7.widget.AppCompatImageView
+						android:layout_width="10dp"
+						android:layout_height="15dp"
+						android:layout_alignParentEnd="true"
+						android:layout_gravity="end"
+						android:layout_marginEnd="10dp"
+						android:background="@mipmap/arrow_right_gray"/>
+				</RelativeLayout>
 			</LinearLayout>
 
 			<View style="@style/view_divider_3"/>
