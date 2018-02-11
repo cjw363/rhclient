@@ -54,7 +54,7 @@ public class RentHolder extends BaseHolder<Rent> {
 				mTvLabel2.setVisibility(View.VISIBLE);
 				mTvLabel1.setText(splitLabels[0]);
 				mTvLabel2.setText(splitLabels[1]);
-			} else if (splitLabels.length == 3) {
+			} else if (splitLabels.length >= 3) {
 				mTvLabel1.setVisibility(View.VISIBLE);
 				mTvLabel2.setVisibility(View.VISIBLE);
 				mTvLabel3.setVisibility(View.VISIBLE);

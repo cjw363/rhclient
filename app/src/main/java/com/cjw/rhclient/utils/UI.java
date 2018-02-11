@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Toast;
@@ -71,7 +72,7 @@ public class UI {
 
 	// 获取颜色
 	public static int getColor(int id) {
-		return getContext().getResources().getColor(id);
+		return ContextCompat.getColor(getContext(), id);
 	}
 
 	//根据id获取颜色的状态选择器

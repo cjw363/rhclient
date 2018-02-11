@@ -25,7 +25,7 @@
 	<!--允许sd卡写权限，需写入地图数据，禁用后无法显示地图-->
 	<uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 	<!--//鉴权所需该权限获取进程列表-->
-	<uses-permission android:name="android.permission.GET_TASKS" />
+	<uses-permission android:name="android.permission.GET_TASKS"/>
 
 
 	<application
@@ -43,7 +43,7 @@
 		</meta-data>
 
 		<activity
-			android:name=".main.home.map.MapActivity"
+			android:name=".main.login.LoginActivity"
 			android:windowSoftInputMode="adjustPan">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -64,7 +64,7 @@
 			android:name=".main.home.detail.DetailActivity"
 			android:windowSoftInputMode="adjustPan"/>
 
-		<!--<activity android:name=".main.home.map.MapActivity"/>-->
+		<activity android:name=".main.home.map.MapActivity"/>
 
 		<service
 			android:name="com.baidu.location.f"

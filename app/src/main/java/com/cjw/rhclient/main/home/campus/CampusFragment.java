@@ -2,6 +2,7 @@ package com.cjw.rhclient.main.home.campus;
 
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -37,10 +38,16 @@ public class CampusFragment extends BaseFragment implements CampusContract.Campu
 
 	@Override
 	protected void initView() {
-		DaggerCampusComponent.builder().campusPresenterModule(new CampusPresenterModule(this, getActivity())).build().inject(this);
+		DaggerCampusComponent.builder()
+		  .campusPresenterModule(new CampusPresenterModule(this, getActivity()))
+		  .build()
+		  .inject(this);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(UI.getContext());
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mRecyclerView.setLayoutManager(layoutManager);
+		DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+		itemDecoration.setDrawable(UI.getDrawable(R.drawable.item_divider));
+		mRecyclerView.addItemDecoration(itemDecoration);
 	}
 
 	@Override
@@ -55,7 +62,9 @@ public class CampusFragment extends BaseFragment implements CampusContract.Campu
 		campusAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<Rent>() {
 			@Override
 			public void onItemClick(View view, int position, Rent data) {
-				startActivity(new Intent(getActivity(), DetailActivity.class));
+				Intent intent = new Intent(getActivity(), DetailActivity.class);
+				intent.putExtra("data", data);
+				startActivity(intent);
 			}
 		});
 	}

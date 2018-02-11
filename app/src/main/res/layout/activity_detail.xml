@@ -22,7 +22,7 @@
 				android:layout_width="45dp"
 				android:layout_height="45dp"
 				android:scaleType="centerCrop"
-				app:srcCompat="@mipmap/ic_launcher_round"
+				app:srcCompat="@mipmap/head_protrait"
 				/>
 
 			<TextView
@@ -39,23 +39,49 @@
 
 		<TextView
 			android:id="@+id/tv_content"
-			style="@style/tv_normal"/>
+			style="@style/tv_normal"
+			android:padding="15dp"/>
 
-		<View
-			style="@style/view_divider_1"
-			android:layout_marginTop="20dp"/>
-
-		<android.support.v7.widget.AppCompatImageView
-			android:id="@+id/aiv_pic"
+		<LinearLayout
+			android:id="@+id/ll_pic"
 			android:layout_width="match_parent"
-			android:layout_height="250dp"
-			android:scaleType="centerCrop"
-			app:srcCompat="@mipmap/ic_launcher_round"
-			/>
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:padding="10dp">
+
+		</LinearLayout>
+
+		<RelativeLayout
+			android:id="@+id/rl_location"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:padding="8dp">
+
+			<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/aiv_nav"
+				android:layout_width="15dp"
+				android:layout_height="15dp"
+				android:layout_marginStart="5dp"
+				app:srcCompat="@mipmap/navi_location"/>
+
+			<TextView
+				android:id="@+id/tv_location"
+				style="@style/tv_hint"
+				android:layout_toEndOf="@id/aiv_nav"
+				/>
+
+			<android.support.v7.widget.AppCompatImageView
+				android:layout_width="10dp"
+				android:layout_height="15dp"
+				android:layout_alignParentEnd="true"
+				android:layout_gravity="end"
+				android:layout_marginEnd="10dp"
+				android:background="@mipmap/arrow_right_gray"/>
+		</RelativeLayout>
 
 		<View
-			style="@style/view_divider_1"
-			android:layout_marginTop="20dp"/>
+			style="@style/view_divider_2"/>
 
 		<TextView
 			style="@style/tv_normal"
@@ -63,20 +89,24 @@
 			android:text="留言区"/>
 
 		<View
-			style="@style/view_divider_1"/>
+			style="@style/view_divider_2"/>
 	</LinearLayout>
 
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true"
-		android:gravity="center_vertical"
-		android:padding="8dp">
+		android:background="@color/white">
+
+		<View
+			style="@style/view_divider_1"
+			android:layout_alignParentTop="true"/>
 
 		<android.support.v7.widget.AppCompatImageView
 			android:id="@+id/aiv_favorite"
 			android:layout_width="45dp"
 			android:layout_height="45dp"
+			android:layout_marginStart="10dp"
 			android:scaleType="centerCrop"
 			app:srcCompat="@mipmap/ic_launcher_round"
 			/>
@@ -86,17 +116,19 @@
 			android:layout_width="60dp"
 			android:layout_height="45dp"
 			android:layout_alignParentEnd="true"
+			android:layout_marginEnd="5dp"
 			android:text="留言"
 			/>
 
 		<EditText
 			android:id="@+id/et_input"
 			android:layout_width="match_parent"
-			android:layout_height="40dp"
+			android:layout_height="35dp"
+			android:layout_centerVertical="true"
+			android:layout_marginEnd="5dp"
+			android:layout_marginStart="5dp"
 			android:layout_toEndOf="@id/aiv_favorite"
 			android:layout_toStartOf="@id/bt_bbs"
-			android:layout_marginStart="5dp"
-			android:layout_marginEnd="5dp"
 			android:background="@drawable/bg_rectangle_stroke_gray"/>
 	</RelativeLayout>
 </RelativeLayout>

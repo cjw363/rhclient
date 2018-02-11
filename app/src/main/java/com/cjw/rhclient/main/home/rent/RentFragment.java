@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -62,8 +63,9 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 		LinearLayoutManager layoutManager = new LinearLayoutManager(UI.getContext());
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mRecyclerView.setLayoutManager(layoutManager);
+		mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
 
-		Drawable drawable = UI.getDrawable(R.mipmap.arrow_rank_down);
+		  Drawable drawable = UI.getDrawable(R.mipmap.arrow_rank_down);
 		drawable.setBounds(0, 0, UI.dip2px(20), UI.dip2px(20));
 		mRbSort4.setCompoundDrawables(null, null, drawable, null);
 		mRbSort4.setTag(ARROW_DOWN);
@@ -84,7 +86,9 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 		rentAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<Rent>() {
 			@Override
 			public void onItemClick(View view, int position, Rent data) {
-				startActivity(new Intent(getActivity(), DetailActivity.class));
+				Intent intent = new Intent(getActivity(), DetailActivity.class);
+				intent.putExtra("data",data);
+				startActivity(intent);
 			}
 		});
 	}
