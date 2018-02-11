@@ -51,6 +51,11 @@
 					android:textColor="@color/tv_colorPrimary"
 					android:textSize="16sp"/>
 
+				<android.support.v7.widget.AppCompatImageView
+					android:id="@+id/aiv_pic"
+					android:layout_width="80dp"
+					android:layout_height="80dp"/>
+
 				<RelativeLayout
 					android:id="@+id/rl_location"
 					android:layout_width="match_parent"

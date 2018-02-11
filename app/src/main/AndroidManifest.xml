@@ -27,6 +27,10 @@
 	<!--//鉴权所需该权限获取进程列表-->
 	<uses-permission android:name="android.permission.GET_TASKS"/>
 
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+	<uses-permission android:name="android.permission.CAMERA" />
+
 
 	<application
 		android:name=".base.BaseApplication"
@@ -66,10 +70,22 @@
 
 		<activity android:name=".main.home.map.MapActivity"/>
 
+		<!--百度地图-->
 		<service
 			android:name="com.baidu.location.f"
 			android:enabled="true"
 			android:process=":remote"/>
+
+		<!--图片选择器provider-->
+		<provider
+			android:name="android.support.v4.content.FileProvider"
+			android:authorities="com.cjw.rhclient.fileprovider"
+			android:exported="false"
+			android:grantUriPermissions="true">
+			<meta-data
+				android:name="android.support.FILE_PROVIDER_PATHS"
+				android:resource="@xml/file_paths_public"></meta-data>
+		</provider>
 	</application>
 
 </manifest>

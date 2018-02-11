@@ -24,7 +24,9 @@ android {
         }
     }
 }
-
+repositories {
+    jcenter()
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -52,6 +54,8 @@ dependencies {
     provided 'com.google.dagger:dagger-compiler:2.6'
 
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    //图片选择器
+    compile 'com.zhihu.android:matisse:0.4.3'
 
     testCompile 'junit:junit:4.12'
 }
