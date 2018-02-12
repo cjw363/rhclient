@@ -3,12 +3,12 @@ package com.cjw.rhclient.main.home.publish;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.annotation.IdRes;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.TypedValue;
@@ -23,21 +23,22 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.cjw.rhclient.R;
 import com.cjw.rhclient.base.BaseActivity;
+import com.cjw.rhclient.main.home.map.MapActivity;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.view.FlowLayout;
 import com.cjw.rhclient.view.PublishTypeContentView;
 import com.cjw.rhclient.view.dialog.BottomDialog;
 import com.cjw.rhclient.view.wheelview.WheelView;
 import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -47,6 +48,10 @@ import static com.cjw.rhclient.R.id.tv_ok;
 
 public class PublishActivity extends BaseActivity implements PublishContract.View, RadioGroup.OnCheckedChangeListener {
 	private static final int REQUEST_CODE_CHOOSE = 23;
+
+	@Inject
+	PublishPresenter mPresenter;
+
 	@BindView(R.id.tv_toolbar_title)
 	TextView mTvToolbarTitle;
 	@BindView(R.id.tv_toolbar_right)
@@ -75,6 +80,8 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 	PublishTypeContentView mTcvArea;
 	@BindView(R.id.tcv_bed)
 	PublishTypeContentView mTcvBed;
+	@BindView(R.id.aiv_pic)
+	AppCompatImageView mAivPic;
 	private BottomDialog mBottomDialog;
 
 	private List<String> beds = new ArrayList<>(Arrays.asList(new String[]{"1个", "2个", "3个", "4个", "5个", "6个", "6个以上"}));
@@ -162,10 +169,11 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 		}
 	}
 
-	@OnClick({R.id.tcv_location, R.id.tcv_amount, R.id.tcv_house_type, R.id.tcv_area, R.id.tcv_bed})
+	@OnClick({R.id.tcv_location, R.id.tcv_amount, R.id.tcv_house_type, R.id.tcv_area, R.id.tcv_bed, R.id.aiv_pic})
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.tcv_location:
+				startActivity(new Intent(this, MapActivity.class));
 				break;
 			case R.id.tcv_amount:
 				showAlertDialog("租金", mTcvAmount);
@@ -178,6 +186,9 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 				break;
 			case R.id.tcv_bed:
 				showBottomDialog(null, beds, null, mTcvBed);
+				break;
+			case R.id.aiv_pic:
+				mPresenter.showImageSelector();
 				break;
 		}
 	}
@@ -241,19 +252,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 
 	@Override
 	public void initData() {
-		Matisse.from(this)
-		  .choose(MimeType.of(MimeType.JPEG, MimeType.PNG)) // 选择 mime 的类型
-		  .theme(R.style.Matisse_Zhihu) //选择主题 默认是蓝色主题，Matisse_Dracula为黑色主题
-		  .countable(false) //是否显示数字
-		  .capture(true)  //是否可以拍照
-		  .captureStrategy(new CaptureStrategy(true, "com.cjw.rhclient.fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
-		  .maxSelectable(6) // 图片选择的最多数量
-		  //		  .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))//图片大小,不设置默认三列
-		  //		  .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K)) //添加自定义过滤器
-		  .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-		  .thumbnailScale(0.85f) // 缩略图的比例
-		  .imageEngine(new GlideEngine()) // 使用的图片加载引擎
-		  .forResult(REQUEST_CODE_CHOOSE); // 设置作为标记的请求码
+
 	}
 
 	@Override
@@ -261,7 +260,8 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
 			List<Uri> uris = Matisse.obtainResult(data);
-			System.out.println(uris.get(0).getPath());
+			Glide.with(this).load(uris.get(0)).into(mAivPic);
+			mPresenter.publishRent(uris);
 		}
 	}
 }

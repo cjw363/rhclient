@@ -1,6 +1,7 @@
 package com.cjw.rhclient.view.dialog;
 
 import android.app.Activity;
+import android.view.View;
 
 import java.lang.ref.WeakReference;
 
@@ -24,14 +25,17 @@ public class TipDialog {
 
 		if (mDialog == null) {
 			if (activity.getParent() != null) {
-				mDialog = new ContentDialog.Builder(activity.getParent()).setContent(message)
-				  .setSingleButton()
-				  .build();
-			} else {
-				mDialog = new ContentDialog.Builder(activity).setContent(message)
-				  .setSingleButton()
-				  .build();
+				activity = activity.getParent();
 			}
+			mDialog = new ContentDialog.Builder(activity).setContent(message)
+			  .setSingleButton()
+			  .setOkListener(new View.OnClickListener() {
+				  @Override
+				  public void onClick(View view) {
+					  close();
+				  }
+			  })
+			  .build();
 		}
 		mDialog.showDialog();
 	}

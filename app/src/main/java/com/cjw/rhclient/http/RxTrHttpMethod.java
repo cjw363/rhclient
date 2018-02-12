@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RxTrHttpMethod {
 
-    private final static long DEFAULT_TIMEOUT = 5;
+    private final static long DEFAULT_TIMEOUT = 15;
 
     private static class SingletonHolder {
         private static final RxTrHttpMethod INSTANCE = new RxTrHttpMethod();

@@ -2,6 +2,7 @@ package com.cjw.rhclient.http;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.cjw.rhclient.utils.LogUtils;
 import com.cjw.rhclient.utils.UI;
@@ -54,8 +55,12 @@ public abstract class HttpResultSubscriber<T> extends Subscriber<HttpResult<T>> 
 
 	public void _onError(final Throwable e) {
 		LoadingDialog.close();
-		if (mContext != null) TipDialog.show((Activity) mContext, e.getMessage());
-		else UI.showToast(e.getMessage());
+		String message = e.getMessage();
+		if (TextUtils.isEmpty(message)) {
+			message = "连接超时";
+		}
+		if (mContext != null) TipDialog.show((Activity) mContext, message);
+		else UI.showToast(message);
 		e.printStackTrace();
 	}
 }
