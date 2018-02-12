@@ -51,6 +51,7 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
+			app:itemVisibleNum="3"
 			/>
 
 		<com.cjw.rhclient.view.wheelview.WheelView
@@ -58,13 +59,15 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			app:wheelGravity="center"/>
+			app:wheelGravity="center"
+			app:itemVisibleNum="3"/>
 
 		<com.cjw.rhclient.view.wheelview.WheelView
 			android:id="@+id/wheelView_right"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
+			app:itemVisibleNum="3"
 			/>
 	</LinearLayout>
 

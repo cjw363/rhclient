@@ -11,7 +11,9 @@ import com.cjw.rhclient.http.RxTrHttpMethod;
 import com.cjw.rhclient.service.RentService;
 import com.cjw.rhclient.utils.UI;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -30,7 +32,10 @@ class RentPresenter implements RentContract.RentPresenter {
 
 	@Override
 	public void getRentList(int type) {
-		RxTrHttpMethod.getInstance().createService(RentService.class).getCampusList(UI.getUser().getToken(), type).compose(RxSchedulers.<HttpResult<List<Rent>>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<List<Rent>>(mContext) {
+		Map<String, String> map = new HashMap<>();
+		map.put("token", UI.getUser().getToken());
+		map.put("type", type + "");
+		RxTrHttpMethod.getInstance().createService(RentService.class).getCampusList(map).compose(RxSchedulers.<HttpResult<List<Rent>>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<List<Rent>>(mContext) {
 			@Override
 			public void _onSuccess(List<Rent> result) {
 				mRentView.showRentList(result);

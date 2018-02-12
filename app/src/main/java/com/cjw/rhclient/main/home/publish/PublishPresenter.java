@@ -57,9 +57,7 @@ class PublishPresenter implements PublishContract.Presenter {
 	}
 
 	@Override
-	public void publishRent(List<Uri> uris) {
-		Map<String, String> map = new HashMap<>();
-		map.put("name", "出租");
+	public void publishRent(List<Uri> uris, Map<String,String> params) {
 		Map<String, RequestBody> partMap = new HashMap<>();
 		for (Uri uri : uris) {
 			String path = FileUtil.getPath(mContext, uri);
@@ -69,7 +67,7 @@ class PublishPresenter implements PublishContract.Presenter {
 				partMap.put("files\"; filename=\"" + file.getName(), fileBody);
 			}
 		}
-		RxTrHttpMethod.getInstance().createService(RentService.class).publish(UI.getUser().getToken(), partMap, map).compose(RxSchedulers.<HttpResult<String>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<String>(mContext) {
+		RxTrHttpMethod.getInstance().createService(RentService.class).publish(UI.getUser().getToken(), partMap, params).compose(RxSchedulers.<HttpResult<String>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<String>(mContext) {
 			@Override
 			public void _onSuccess(String result) {
 			}

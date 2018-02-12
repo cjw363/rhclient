@@ -130,13 +130,6 @@
 			</HorizontalScrollView>
 
 			<com.cjw.rhclient.view.PublishTypeContentView
-				android:id="@+id/tcv_location"
-				android:layout_width="match_parent"
-				android:layout_height="50dp"
-				app:title="位置"
-				/>
-
-			<com.cjw.rhclient.view.PublishTypeContentView
 				android:id="@+id/tcv_amount"
 				android:layout_width="match_parent"
 				android:layout_height="50dp"

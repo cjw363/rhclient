@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -26,17 +27,20 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.cjw.rhclient.R;
 import com.cjw.rhclient.base.BaseActivity;
-import com.cjw.rhclient.main.home.map.MapActivity;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.view.FlowLayout;
 import com.cjw.rhclient.view.PublishTypeContentView;
+import com.cjw.rhclient.view.dialog.BaseCustomDialog;
 import com.cjw.rhclient.view.dialog.BottomDialog;
+import com.cjw.rhclient.view.dialog.ContentDialog;
 import com.cjw.rhclient.view.wheelview.WheelView;
 import com.zhihu.matisse.Matisse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -54,8 +58,6 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 
 	@BindView(R.id.tv_toolbar_title)
 	TextView mTvToolbarTitle;
-	@BindView(R.id.tv_toolbar_right)
-	TextView mTvToolbarRight;
 	@BindView(R.id.toolbar)
 	Toolbar mToolbar;
 	@BindView(R.id.et_publish_title)
@@ -63,15 +65,13 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 	@BindView(R.id.et_publish_content)
 	EditText mEtContent;
 	@BindView(R.id.tv_location)
-	TextView mEtLocation;
+	TextView mTvLocation;
 	@BindView(R.id.rg_publish_type)
 	RadioGroup mRgType;
 	@BindView(R.id.bt_publish)
 	Button mBtPublish;
 	@BindView(R.id.flowLayout)
 	FlowLayout mFlowLayout;
-	@BindView(R.id.tcv_location)
-	PublishTypeContentView mTcvLocation;
 	@BindView(R.id.tcv_amount)
 	PublishTypeContentView mTcvAmount;
 	@BindView(R.id.tcv_house_type)
@@ -82,12 +82,17 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 	PublishTypeContentView mTcvBed;
 	@BindView(R.id.aiv_pic)
 	AppCompatImageView mAivPic;
-	private BottomDialog mBottomDialog;
 
 	private List<String> beds = new ArrayList<>(Arrays.asList(new String[]{"1个", "2个", "3个", "4个", "5个", "6个", "6个以上"}));
 	private List<String> houseType1 = new ArrayList<>(Arrays.asList(new String[]{"1室", "2室", "3室", "4室", "4室以上"}));
 	private List<String> houseType2 = new ArrayList<>(Arrays.asList(new String[]{"1厅", "2厅", "2厅以上"}));
 	private List<String> houseType3 = new ArrayList<>(Arrays.asList(new String[]{"1卫", "2卫", "2卫以上"}));
+
+	private BottomDialog mBottomDialog;
+	private BaseCustomDialog mContentDialog;
+
+	private List<String> checkedLabels = new ArrayList<>();
+	private List<Uri> mUris;
 
 	@Override
 	public int getContentLayoutId() {
@@ -96,10 +101,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 
 	@Override
 	protected void initView() {
-		DaggerPublishComponent.builder()
-		  .publishPresenterModule(new PublishPresenterModule(this, this))
-		  .build()
-		  .inject(this);
+		DaggerPublishComponent.builder().publishPresenterModule(new PublishPresenterModule(this, this)).build().inject(this);
 		setSupportActionBar(mToolbar);
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {
@@ -141,7 +143,11 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 				checkBox.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
 					@Override
 					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+						if (isChecked) {
+							checkedLabels.add(buttonView.getText().toString());
+						} else {
+							checkedLabels.remove(buttonView.getText().toString());
+						}
 					}
 				});
 				mFlowLayout.addView(checkBox);
@@ -169,12 +175,9 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 		}
 	}
 
-	@OnClick({R.id.tcv_location, R.id.tcv_amount, R.id.tcv_house_type, R.id.tcv_area, R.id.tcv_bed, R.id.aiv_pic})
+	@OnClick({R.id.tcv_amount, R.id.tcv_house_type, R.id.tcv_area, R.id.tcv_bed, R.id.aiv_pic, R.id.bt_publish})
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.tcv_location:
-				startActivity(new Intent(this, MapActivity.class));
-				break;
 			case R.id.tcv_amount:
 				showAlertDialog("租金", mTcvAmount);
 				break;
@@ -190,7 +193,67 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 			case R.id.aiv_pic:
 				mPresenter.showImageSelector();
 				break;
+			case R.id.bt_publish:
+				showIsPublishDialog();
+				break;
 		}
+	}
+
+	private void showIsPublishDialog() {
+		mContentDialog = new ContentDialog.Builder(this).setContent("是否确定发布房屋信息").setOkListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mContentDialog.dismiss();
+				Map<String, String> params = getPublishParams();
+				if (params != null) {
+					if (mUris == null) {
+						UI.showToast("未上传图片");
+					} else mPresenter.publishRent(mUris, params);
+				}
+			}
+		}).build();
+		mContentDialog.showDialog();
+	}
+
+	private Map<String, String> getPublishParams() {
+		String title = mEtTitle.getText().toString();
+		String content = mEtContent.getText().toString();
+		String type = ((RadioButton) mRgType.findViewById(mRgType.getCheckedRadioButtonId())).getText().toString();
+		String location = mTvLocation.getText().toString();
+		String amount = mTcvAmount.getContent();
+		String houseType = mTcvHouseType.getContent();
+		String area = mTcvArea.getContent();
+		String bed = mTcvBed.getContent();
+
+		if (TextUtils.isEmpty(title) || TextUtils.isEmpty(content)) {
+			UI.showToast("请完整输入!");
+			return null;
+		}
+		//		if (TextUtils.isEmpty(location)) {
+		//			UI.showToast("未定位!");
+		//			return null;
+		//		}
+		HashMap<String, String> map = new HashMap<>();
+		map.put("title", title);
+		map.put("content", content);
+		map.put("type", type);
+		map.put("location", location);
+		map.put("amount", amount);
+		if (UI.getStringArray(R.array.tab_names)[0].equals(type)) {
+			map.put("bed", bed);
+		} else {
+			map.put("area", area);
+			map.put("house_type", houseType);
+		}
+		if (checkedLabels.size() > 0) {
+			StringBuilder sb = new StringBuilder();
+			for (String label : checkedLabels) {
+				sb.append(label);
+				sb.append(",");
+			}
+			map.put("label", sb.substring(0, sb.length() - 1));
+		}
+		return map;
 	}
 
 	private void showBottomDialog(List<String> left, List<String> center, List<String> right, final PublishTypeContentView tcv) {
@@ -235,19 +298,28 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 	private void showAlertDialog(final String title, final PublishTypeContentView tcv) {
 		final EditText editText = new EditText(this);
 		editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-		new AlertDialog.Builder(this).setTitle(title)
-		  .setView(editText)
-		  .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-			  @Override
-			  public void onClick(DialogInterface dialog, int which) {
-				  if (title.equals("租金")) {
-					  tcv.setContent("￥" + editText.getText().toString() + "/月");
-				  } else {
-					  tcv.setContent(editText.getText().toString() + "平米");
-				  }
-			  }
-		  })
-		  .show();
+		new AlertDialog.Builder(this).setTitle(title).setView(editText).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				String input = editText.getText().toString();
+				int num = 0;
+				if (TextUtils.isEmpty(input)) {
+					UI.showToast("请输入有效数字");
+					return;
+				} else {
+					num = Integer.parseInt(input);
+					if (num <= 0) {
+						UI.showToast("请输入有效数字");
+						return;
+					}
+				}
+				if (title.equals("租金")) {
+					tcv.setContent("￥" + num + "/月");
+				} else {
+					tcv.setContent(num + "平米");
+				}
+			}
+		}).show();
 	}
 
 	@Override
@@ -259,9 +331,8 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-			List<Uri> uris = Matisse.obtainResult(data);
-			Glide.with(this).load(uris.get(0)).into(mAivPic);
-			mPresenter.publishRent(uris);
+			mUris = Matisse.obtainResult(data);
+			Glide.with(this).load(mUris.get(0)).into(mAivPic);
 		}
 	}
 }

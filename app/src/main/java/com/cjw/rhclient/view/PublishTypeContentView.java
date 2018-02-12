@@ -60,6 +60,14 @@ public class PublishTypeContentView extends FrameLayout {
 		mTvContent.setText(mContent);
 	}
 
+	public String getTitle() {
+		return mTitle;
+	}
+
+	public String getContent() {
+		return mContent;
+	}
+
 	public void setHint(String hint) {
 		this.mHint = hint;
 	}
