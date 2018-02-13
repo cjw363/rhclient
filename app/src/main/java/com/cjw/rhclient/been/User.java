@@ -1,54 +1,66 @@
 package com.cjw.rhclient.been;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
  * Created by Administrator on 17-2-22.
  */
-public class User implements Serializable{
-    private String name;
-    private String password;
-    private String time;
-    private String token;
-    private String schoolId;
+public class User implements Serializable {
+	private int id;
+	private String name;
+	private String password;
+	private String time;
+	private String token;
+	@SerializedName("schoolId")
+	private int schoolId;
 
-    public String getToken() {
-        return token;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setToken(String token) {
-        this.token = token;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getSchoolId() {
-        return schoolId;
-    }
+	public String getToken() {
+		return token;
+	}
 
-    public void setSchoolId(String schoolId) {
-        this.schoolId = schoolId;
-    }
+	public void setToken(String token) {
+		this.token = token;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public int getSchoolId() {
+		return schoolId;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setSchoolId(int schoolId) {
+		this.schoolId = schoolId;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getTime() {
-        return time;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setTime(String time) {
-        this.time = time;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
 }

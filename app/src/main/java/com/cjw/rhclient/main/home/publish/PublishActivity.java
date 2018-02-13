@@ -1,12 +1,16 @@
 package com.cjw.rhclient.main.home.publish;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
@@ -24,9 +28,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
 import com.bumptech.glide.Glide;
 import com.cjw.rhclient.R;
 import com.cjw.rhclient.base.BaseActivity;
+import com.cjw.rhclient.main.home.map.BaiduMapHelper;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.view.FlowLayout;
 import com.cjw.rhclient.view.PublishTypeContentView;
@@ -52,6 +59,7 @@ import static com.cjw.rhclient.R.id.tv_ok;
 
 public class PublishActivity extends BaseActivity implements PublishContract.View, RadioGroup.OnCheckedChangeListener {
 	private static final int REQUEST_CODE_CHOOSE = 23;
+	private static final int MY_PERMISSION_REQUEST_CODE = 6;
 
 	@Inject
 	PublishPresenter mPresenter;
@@ -93,6 +101,8 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 
 	private List<String> checkedLabels = new ArrayList<>();
 	private List<Uri> mUris;
+	private double mLatitude;
+	private double mLongitude;
 
 	@Override
 	public int getContentLayoutId() {
@@ -218,7 +228,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 	private Map<String, String> getPublishParams() {
 		String title = mEtTitle.getText().toString();
 		String content = mEtContent.getText().toString();
-		String type = ((RadioButton) mRgType.findViewById(mRgType.getCheckedRadioButtonId())).getText().toString();
+		String type = (String) mRgType.findViewById(mRgType.getCheckedRadioButtonId()).getTag();
 		String location = mTvLocation.getText().toString();
 		String amount = mTcvAmount.getContent();
 		String houseType = mTcvHouseType.getContent();
@@ -236,13 +246,19 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 		HashMap<String, String> map = new HashMap<>();
 		map.put("title", title);
 		map.put("content", content);
-		map.put("type", type);
+		map.put("type", type + "");
 		map.put("location", location);
-		map.put("amount", amount);
-		if (UI.getStringArray(R.array.tab_names)[0].equals(type)) {
+		map.put("longitude", mLongitude + "");
+		map.put("latitude", mLatitude + "");
+		map.put("amount", amount.replace("￥","").replace("/月",""));
+		map.put("user_id", UI.getUser().getId() + "");
+		if (getResources().getInteger(R.integer.校内出租) == Integer.parseInt(type)) {
 			map.put("bed", bed);
+			map.put("area", "0");
+			map.put("house_type", "");
 		} else {
-			map.put("area", area);
+			map.put("bed", "");
+			map.put("area", area.replace("平米",""));
 			map.put("house_type", houseType);
 		}
 		if (checkedLabels.size() > 0) {
@@ -252,7 +268,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 				sb.append(",");
 			}
 			map.put("label", sb.substring(0, sb.length() - 1));
-		}
+		} else map.put("label", "");
 		return map;
 	}
 
@@ -324,7 +340,25 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 
 	@Override
 	public void initData() {
+		//		checkLocationPermission();
+	}
 
+	private void checkLocationPermission() {
+		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSION_REQUEST_CODE);
+		} else {
+			startLocation();
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (requestCode == MY_PERMISSION_REQUEST_CODE) {
+			startLocation();
+		} else {
+			checkLocationPermission();
+		}
 	}
 
 	@Override
@@ -334,5 +368,19 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 			mUris = Matisse.obtainResult(data);
 			Glide.with(this).load(mUris.get(0)).into(mAivPic);
 		}
+	}
+
+	private void startLocation() {
+		BaiduMapHelper.startLocation(getApplicationContext(), new BDAbstractLocationListener() {
+			@Override
+			public void onReceiveLocation(BDLocation location) {
+				//获取经度信息
+				mLongitude = location.getLongitude();
+				//获取纬度信息
+				mLatitude = location.getLatitude();
+				String address = location.getAddrStr();    //获取详细地址信息
+				mTvLocation.setText(address);
+			}
+		});
 	}
 }

@@ -14,6 +14,12 @@
 		<item>办公</item>
 	</string-array>
 
+	<integer name="校内出租">5</integer>
+	<integer name="整租">1</integer>
+	<integer name="单间">2</integer>
+	<integer name="日租">3</integer>
+	<integer name="办公">4</integer>
+
 	<string-array name="label_names">
 		<item>WIFI</item>
 		<item>热水器</item>

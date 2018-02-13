@@ -1,33 +1,62 @@
 package com.cjw.rhclient.main.home.map;
 
+import android.content.Context;
+
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 
 public class BaiduMapHelper {
+	/**
+	 * 开始定位
+	 *
+	 * @param context
+	 * @param listener
+	 * @return
+	 */
+	public static LocationClient startLocation(Context context, BDAbstractLocationListener listener) {
+		LocationClient client = new LocationClient(context);
+		//声明LocationClient类
+		client.registerLocationListener(listener);
+		//注册监听函数
+		client.setLocOption(getLocationOption());
+		//mLocationClient为第二步初始化过的LocationClient对象
+		//需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
+		//更多LocationClientOption的配置，请参照类参考中LocationClientOption类的详细说明
+		client.start();//；stop()：关闭定位SDK
+		return client;
+	}
+
+	/**
+	 * 获取参数
+	 *
+	 * @return
+	 */
 	public static LocationClientOption getLocationOption() {
 		LocationClientOption option = new LocationClientOption();
-		option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving);
+		option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
 		//可选，设置定位模式，默认高精度
 		//LocationMode.Hight_Accuracy：高精度；
 		//LocationMode. Battery_Saving：低功耗；
 		//LocationMode. Device_Sensors：仅使用设备；
 
-		option.setCoorType("bd09ll");
+		option.setCoorType("gcj02");
 		//可选，设置返回经纬度坐标类型，默认gcj02
 		//gcj02：国测局坐标；
 		//bd09ll：百度经纬度坐标；
 		//bd09：百度墨卡托坐标；
 		//海外地区定位，无需设置坐标类型，统一返回wgs84类型坐标
 
-		option.setScanSpan(10000);
+		option.setScanSpan(0);
 		//可选，设置发起定位请求的间隔，int类型，单位ms
 		//如果设置为0，则代表单次定位，即仅定位一次，默认为0
 		//如果设置非0，需设置1000ms以上才有效
 
-		option.setOpenGps(false);
+		option.setOpenGps(true);
 		//可选，设置是否使用gps，默认false
 		//使用高精度和仅用设备两种定位模式的，参数必须设置为true
 
-		option.setLocationNotify(true);
+		option.setLocationNotify(false);
 		//可选，设置是否当GPS有效时按照1S/1次频率输出GPS结果，默认false
 
 		option.setIgnoreKillProcess(false);

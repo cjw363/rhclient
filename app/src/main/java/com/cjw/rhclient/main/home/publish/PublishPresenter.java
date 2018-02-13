@@ -13,6 +13,7 @@ import com.cjw.rhclient.http.RxTrHttpMethod;
 import com.cjw.rhclient.service.RentService;
 import com.cjw.rhclient.utils.FileUtil;
 import com.cjw.rhclient.utils.UI;
+import com.cjw.rhclient.view.dialog.ContentDialog;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -57,19 +58,20 @@ class PublishPresenter implements PublishContract.Presenter {
 	}
 
 	@Override
-	public void publishRent(List<Uri> uris, Map<String,String> params) {
+	public void publishRent(List<Uri> uris, Map<String, String> params) {
 		Map<String, RequestBody> partMap = new HashMap<>();
 		for (Uri uri : uris) {
 			String path = FileUtil.getPath(mContext, uri);
 			if (path != null) {
 				File file = new File(path);
-				RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+				RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpeg"), file);
 				partMap.put("files\"; filename=\"" + file.getName(), fileBody);
 			}
 		}
 		RxTrHttpMethod.getInstance().createService(RentService.class).publish(UI.getUser().getToken(), partMap, params).compose(RxSchedulers.<HttpResult<String>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<String>(mContext) {
 			@Override
 			public void _onSuccess(String result) {
+				new ContentDialog.Builder(mContext).setContent("发布成功").setSingleButton().build().showDialog();
 			}
 		});
 	}

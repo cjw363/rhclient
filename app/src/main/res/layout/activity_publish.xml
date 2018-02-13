@@ -104,26 +104,31 @@
 					<RadioButton
 						android:id="@+id/rb_type_1"
 						style="@style/radio_button_label"
+						android:tag="@integer/校内出租"
 						android:text="校内出租"/>
 
 					<RadioButton
 						android:id="@+id/rb_type_2"
 						style="@style/radio_button_label"
+						android:tag="@integer/整租"
 						android:text="整租"/>
 
 					<RadioButton
 						android:id="@+id/rb_type_3"
 						style="@style/radio_button_label"
+						android:tag="@integer/单间"
 						android:text="单间"/>
 
 					<RadioButton
 						android:id="@+id/rb_type_4"
 						style="@style/radio_button_label"
+						android:tag="@integer/日租"
 						android:text="日租"/>
 
 					<RadioButton
 						android:id="@+id/rb_type_5"
 						style="@style/radio_button_label"
+						android:tag="@integer/办公"
 						android:text="办公"/>
 
 				</RadioGroup>
@@ -149,7 +154,7 @@
 				android:id="@+id/tcv_area"
 				android:layout_width="match_parent"
 				android:layout_height="50dp"
-				app:content="0平米"
+				app:content="90平米"
 				app:title="房屋面积"
 				/>
 
