@@ -12,17 +12,8 @@ import android.widget.Toast;
 
 import com.cjw.rhclient.base.BaseActivity;
 import com.cjw.rhclient.base.BaseApplication;
-import com.cjw.rhclient.been.User;
 
 public class UI {
-
-	public static User getUser() {
-		return BaseApplication.getUser();
-	}
-
-	public static void setUser(User user) {
-		BaseApplication.setUser(user);
-	}
 
 	public static boolean getHasWindowFocus() {
 		return BaseActivity.hasWindowFocus;

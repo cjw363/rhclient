@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 
 import com.cjw.rhclient.R;
+import com.cjw.rhclient.been.Session;
 import com.cjw.rhclient.http.HttpResult;
 import com.cjw.rhclient.http.HttpResultSubscriber;
 import com.cjw.rhclient.http.RxDoOnSubscribe;
@@ -12,7 +13,6 @@ import com.cjw.rhclient.http.RxSchedulers;
 import com.cjw.rhclient.http.RxTrHttpMethod;
 import com.cjw.rhclient.service.RentService;
 import com.cjw.rhclient.utils.FileUtil;
-import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.view.dialog.ContentDialog;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -68,7 +68,7 @@ class PublishPresenter implements PublishContract.Presenter {
 				partMap.put("files\"; filename=\"" + file.getName(), fileBody);
 			}
 		}
-		RxTrHttpMethod.getInstance().createService(RentService.class).publish(UI.getUser().getToken(), partMap, params).compose(RxSchedulers.<HttpResult<String>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<String>(mContext) {
+		RxTrHttpMethod.getInstance().createService(RentService.class).publish(Session.user.getToken(), partMap, params).compose(RxSchedulers.<HttpResult<String>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<String>(mContext) {
 			@Override
 			public void _onSuccess(String result) {
 				new ContentDialog.Builder(mContext).setContent("发布成功").setSingleButton().build().showDialog();

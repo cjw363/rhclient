@@ -5,9 +5,6 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
-import com.baidu.mapapi.SDKInitializer;
-import com.cjw.rhclient.been.User;
-
 import java.util.Stack;
 
 public class BaseApplication extends Application {
@@ -17,7 +14,6 @@ public class BaseApplication extends Application {
 	private static Stack<Activity> mStack = new Stack<>();
 //	private static String baseUrl = "http://10.0.3.2:8090/mipserver/rh/";
 	private static String baseUrl = "http://cjw2529275344.free.ngrok.cc/mipserver/rh/";
-	private static User user;
 
 	@Override
 	public void onCreate() {
@@ -28,14 +24,6 @@ public class BaseApplication extends Application {
 		mainThreadId = android.os.Process.myTid();
 
 //		SDKInitializer.initialize(getApplicationContext());//百度地图api,我们建议该方法放在Application的初始化方法中
-	}
-
-	public static User getUser() {
-		return user;
-	}
-
-	public static void setUser(User user) {
-		BaseApplication.user = user;
 	}
 
 	public static String getBaseUrl() {

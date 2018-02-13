@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.cjw.rhclient.R;
 import com.cjw.rhclient.base.BaseActivity;
+import com.cjw.rhclient.been.Session;
 import com.cjw.rhclient.been.User;
 import com.cjw.rhclient.main.home.publish.PublishActivity;
 import com.cjw.rhclient.utils.FragmentFactory;
@@ -45,8 +46,7 @@ public class MainActivity extends BaseActivity {
 	@Override
 	public void initData() {
 		Intent intent = getIntent();
-		User user = (User) intent.getSerializableExtra("user");
-		UI.setUser(user);
+		Session.user = (User) intent.getSerializableExtra("user");
 	}
 
 	private void initToolBar() {

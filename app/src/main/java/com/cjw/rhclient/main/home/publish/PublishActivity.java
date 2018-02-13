@@ -33,6 +33,7 @@ import com.baidu.location.BDLocation;
 import com.bumptech.glide.Glide;
 import com.cjw.rhclient.R;
 import com.cjw.rhclient.base.BaseActivity;
+import com.cjw.rhclient.been.Session;
 import com.cjw.rhclient.main.home.map.BaiduMapHelper;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.view.FlowLayout;
@@ -251,7 +252,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 		map.put("longitude", mLongitude + "");
 		map.put("latitude", mLatitude + "");
 		map.put("amount", amount.replace("￥","").replace("/月",""));
-		map.put("user_id", UI.getUser().getId() + "");
+		map.put("user_id", Session.user.getId() + "");
 		if (getResources().getInteger(R.integer.校内出租) == Integer.parseInt(type)) {
 			map.put("bed", bed);
 			map.put("area", "0");
