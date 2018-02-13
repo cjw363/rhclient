@@ -1,10 +1,22 @@
 package com.cjw.rhclient.utils;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 
 public class DrawableUtils {
+
+	private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
+	private static final int COLORDRAWABLE_DIMENSION = 2;
+
+	//系统数据库存放图片的路径
+	private static final Uri STORAGE_URI = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
 	//获取一个shape对象
 	public static GradientDrawable getGradientDrawable(int color, int radius) {
@@ -20,12 +32,12 @@ public class DrawableUtils {
 	//获取状态选择器
 	public static StateListDrawable getSelector(Drawable normal, Drawable press) {
 		StateListDrawable selector = new StateListDrawable();
-		selector.addState(new int[] { android.R.attr.state_pressed }, press);// 按下图片
-		selector.addState(new int[] {}, normal);// 默认图片
+		selector.addState(new int[]{android.R.attr.state_pressed}, press);// 按下图片
+		selector.addState(new int[]{}, normal);// 默认图片
 
 		return selector;
 	}
-	
+
 	//获取状态选择器
 	public static StateListDrawable getSelector(int normal, int press, int radius) {
 		GradientDrawable bgNormal = getGradientDrawable(normal, radius);
@@ -34,5 +46,32 @@ public class DrawableUtils {
 		return selector;
 	}
 
+	public static Bitmap getBitmapFromDrawable(Drawable drawable) {
+		if (drawable == null) {
+			return null;
+		}
+
+		if (drawable instanceof BitmapDrawable) {
+			return ((BitmapDrawable) drawable).getBitmap();
+		}
+
+		try {
+			Bitmap bitmap;
+
+			if (drawable instanceof ColorDrawable) {
+				bitmap = Bitmap.createBitmap(COLORDRAWABLE_DIMENSION, COLORDRAWABLE_DIMENSION, BITMAP_CONFIG);
+			} else {
+				bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), BITMAP_CONFIG);
+			}
+
+			Canvas canvas = new Canvas(bitmap);
+			drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+			drawable.draw(canvas);
+			return bitmap;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 }
