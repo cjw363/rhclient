@@ -51,6 +51,8 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 
 	private static final int ARROW_UP = 1;
 	private static final int ARROW_DOWN = 2;
+	private int mRentType;
+	private String mSortType = "default";
 
 	@Override
 	public int getContentLayoutId() {
@@ -63,20 +65,23 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 		LinearLayoutManager layoutManager = new LinearLayoutManager(UI.getContext());
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mRecyclerView.setLayoutManager(layoutManager);
-		mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+		mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
-		  Drawable drawable = UI.getDrawable(R.mipmap.arrow_rank_down);
+		Drawable drawable = UI.getDrawable(R.mipmap.arrow_rank_down);
 		drawable.setBounds(0, 0, UI.dip2px(20), UI.dip2px(20));
 		mRbSort4.setCompoundDrawables(null, null, drawable, null);
 		mRbSort4.setTag(ARROW_DOWN);
 		mRgSort.setOnCheckedChangeListener(this);
+		mRbSort1.setChecked(true);
 	}
 
 	@Override
 	public void initData() {
 		Bundle bundle = getArguments();
-		if (bundle != null)
-		mRentPresenter.getRentList(bundle.getInt("type"));
+		if (bundle != null) {
+			mRentType = bundle.getInt("type");
+		}
+		mRentPresenter.getRentList(mRentType, mSortType);
 	}
 
 	@Override
@@ -87,7 +92,7 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 			@Override
 			public void onItemClick(View view, int position, Rent data) {
 				Intent intent = new Intent(getActivity(), DetailActivity.class);
-				intent.putExtra("data",data);
+				intent.putExtra("data", data);
 				startActivity(intent);
 			}
 		});
@@ -97,14 +102,21 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 	public void onCheckedChanged(RadioGroup radioGroup, @IdRes int id) {
 		switch (id) {
 			case R.id.rb_sort_1:
+				mSortType = "default";
 				break;
 			case R.id.rb_sort_2:
+				mSortType = "time";
 				break;
 			case R.id.rb_sort_3:
+				mSortType = "distance";
 				break;
 			case R.id.rb_sort_4:
+				return;
+			default:
+				mSortType = "default";
 				break;
 		}
+		mRentPresenter.getRentList(mRentType, mSortType);
 	}
 
 	@OnClick(R.id.rb_sort_4)
@@ -114,11 +126,14 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 		if (ARROW_DOWN == state) {
 			v.setTag(ARROW_UP);
 			drawable = UI.getDrawable(R.mipmap.arrow_rank_up);
+			mSortType = "amount_up";
 		} else {
 			v.setTag(ARROW_DOWN);
 			drawable = UI.getDrawable(R.mipmap.arrow_rank_down);
+			mSortType = "amount_down";
 		}
 		drawable.setBounds(0, 0, UI.dip2px(20), UI.dip2px(20));
 		mRbSort4.setCompoundDrawables(null, null, drawable, null);
+		mRentPresenter.getRentList(mRentType, mSortType);
 	}
 }

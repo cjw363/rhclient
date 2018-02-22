@@ -5,92 +5,101 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-	<LinearLayout
+	<include layout="@layout/layout_toolbar"/>
+
+	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:orientation="vertical">
-
-		<include layout="@layout/layout_toolbar"/>
-
-		<RelativeLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:padding="10dp">
-
-			<android.support.v7.widget.AppCompatImageView
-				android:id="@+id/aiv_head"
-				android:layout_width="45dp"
-				android:layout_height="45dp"
-				android:scaleType="centerCrop"
-				app:srcCompat="@mipmap/head_protrait"
-				/>
-
-			<TextView
-				android:id="@+id/tv_name"
-				style="@style/tv_normal"
-				android:layout_alignTop="@id/aiv_head"
-				android:layout_marginStart="10dp"
-				android:layout_marginTop="10dp"
-				android:layout_toEndOf="@id/aiv_head"
-				android:text="name"/>
-		</RelativeLayout>
-
-		<View style="@style/view_divider_1"/>
-
-		<TextView
-			android:id="@+id/tv_content"
-			style="@style/tv_normal"
-			android:padding="15dp"/>
+		android:layout_marginTop="48dp"
+		android:layout_marginBottom="45dp">
 
 		<LinearLayout
-			android:id="@+id/ll_pic"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:padding="10dp">
+			android:layout_marginBottom="45dp"
+			android:orientation="vertical">
 
-		</LinearLayout>
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="10dp">
 
-		<RelativeLayout
-			android:id="@+id/rl_location"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:gravity="center_vertical"
-			android:padding="8dp">
+				<com.cjw.rhclient.view.ShapeImageView
+					android:id="@+id/aiv_head"
+					android:layout_width="45dp"
+					android:layout_height="45dp"
+					android:scaleType="centerCrop"
+					app:srcCompat="@mipmap/head_protrait"
+				  app:siv_shape="circle"
+					/>
 
-			<android.support.v7.widget.AppCompatImageView
-				android:id="@+id/aiv_nav"
-				android:layout_width="15dp"
-				android:layout_height="15dp"
-				android:layout_marginStart="5dp"
-				app:srcCompat="@mipmap/navi_location"/>
+				<TextView
+					android:id="@+id/tv_name"
+					style="@style/tv_normal"
+					android:layout_alignTop="@id/aiv_head"
+					android:layout_marginStart="10dp"
+					android:layout_marginTop="10dp"
+					android:layout_toEndOf="@id/aiv_head"
+					android:text="name"/>
+			</RelativeLayout>
+
+			<View style="@style/view_divider_1"/>
 
 			<TextView
-				android:id="@+id/tv_location"
-				style="@style/tv_hint"
-				android:layout_toEndOf="@id/aiv_nav"
-				/>
+				android:id="@+id/tv_content"
+				style="@style/tv_normal"
+				android:padding="15dp"/>
 
-			<android.support.v7.widget.AppCompatImageView
-				android:layout_width="10dp"
-				android:layout_height="15dp"
-				android:layout_alignParentEnd="true"
-				android:layout_gravity="end"
-				android:layout_marginEnd="10dp"
-				android:background="@mipmap/arrow_right_gray"/>
-		</RelativeLayout>
+			<LinearLayout
+				android:id="@+id/ll_pic"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:padding="10dp">
 
-		<View
-			style="@style/view_divider_2"/>
+			</LinearLayout>
 
-		<TextView
-			style="@style/tv_normal"
-			android:padding="10dp"
-			android:text="留言区"/>
+			<RelativeLayout
+				android:id="@+id/rl_location"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center_vertical"
+				android:padding="8dp">
 
-		<View
-			style="@style/view_divider_2"/>
-	</LinearLayout>
+				<android.support.v7.widget.AppCompatImageView
+					android:id="@+id/aiv_nav"
+					android:layout_width="15dp"
+					android:layout_height="15dp"
+					android:layout_marginStart="5dp"
+					app:srcCompat="@mipmap/navi_location"/>
+
+				<TextView
+					android:id="@+id/tv_location"
+					style="@style/tv_hint"
+					android:layout_toEndOf="@id/aiv_nav"
+					/>
+
+				<android.support.v7.widget.AppCompatImageView
+					android:layout_width="10dp"
+					android:layout_height="15dp"
+					android:layout_alignParentEnd="true"
+					android:layout_gravity="end"
+					android:layout_marginEnd="10dp"
+					android:background="@mipmap/arrow_right_gray"/>
+			</RelativeLayout>
+
+			<View
+				style="@style/view_divider_2"/>
+
+			<TextView
+				style="@style/tv_normal"
+				android:padding="10dp"
+				android:text="留言区"/>
+
+			<View
+				style="@style/view_divider_2"/>
+		</LinearLayout>
+	</ScrollView>
 
 	<RelativeLayout
 		android:layout_width="match_parent"

@@ -31,10 +31,11 @@ class RentPresenter implements RentContract.RentPresenter {
 	}
 
 	@Override
-	public void getRentList(int type) {
+	public void getRentList(int type, String sortType) {
 		Map<String, String> map = new HashMap<>();
 		map.put("token", Session.user.getToken());
 		map.put("type", type + "");
+		map.put("sort_type", sortType);
 		RxTrHttpMethod.getInstance().createService(RentService.class).getCampusList(map).compose(RxSchedulers.<HttpResult<List<Rent>>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<List<Rent>>(mContext) {
 			@Override
 			public void _onSuccess(List<Rent> result) {

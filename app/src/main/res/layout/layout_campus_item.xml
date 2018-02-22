@@ -11,12 +11,13 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 
-		<android.support.v7.widget.AppCompatImageView
+		<com.cjw.rhclient.view.ShapeImageView
 			android:id="@+id/aiv_head"
 			android:layout_width="40dp"
 			android:layout_height="40dp"
 			android:scaleType="centerCrop"
-			app:srcCompat="@mipmap/head_protrait"
+			android:src="@mipmap/head_protrait"
+			app:siv_shape="circle"
 			/>
 
 		<TextView
@@ -25,11 +26,11 @@
 			android:layout_centerVertical="true"
 			android:layout_marginStart="10dp"
 			android:layout_toEndOf="@id/aiv_head"
+			android:ellipsize="end"
 			android:maxEms="12"
 			android:maxLines="1"
-			android:textSize="14sp"
-			android:ellipsize="end"
-			android:text="name"/>
+			android:text="name"
+			android:textSize="14sp"/>
 
 		<TextView
 			android:id="@+id/tv_amount"
@@ -55,10 +56,10 @@
 	<TextView
 		android:id="@+id/tv_content"
 		style="@style/tv_normal"
-		android:maxLines="3"
-		android:textSize="12sp"
 		android:ellipsize="end"
+		android:maxLines="3"
 		android:padding="10dp"
+		android:textSize="12sp"
 		/>
 
 	<View style="@style/view_divider_2"/>
@@ -72,8 +73,8 @@
 			android:id="@+id/tv_distance"
 			style="@style/tv_hint"
 			android:layout_marginStart="10dp"
-			android:textSize="12sp"
 			android:text="100m"
+			android:textSize="12sp"
 			/>
 
 		<TextView
@@ -82,7 +83,7 @@
 			android:layout_alignParentEnd="true"
 			android:layout_marginEnd="10dp"
 			android:text="仲恺农业工程学院"
-		  android:textSize="12sp"
+			android:textSize="12sp"
 			/>
 	</RelativeLayout>
 </LinearLayout>

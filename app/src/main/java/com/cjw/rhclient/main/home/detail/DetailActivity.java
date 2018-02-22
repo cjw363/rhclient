@@ -57,10 +57,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 
 	@Override
 	protected void initView() {
-		DaggerDetailComponent.builder()
-		  .detailPresenterModule(new DetailPresenterModule(this, this))
-		  .build()
-		  .inject(this);
+		DaggerDetailComponent.builder().detailPresenterModule(new DetailPresenterModule(this, this)).build().inject(this);
 		setSupportActionBar(mToolbar);
 		ActionBar actionBar = getSupportActionBar();
 		if (actionBar != null) {
@@ -88,15 +85,27 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 			mTvContent.setText(data.getContent());
 
 			String titleImg = data.getTitleImg();
-			if (!TextUtils.isEmpty(titleImg)) {
-				AppCompatImageView image = new AppCompatImageView(this);
-				image.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, UI
-				  .dip2px(180)));
-				image.setScaleType(AppCompatImageView.ScaleType.CENTER_CROP);
-				Glide.with(UI.getContext()).load(UrlUtils.getImageUrl(titleImg)).into(image);
-				mLlPic.addView(image);
+			if (!TextUtils.isEmpty(titleImg)) setPic(titleImg);
+
+			String otherImg = data.getOtherImg();
+			if (!TextUtils.isEmpty(otherImg)) {
+				String[] split = otherImg.split(",");
+				for (String url : split) {
+					setPic(url);
+				}
 			}
 		}
+	}
+
+	private void setPic(String url) {
+		AppCompatImageView image = new AppCompatImageView(this);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, UI.dip2px(180));
+		params.bottomMargin = UI.dip2px(5);
+		image.setLayoutParams(params);
+		image.setScaleType(AppCompatImageView.ScaleType.CENTER_CROP);
+
+		Glide.with(UI.getContext()).load(UrlUtils.getImageUrl(url)).into(image);
+		mLlPic.addView(image);
 	}
 
 	@OnClick({R.id.rl_location})

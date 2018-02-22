@@ -11,12 +11,13 @@ import com.cjw.rhclient.base.BaseRecyclerViewAdapter;
 import com.cjw.rhclient.been.Rent;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.utils.UrlUtils;
+import com.cjw.rhclient.view.ShapeImageView;
 
 import butterknife.BindView;
 
 public class CampusHolder extends BaseHolder<Rent> {
 	@BindView(R.id.aiv_head)
-	AppCompatImageView mAivHead;
+	ShapeImageView mAivHead;
 	@BindView(R.id.aiv_pic)
 	AppCompatImageView mAivPic;
 	@BindView(R.id.tv_distance)

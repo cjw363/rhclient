@@ -9,6 +9,6 @@ public interface RentContract {
 		void showRentList(List<Rent> result);
 	}
 	interface RentPresenter {
-		void getRentList(int type);
+		void getRentList(int type, String sortType);
 	}
 }
