@@ -3,6 +3,8 @@ package com.cjw.rhclient.main.home.detail;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -42,8 +44,8 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 	TextView mTvAmount;
 	@BindView(R.id.tv_content)
 	TextView mTvContent;
-	@BindView(R.id.aiv_favorite)
-	CheckBox mAivFavorite;
+	@BindView(R.id.cb_favorite)
+	CheckBox mCbFavorite;
 	@BindView(R.id.bt_bbs)
 	Button mBtBbs;
 	@BindView(R.id.et_input)
@@ -52,6 +54,9 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 	LinearLayout mLlPic;
 	@BindView(R.id.tv_location)
 	TextView mTvLocation;
+	@BindView(R.id.rcv_bbs)
+	RecyclerView mRcvBBs;
+	private Rent mData;
 
 	@Override
 	public int getContentLayoutId() {
@@ -67,6 +72,10 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			actionBar.setDisplayShowTitleEnabled(false);
 		}
+
+		LinearLayoutManager layoutManager = new LinearLayoutManager(UI.getContext());
+		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+		mRcvBBs.setLayoutManager(layoutManager);
 		mTvToolbarTitle.setText("房屋详情");
 	}
 
@@ -82,16 +91,16 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 
 	@Override
 	public void initData() {
-		Rent data = (Rent) getIntent().getSerializableExtra("data");
-		if (data != null) {
-			mTvName.setText(data.getTitle());
-			mTvContent.setText(data.getContent());
-			mTvAmount.setText("￥" + data.getAmount() + "/月");
+		mData = (Rent) getIntent().getSerializableExtra("data");
+		if (mData != null) {
+			mTvName.setText(mData.getTitle());
+			mTvContent.setText(mData.getContent());
+			mTvAmount.setText("￥" + mData.getAmount() + "/月");
 
-			String titleImg = data.getTitleImg();
+			String titleImg = mData.getTitleImg();
 			if (!TextUtils.isEmpty(titleImg)) setPic(titleImg);
 
-			String otherImg = data.getOtherImg();
+			String otherImg = mData.getOtherImg();
 			if (!TextUtils.isEmpty(otherImg)) {
 				String[] split = otherImg.split(",");
 				for (String url : split) {
@@ -112,11 +121,18 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 		mLlPic.addView(image);
 	}
 
-	@OnClick({R.id.rl_location})
+	@OnClick({R.id.rl_location, R.id.bt_bbs})
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.rl_location:
 				startActivity(new Intent(this, MapActivity.class));
+				break;
+			case R.id.bt_bbs:
+				String input = mEtInput.getText().toString().trim();
+				if (TextUtils.isEmpty(input)) {
+					UI.showToast("输入不能为空");
+				} else {
+				}
 				break;
 		}
 	}

@@ -108,6 +108,12 @@
 
 			<View
 				style="@style/view_divider_2"/>
+
+			<android.support.v7.widget.RecyclerView
+				android:id="@+id/rcv_bbs"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+			</android.support.v7.widget.RecyclerView>
 		</LinearLayout>
 	</ScrollView>
 
@@ -122,14 +128,14 @@
 			android:layout_alignParentTop="true"/>
 
 		<CheckBox
-			android:id="@+id/aiv_favorite"
+			android:id="@+id/cb_favorite"
 			android:layout_width="35dp"
 			android:layout_height="35dp"
 			android:layout_centerVertical="true"
 			android:layout_marginStart="10dp"
-			android:scaleType="centerCrop"
-			android:button="@null"
 			android:background="@drawable/bg_selector_favorite"
+			android:button="@null"
+			android:scaleType="centerCrop"
 			/>
 
 		<Button
@@ -149,8 +155,9 @@
 			android:layout_centerVertical="true"
 			android:layout_marginEnd="5dp"
 			android:layout_marginStart="5dp"
-			android:layout_toEndOf="@id/aiv_favorite"
+			android:layout_toEndOf="@id/cb_favorite"
 			android:layout_toStartOf="@id/bt_bbs"
-			android:background="@drawable/bg_rectangle_stroke_gray"/>
+			android:background="@drawable/bg_rectangle_stroke_gray"
+			android:paddingStart="10dp"/>
 	</RelativeLayout>
 </RelativeLayout>
