@@ -10,8 +10,8 @@
 	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_marginTop="48dp"
-		android:layout_marginBottom="45dp">
+		android:layout_marginBottom="45dp"
+		android:layout_marginTop="48dp">
 
 		<LinearLayout
 			android:layout_width="match_parent"
@@ -29,8 +29,8 @@
 					android:layout_width="45dp"
 					android:layout_height="45dp"
 					android:scaleType="centerCrop"
+					app:siv_shape="circle"
 					app:srcCompat="@mipmap/head_protrait"
-				  app:siv_shape="circle"
 					/>
 
 				<TextView
@@ -41,6 +41,16 @@
 					android:layout_marginTop="10dp"
 					android:layout_toEndOf="@id/aiv_head"
 					android:text="name"/>
+
+				<TextView
+					android:id="@+id/tv_amount"
+					style="@style/tv_normal"
+					android:layout_alignParentEnd="true"
+					android:layout_centerVertical="true"
+					android:layout_marginEnd="10dp"
+					android:text="1000/月"
+					android:textColor="@color/bg_pink"
+					android:textSize="18sp"/>
 			</RelativeLayout>
 
 			<View style="@style/view_divider_1"/>
@@ -111,13 +121,15 @@
 			style="@style/view_divider_1"
 			android:layout_alignParentTop="true"/>
 
-		<android.support.v7.widget.AppCompatImageView
+		<CheckBox
 			android:id="@+id/aiv_favorite"
-			android:layout_width="45dp"
-			android:layout_height="45dp"
+			android:layout_width="35dp"
+			android:layout_height="35dp"
+			android:layout_centerVertical="true"
 			android:layout_marginStart="10dp"
 			android:scaleType="centerCrop"
-			app:srcCompat="@mipmap/ic_launcher_round"
+			android:button="@null"
+			android:background="@drawable/bg_selector_favorite"
 			/>
 
 		<Button
@@ -125,6 +137,7 @@
 			android:layout_width="60dp"
 			android:layout_height="45dp"
 			android:layout_alignParentEnd="true"
+			android:layout_centerVertical="true"
 			android:layout_marginEnd="5dp"
 			android:text="留言"
 			/>

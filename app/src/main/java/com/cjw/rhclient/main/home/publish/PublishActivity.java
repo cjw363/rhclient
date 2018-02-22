@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -91,6 +92,8 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 	PublishTypeContentView mTcvBed;
 	@BindView(R.id.aiv_pic)
 	AppCompatImageView mAivPic;
+	@BindView(R.id.ll_pic)
+	LinearLayout mLlPic;
 
 	private List<String> beds = new ArrayList<>(Arrays.asList(new String[]{"1个", "2个", "3个", "4个", "5个", "6个", "6个以上"}));
 	private List<String> houseType1 = new ArrayList<>(Arrays.asList(new String[]{"1室", "2室", "3室", "4室", "4室以上"}));
@@ -251,7 +254,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 		map.put("location", location);
 		map.put("longitude", mLongitude + "");
 		map.put("latitude", mLatitude + "");
-		map.put("amount", amount.replace("￥","").replace("/月",""));
+		map.put("amount", amount.replace("￥", "").replace("/月", ""));
 		map.put("user_id", Session.user.getId() + "");
 		if (getResources().getInteger(R.integer.校内出租) == Integer.parseInt(type)) {
 			map.put("bed", bed);
@@ -259,7 +262,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 			map.put("house_type", "");
 		} else {
 			map.put("bed", "");
-			map.put("area", area.replace("平米",""));
+			map.put("area", area.replace("平米", ""));
 			map.put("house_type", houseType);
 		}
 		if (checkedLabels.size() > 0) {
@@ -367,7 +370,18 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
 			mUris = Matisse.obtainResult(data);
-			Glide.with(this).load(mUris.get(0)).into(mAivPic);
+
+			mLlPic.removeViews(0, mLlPic.getChildCount() - 1);//移除之前的图片
+			for (int i = 0; i < mUris.size(); i++) {
+				AppCompatImageView image = new AppCompatImageView(this);
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(UI.dip2px(65), UI.dip2px(65));
+				params.rightMargin = UI.dip2px(5);
+				image.setLayoutParams(params);
+				image.setScaleType(AppCompatImageView.ScaleType.CENTER_CROP);
+
+				Glide.with(UI.getContext()).load(mUris.get(i)).into(image);
+				mLlPic.addView(image, i);
+			}
 		}
 	}
 

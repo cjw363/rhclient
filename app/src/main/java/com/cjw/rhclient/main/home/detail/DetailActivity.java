@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,10 +38,12 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 	AppCompatImageView mAivHead;
 	@BindView(R.id.tv_name)
 	TextView mTvName;
+	@BindView(R.id.tv_amount)
+	TextView mTvAmount;
 	@BindView(R.id.tv_content)
 	TextView mTvContent;
 	@BindView(R.id.aiv_favorite)
-	AppCompatImageView mAivFavorite;
+	CheckBox mAivFavorite;
 	@BindView(R.id.bt_bbs)
 	Button mBtBbs;
 	@BindView(R.id.et_input)
@@ -83,6 +86,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 		if (data != null) {
 			mTvName.setText(data.getTitle());
 			mTvContent.setText(data.getContent());
+			mTvAmount.setText("￥" + data.getAmount() + "/月");
 
 			String titleImg = data.getTitleImg();
 			if (!TextUtils.isEmpty(titleImg)) setPic(titleImg);
