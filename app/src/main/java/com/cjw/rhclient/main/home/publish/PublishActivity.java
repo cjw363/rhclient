@@ -38,7 +38,7 @@ import com.cjw.rhclient.been.Session;
 import com.cjw.rhclient.main.home.map.BaiduMapHelper;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.view.FlowLayout;
-import com.cjw.rhclient.view.PublishTypeContentView;
+import com.cjw.rhclient.view.TypeContentView;
 import com.cjw.rhclient.view.dialog.BaseCustomDialog;
 import com.cjw.rhclient.view.dialog.BottomDialog;
 import com.cjw.rhclient.view.dialog.ContentDialog;
@@ -83,13 +83,13 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 	@BindView(R.id.flowLayout)
 	FlowLayout mFlowLayout;
 	@BindView(R.id.tcv_amount)
-	PublishTypeContentView mTcvAmount;
+	TypeContentView mTcvAmount;
 	@BindView(R.id.tcv_house_type)
-	PublishTypeContentView mTcvHouseType;
+	TypeContentView mTcvHouseType;
 	@BindView(R.id.tcv_area)
-	PublishTypeContentView mTcvArea;
+	TypeContentView mTcvArea;
 	@BindView(R.id.tcv_bed)
-	PublishTypeContentView mTcvBed;
+	TypeContentView mTcvBed;
 	@BindView(R.id.aiv_pic)
 	AppCompatImageView mAivPic;
 	@BindView(R.id.ll_pic)
@@ -276,7 +276,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 		return map;
 	}
 
-	private void showBottomDialog(List<String> left, List<String> center, List<String> right, final PublishTypeContentView tcv) {
+	private void showBottomDialog(List<String> left, List<String> center, List<String> right, final TypeContentView tcv) {
 		final View view = UI.inflate(R.layout.layout_dialog_bottom);
 		//滚轮
 		final WheelView wxLeft = (WheelView) view.findViewById(R.id.wheelView_left);
@@ -315,7 +315,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 		mBottomDialog.show();//显示对话框
 	}
 
-	private void showAlertDialog(final String title, final PublishTypeContentView tcv) {
+	private void showAlertDialog(final String title, final TypeContentView tcv) {
 		final EditText editText = new EditText(this);
 		editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 		new AlertDialog.Builder(this).setTitle(title).setView(editText).setPositiveButton("确定", new DialogInterface.OnClickListener() {

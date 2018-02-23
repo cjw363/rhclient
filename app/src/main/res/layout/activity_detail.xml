@@ -40,6 +40,9 @@
 					android:layout_marginStart="10dp"
 					android:layout_marginTop="10dp"
 					android:layout_toEndOf="@id/aiv_head"
+					android:ellipsize="end"
+					android:maxEms="12"
+					android:maxLines="1"
 					android:text="name"/>
 
 				<TextView

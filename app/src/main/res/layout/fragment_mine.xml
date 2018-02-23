@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		>
+
+		<com.cjw.rhclient.view.ShapeImageView
+			android:layout_width="150dp"
+			android:layout_height="150dp"
+			android:layout_gravity="center_horizontal"
+			android:layout_marginTop="10dp"
+			android:scaleType="centerCrop"
+			app:siv_shape="circle"
+			app:srcCompat="@mipmap/head_protrait"
+			/>
+
+		<TextView
+			android:id="@+id/tv_name"
+			style="@style/tv_normal"
+			android:layout_gravity="center_horizontal"
+			android:layout_marginTop="20dp"/>
+
+		<com.cjw.rhclient.view.TypeContentView
+			android:id="@+id/tcv_mine_favorite"
+			android:layout_width="match_parent"
+			android:layout_height="50dp"
+			android:layout_marginTop="20dp"
+			app:title="我的收藏">
+		</com.cjw.rhclient.view.TypeContentView>
+
+		<com.cjw.rhclient.view.TypeContentView
+			android:id="@+id/tcv_mine_publish"
+			android:layout_width="match_parent"
+			android:layout_height="50dp"
+			android:layout_marginTop="20dp"
+			app:title="我的发布">
+		</com.cjw.rhclient.view.TypeContentView>
+
+	</LinearLayout>
+
+	<Button
+		android:id="@+id/bt_login_out"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:text="退出登录"/>
+</RelativeLayout>

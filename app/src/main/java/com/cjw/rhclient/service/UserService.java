@@ -18,4 +18,8 @@ public interface UserService {
 	@FormUrlEncoded
 	@POST("login/register")
 	Observable<HttpResult<String>> register(@FieldMap Map<String, String> map);
+
+	@FormUrlEncoded
+	@POST("login/out")
+	Observable<HttpResult<Void>> outLogin(@FieldMap Map<String, String> map);
 }

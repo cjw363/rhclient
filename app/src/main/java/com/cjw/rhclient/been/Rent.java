@@ -20,6 +20,7 @@ public class Rent implements Serializable{
 	private int amount;
 	@SerializedName("house_type")
 	private String houseType;
+	private String bed;
 	private int area;
 	private String label;
 	private String lmt;
@@ -30,6 +31,14 @@ public class Rent implements Serializable{
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getBed() {
+		return bed;
+	}
+
+	public void setBed(String bed) {
+		this.bed = bed;
 	}
 
 	public String getTitle() {

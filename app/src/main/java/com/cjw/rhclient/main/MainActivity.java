@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,6 +18,7 @@ import com.cjw.rhclient.base.BaseActivity;
 import com.cjw.rhclient.been.Session;
 import com.cjw.rhclient.been.User;
 import com.cjw.rhclient.main.home.publish.PublishActivity;
+import com.cjw.rhclient.main.mine.MineFragment;
 import com.cjw.rhclient.utils.FragmentFactory;
 import com.cjw.rhclient.utils.UI;
 
@@ -43,10 +45,19 @@ public class MainActivity extends BaseActivity {
 		initPager();// 初始化radiobutton点击事件和viewpager
 	}
 
+	private void initMine() {
+		FragmentManager fm = getSupportFragmentManager();
+		FragmentTransaction transaction = fm.beginTransaction();
+		transaction.add(R.id.fl_frag_mine, new MineFragment());
+		transaction.commit();
+	}
+
 	@Override
 	public void initData() {
 		Intent intent = getIntent();
 		Session.user = (User) intent.getSerializableExtra("user");
+
+		initMine();//初始化我的
 	}
 
 	private void initToolBar() {

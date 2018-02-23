@@ -145,6 +145,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 
 	@Override
 	public void showBBsList(List<BBs> result) {
+		mEtInput.setText("");
 		mRcvBBs.setAdapter(new BBsAdapter(this, result));
 	}
 }

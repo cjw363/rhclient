@@ -29,11 +29,14 @@
 		<!-- 侧滑面板内容 -->
 
 		<FrameLayout
+			android:id="@+id/fl_frag_mine"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_gravity="start"
 			android:layout_marginEnd="-65dp"
-			android:background="@color/white">
+			android:background="@color/white"
+			android:clickable="true">
+
 		</FrameLayout>
 	</android.support.v4.widget.DrawerLayout>
 
