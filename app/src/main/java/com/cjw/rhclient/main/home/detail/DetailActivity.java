@@ -17,11 +17,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.cjw.rhclient.R;
+import com.cjw.rhclient.adapter.BBsAdapter;
 import com.cjw.rhclient.base.BaseActivity;
+import com.cjw.rhclient.been.BBs;
 import com.cjw.rhclient.been.Rent;
 import com.cjw.rhclient.main.home.map.MapActivity;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.utils.UrlUtils;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -107,6 +111,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 					setPic(url);
 				}
 			}
+			mDetailPresenter.getBBsList(mData.getId());
 		}
 	}
 
@@ -132,8 +137,14 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 				if (TextUtils.isEmpty(input)) {
 					UI.showToast("输入不能为空");
 				} else {
+					mDetailPresenter.bbs(input, mData.getId());
 				}
 				break;
 		}
+	}
+
+	@Override
+	public void showBBsList(List<BBs> result) {
+		mRcvBBs.setAdapter(new BBsAdapter(this, result));
 	}
 }

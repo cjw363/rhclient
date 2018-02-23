@@ -16,10 +16,13 @@
 	<TextView
 		android:id="@+id/tv_name"
 		style="@style/tv_hint"
+		android:layout_width="35dp"
 		android:layout_below="@id/siv_head"
+		android:gravity="center"
 		android:text="name"
-		android:layout_marginStart="5dp"
-		android:textSize="14sp"/>
+		android:maxLines="1"
+		android:ellipsize="end"
+		android:textSize="12sp"/>
 
 	<TextView
 		android:id="@+id/tv_colon"
@@ -28,6 +31,13 @@
 		android:layout_marginTop="15dp"
 		android:layout_toEndOf="@id/siv_head"
 		android:text="："/>
+
+	<TextView
+		android:id="@+id/tv_time"
+		style="@style/tv_hint"
+		android:layout_marginTop="2dp"
+		android:layout_toEndOf="@id/tv_colon"
+		android:textSize="11sp"/>
 
 	<TextView
 		android:id="@+id/tv_bbs"

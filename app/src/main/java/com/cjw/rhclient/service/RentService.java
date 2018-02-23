@@ -1,5 +1,6 @@
 package com.cjw.rhclient.service;
 
+import com.cjw.rhclient.been.BBs;
 import com.cjw.rhclient.been.Rent;
 import com.cjw.rhclient.http.HttpResult;
 
@@ -23,4 +24,12 @@ public interface RentService {
 	@Multipart
 	@POST("publishRent")
 	Observable<HttpResult<String>> publish(@Query("token") String token, @PartMap Map<String, RequestBody> files, @PartMap Map<String, String> map);
+
+	@FormUrlEncoded
+	@POST("bbs")
+	Observable<HttpResult<List<BBs>>> bbs(@FieldMap Map<String, String> map);
+
+	@FormUrlEncoded
+	@POST("bbsList")
+	Observable<HttpResult<List<BBs>>> getBBsList(@FieldMap Map<String, String> map);
 }

@@ -25,6 +25,11 @@ public class BBsAdapter extends BaseRecyclerViewAdapter<BBs> {
 	}
 
 	@Override
+	public boolean isHasMore() {
+		return false;
+	}
+
+	@Override
 	public View initHolderView(ViewGroup parent, int viewType) {
 		return LayoutInflater.from(mContext).inflate(R.layout.layout_bbs_item, parent, false);
 	}
