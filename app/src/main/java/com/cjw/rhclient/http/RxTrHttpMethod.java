@@ -15,7 +15,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  */
 public class RxTrHttpMethod {
 
-    private final static long DEFAULT_TIMEOUT = 15;
+    private final static long DEFAULT_TIMEOUT = 30;
 
     private static class SingletonHolder {
         private static final RxTrHttpMethod INSTANCE = new RxTrHttpMethod();

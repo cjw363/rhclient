@@ -5,6 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
+import com.baidu.mapapi.SDKInitializer;
+
 import java.util.Stack;
 
 public class BaseApplication extends Application {
@@ -23,7 +25,7 @@ public class BaseApplication extends Application {
 		handler = new Handler();
 		mainThreadId = android.os.Process.myTid();
 
-//		SDKInitializer.initialize(getApplicationContext());//百度地图api,我们建议该方法放在Application的初始化方法中
+		SDKInitializer.initialize(getApplicationContext());//百度地图api,我们建议该方法放在Application的初始化方法中
 	}
 
 	public static String getBaseUrl() {

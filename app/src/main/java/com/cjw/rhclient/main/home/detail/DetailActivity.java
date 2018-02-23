@@ -100,6 +100,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 			mTvName.setText(mData.getTitle());
 			mTvContent.setText(mData.getContent());
 			mTvAmount.setText("￥" + mData.getAmount() + "/月");
+			mTvLocation.setText(mData.getLocation());
 
 			String titleImg = mData.getTitleImg();
 			if (!TextUtils.isEmpty(titleImg)) setPic(titleImg);

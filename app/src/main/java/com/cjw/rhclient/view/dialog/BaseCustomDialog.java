@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.cjw.rhclient.utils.UI;
-
 
 public class BaseCustomDialog extends Dialog {
 	private Context context;
@@ -53,7 +51,7 @@ public class BaseCustomDialog extends Dialog {
 
 		int divierId = context.getResources().getIdentifier("android:id/titleDivider", null, null);
 		View divider = findViewById(divierId);
-		divider.setBackgroundColor(Color.TRANSPARENT);
+		if (divider != null) divider.setBackgroundColor(Color.TRANSPARENT);
 
 		setContentView(view);
 		setCanceledOnTouchOutside(cancelTouchOut);
@@ -98,12 +96,12 @@ public class BaseCustomDialog extends Dialog {
 		}
 
 		public Builder height(int val) {
-			height = UI.dip2px(val);
+			height = val;
 			return this;
 		}
 
 		public Builder width(int val) {
-			width = UI.dip2px(val);
+			width = val;
 			return this;
 		}
 

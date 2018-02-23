@@ -15,7 +15,7 @@ public class ContentDialog {
 	public static final class Builder {
 
 		private Context context;
-		private int height = UI.dip2px(120), width = UI.dip2px(140);
+		private int height = UI.dip2px(180), width = UI.dip2px(240);
 		private View view;
 		private TextView mTvTitle;
 		private TextView mTvContent;
