@@ -31,7 +31,7 @@ import butterknife.OnClick;
 import static com.cjw.rhclient.R.id.rb_sort_1;
 
 
-public class RentFragment extends BaseFragment implements RentContract.RentView, RadioGroup.OnCheckedChangeListener {
+public class RentFragment extends BaseFragment implements RentContract.RentView, RadioGroup.OnCheckedChangeListener, SwipeRefreshLayout.OnRefreshListener {
 	@Inject
 	RentPresenter mRentPresenter;
 
@@ -67,6 +67,7 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mRecyclerView.setLayoutManager(layoutManager);
 		mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+		mSwipeRefresh.setOnRefreshListener(this);
 
 		Drawable drawable = UI.getDrawable(R.mipmap.arrow_rank_down);
 		drawable.setBounds(0, 0, UI.dip2px(20), UI.dip2px(20));
@@ -96,11 +97,13 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 				startActivity(intent);
 			}
 		});
+		mSwipeRefresh.setRefreshing(false);
 	}
 
 	@Override
 	public void showNoData() {
 		new ContentDialog.Builder(getActivity()).setSingleButton().setContent("暂无数据").build().showDialog();
+		mSwipeRefresh.setRefreshing(false);
 	}
 
 	@Override
@@ -139,6 +142,11 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 		}
 		drawable.setBounds(0, 0, UI.dip2px(20), UI.dip2px(20));
 		mRbSort4.setCompoundDrawables(null, null, drawable, null);
+		mRentPresenter.getRentList(mRentType, mSortType);
+	}
+
+	@Override
+	public void onRefresh() {
 		mRentPresenter.getRentList(mRentType, mSortType);
 	}
 }

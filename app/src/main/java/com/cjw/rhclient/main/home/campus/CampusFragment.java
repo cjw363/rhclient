@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 
 
-public class CampusFragment extends BaseFragment implements CampusContract.CampusView {
+public class CampusFragment extends BaseFragment implements CampusContract.CampusView , SwipeRefreshLayout.OnRefreshListener{
 	@Inject
 	CampusPresenter mCampusPresenter;
 
@@ -46,6 +46,7 @@ public class CampusFragment extends BaseFragment implements CampusContract.Campu
 		DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
 		itemDecoration.setDrawable(UI.getDrawable(R.drawable.item_divider));
 		mRecyclerView.addItemDecoration(itemDecoration);
+		mSwipeRefresh.setOnRefreshListener(this);
 	}
 
 	@Override
@@ -65,10 +66,17 @@ public class CampusFragment extends BaseFragment implements CampusContract.Campu
 				startActivity(intent);
 			}
 		});
+		mSwipeRefresh.setRefreshing(false);
 	}
 
 	@Override
 	public void showNoData() {
 		new ContentDialog.Builder(getActivity()).setSingleButton().setContent("暂无数据").build().showDialog();
+		mSwipeRefresh.setRefreshing(false);
+	}
+
+	@Override
+	public void onRefresh() {
+		mCampusPresenter.getCampusList();
 	}
 }
