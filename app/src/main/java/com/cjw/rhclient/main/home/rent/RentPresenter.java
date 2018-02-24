@@ -10,6 +10,7 @@ import com.cjw.rhclient.http.RxDoOnSubscribe;
 import com.cjw.rhclient.http.RxSchedulers;
 import com.cjw.rhclient.http.RxTrHttpMethod;
 import com.cjw.rhclient.service.RentService;
+import com.cjw.rhclient.utils.ListUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +42,8 @@ class RentPresenter implements RentContract.RentPresenter {
 		RxTrHttpMethod.getInstance().createService(RentService.class).getCampusList(map).compose(RxSchedulers.<HttpResult<List<Rent>>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<List<Rent>>(mContext) {
 			@Override
 			public void _onSuccess(List<Rent> result) {
-				mRentView.showRentList(result);
+				if (!ListUtil.isEmpty(result)) mRentView.showRentList(result);
+				else mRentView.showNoData();
 			}
 		});
 	}

@@ -27,6 +27,12 @@
 			android:layout_gravity="center_horizontal"
 			android:layout_marginTop="20dp"/>
 
+		<TextView
+			android:id="@+id/tv_school"
+			style="@style/tv_normal"
+			android:layout_gravity="center_horizontal"
+			android:layout_marginTop="20dp"/>
+
 		<com.cjw.rhclient.view.TypeContentView
 			android:id="@+id/tcv_mine_favorite"
 			android:layout_width="match_parent"

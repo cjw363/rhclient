@@ -584,7 +584,6 @@ public class PagerTab extends ViewGroup {
 
 		@Override
 		public void onPageSelected(int position) {
-			//System.out.println("onPageSelected:" + position);
 			mSelectedPosition = position;
 			selectTab(position);
 			if (mDelegatePageListener != null) {

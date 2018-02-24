@@ -23,6 +23,8 @@ public class MineFragment extends BaseFragment implements MineContract.MineView 
 
 	@BindView(R.id.tv_name)
 	TextView mTvName;
+	@BindView(R.id.tv_school)
+	TextView mTvSchool;
 	@BindView(R.id.tcv_mine_favorite)
 	TypeContentView mTcvMineFavorite;
 	@BindView(R.id.tcv_mine_publish)
@@ -39,6 +41,7 @@ public class MineFragment extends BaseFragment implements MineContract.MineView 
 	protected void initView() {
 		DaggerMineComponent.builder().minePresenterModule(new MinePresenterModule(this, getActivity())).build().inject(this);
 		mTvName.setText(Session.user.getName());
+		mTvSchool.setText(Session.user.getSchoolName());
 	}
 
 	@OnClick({R.id.tcv_mine_favorite, R.id.tcv_mine_publish, R.id.bt_login_out})

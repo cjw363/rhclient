@@ -14,6 +14,7 @@ import com.cjw.rhclient.base.BaseRecyclerViewAdapter;
 import com.cjw.rhclient.been.Rent;
 import com.cjw.rhclient.main.home.detail.DetailActivity;
 import com.cjw.rhclient.utils.UI;
+import com.cjw.rhclient.view.dialog.ContentDialog;
 
 import java.util.List;
 
@@ -38,10 +39,7 @@ public class CampusFragment extends BaseFragment implements CampusContract.Campu
 
 	@Override
 	protected void initView() {
-		DaggerCampusComponent.builder()
-		  .campusPresenterModule(new CampusPresenterModule(this, getActivity()))
-		  .build()
-		  .inject(this);
+		DaggerCampusComponent.builder().campusPresenterModule(new CampusPresenterModule(this, getActivity())).build().inject(this);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(UI.getContext());
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		mRecyclerView.setLayoutManager(layoutManager);
@@ -67,5 +65,10 @@ public class CampusFragment extends BaseFragment implements CampusContract.Campu
 				startActivity(intent);
 			}
 		});
+	}
+
+	@Override
+	public void showNoData() {
+		new ContentDialog.Builder(getActivity()).setSingleButton().setContent("暂无数据").build().showDialog();
 	}
 }

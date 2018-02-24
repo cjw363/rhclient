@@ -7,7 +7,10 @@ import java.util.List;
 public interface RentContract {
 	interface RentView {
 		void showRentList(List<Rent> result);
+
+		void showNoData();
 	}
+
 	interface RentPresenter {
 		void getRentList(int type, String sortType);
 	}

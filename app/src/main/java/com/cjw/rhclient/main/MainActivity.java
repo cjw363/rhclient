@@ -28,6 +28,7 @@ import com.cjw.rhclient.main.home.publish.PublishActivity;
 import com.cjw.rhclient.main.mine.MineFragment;
 import com.cjw.rhclient.utils.FragmentFactory;
 import com.cjw.rhclient.utils.UI;
+import com.cjw.rhclient.view.dialog.ContentDialog;
 
 import butterknife.BindView;
 
@@ -50,7 +51,7 @@ public class MainActivity extends BaseActivity {
 	protected void initView() {
 		initToolBar();// 初始化toolbar
 		initGeoCoder();
-		initPager();// 初始化radiobutton点击事件和viewpager
+		//		initPager();// 初始化radiobutton点击事件和viewpager
 		initMine();//初始化我的
 	}
 
@@ -60,12 +61,13 @@ public class MainActivity extends BaseActivity {
 			@Override
 			public void onGetGeoCodeResult(GeoCodeResult result) {
 				if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-					System.out.println("没有检索到结果");
+					new ContentDialog.Builder(MainActivity.this).setSingleButton().setContent("抱歉，没有检索到该大学，数据库暂时未录入!").build().showDialog();
 					geoCoder.geocode(new GeoCodeOption().address(Session.user.getSchoolName()));
 				} else {
 					//获取地理编码结果
 					LatLng location = result.getLocation();
 					Session.location = new Location(location.latitude, location.longitude, Session.user.getSchoolName());
+					initPager();// 初始化radiobutton点击事件和viewpager
 				}
 			}
 

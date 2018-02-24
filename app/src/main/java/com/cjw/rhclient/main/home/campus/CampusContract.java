@@ -7,6 +7,8 @@ import java.util.List;
 public interface CampusContract {
 	interface CampusView{
 		void showCampusList(List<Rent> result);
+
+		void showNoData();
 	}
 	interface CampusPresenter{
 		void getCampusList();
