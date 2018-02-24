@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.cjw.rhclient.R;
 import com.cjw.rhclient.base.BaseActivity;
+import com.cjw.rhclient.been.Location;
+import com.cjw.rhclient.been.Session;
 import com.cjw.rhclient.been.User;
 import com.cjw.rhclient.main.MainActivity;
 import com.cjw.rhclient.main.register.RegisterActivity;
@@ -82,10 +84,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 		//登录成功，保存登录用户
 		SPUtils.putString("name", result.getName());
 		SPUtils.putString("password", result.getPassword());
+		Session.user = result;
+		Session.location = new Location();
 
-		Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-		intent.putExtra("user", result);
-		startActivity(intent);
+		startActivity(new Intent(LoginActivity.this, MainActivity.class));
 		finish();
 	}
 }

@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface PublishContract {
-	interface View{}
-	interface Presenter{
-		void showImageSelector();
+	interface View {}
 
-		void publishRent(List<Uri> uris, Map<String,String> params);
+	interface Presenter {
+		void publishRent(List<Uri> uris, Map<String, String> params);
 	}
 }

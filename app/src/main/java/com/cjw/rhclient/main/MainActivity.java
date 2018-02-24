@@ -13,10 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.cjw.rhclient.R;
 import com.cjw.rhclient.base.BaseActivity;
+import com.cjw.rhclient.been.Location;
 import com.cjw.rhclient.been.Session;
-import com.cjw.rhclient.been.User;
 import com.cjw.rhclient.main.home.publish.PublishActivity;
 import com.cjw.rhclient.main.mine.MineFragment;
 import com.cjw.rhclient.utils.FragmentFactory;
@@ -42,7 +49,30 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void initView() {
 		initToolBar();// 初始化toolbar
+		initGeoCoder();
 		initPager();// 初始化radiobutton点击事件和viewpager
+		initMine();//初始化我的
+	}
+
+	private void initGeoCoder() {
+		final GeoCoder geoCoder = GeoCoder.newInstance();
+		geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+			@Override
+			public void onGetGeoCodeResult(GeoCodeResult result) {
+				if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+					System.out.println("没有检索到结果");
+					geoCoder.geocode(new GeoCodeOption().address(Session.user.getSchoolName()));
+				} else {
+					//获取地理编码结果
+					LatLng location = result.getLocation();
+					Session.location = new Location(location.latitude, location.longitude, Session.user.getSchoolName());
+				}
+			}
+
+			@Override
+			public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {}
+		});
+		geoCoder.geocode(new GeoCodeOption().city(Session.user.getProvince()).address(Session.user.getSchoolName()));
 	}
 
 	private void initMine() {
@@ -50,14 +80,6 @@ public class MainActivity extends BaseActivity {
 		FragmentTransaction transaction = fm.beginTransaction();
 		transaction.add(R.id.fl_frag_mine, new MineFragment());
 		transaction.commit();
-	}
-
-	@Override
-	public void initData() {
-		Intent intent = getIntent();
-		Session.user = (User) intent.getSerializableExtra("user");
-
-		initMine();//初始化我的
 	}
 
 	private void initToolBar() {

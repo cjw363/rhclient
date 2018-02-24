@@ -34,7 +34,9 @@ class CampusPresenter implements CampusContract.CampusPresenter {
 	public void getCampusList() {
 		Map<String, String> map = new HashMap<>();
 		map.put("token", Session.user.getToken());
-		map.put("type", 5+"");
+		map.put("type", 5 + "");
+		map.put("longitude", Session.location.getLongitude() + "");
+		map.put("latitude", Session.location.getLatitude() + "");
 		RxTrHttpMethod.getInstance().createService(RentService.class).getCampusList(map).compose(RxSchedulers.<HttpResult<List<Rent>>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<List<Rent>>(mContext) {
 			@Override
 			public void _onSuccess(List<Rent> result) {

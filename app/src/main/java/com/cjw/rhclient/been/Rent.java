@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Rent implements Serializable{
+public class Rent implements Serializable {
 	private int id;
 	private String title;
 	private String content;
@@ -24,6 +24,33 @@ public class Rent implements Serializable{
 	private int area;
 	private String label;
 	private String lmt;
+	private double longitude;
+	private double latitude;
+	private int distance;
+
+	public int getDistance() {
+		return distance;
+	}
+
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
 
 	public int getId() {
 		return id;

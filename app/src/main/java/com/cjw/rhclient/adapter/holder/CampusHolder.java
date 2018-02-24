@@ -37,6 +37,13 @@ public class CampusHolder extends BaseHolder<Rent> {
 
 	@Override
 	public void refreshData(Rent data) {
+		int distance = data.getDistance();
+		if (distance < 1000) {
+			mTvDistance.setText(distance + "m");
+		} else {
+			mTvDistance.setText(distance / 1000 + "km");
+		}
+
 		mTvName.setText(data.getTitle());
 		mTvLocation.setText(data.getLocation());
 		mTvContent.setText(data.getContent());

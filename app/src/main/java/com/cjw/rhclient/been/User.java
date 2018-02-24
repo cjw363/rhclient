@@ -15,6 +15,25 @@ public class User implements Serializable {
 	private String token;
 	@SerializedName("schoolId")
 	private int schoolId;
+	@SerializedName("schoolName")
+	private String schoolName;
+	private String province;
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getSchoolName() {
+		return schoolName;
+	}
+
+	public void setSchoolName(String schoolName) {
+		this.schoolName = schoolName;
+	}
 
 	public int getId() {
 		return id;

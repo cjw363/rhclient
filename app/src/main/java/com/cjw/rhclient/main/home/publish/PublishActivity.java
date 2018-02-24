@@ -4,13 +4,12 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
@@ -45,6 +44,9 @@ import com.cjw.rhclient.view.dialog.BottomDialog;
 import com.cjw.rhclient.view.dialog.ContentDialog;
 import com.cjw.rhclient.view.wheelview.WheelView;
 import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,10 +58,14 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.RuntimePermissions;
 
 import static com.cjw.rhclient.R.id.tv_cancel;
 import static com.cjw.rhclient.R.id.tv_ok;
 
+@RuntimePermissions
 public class PublishActivity extends BaseActivity implements PublishContract.View, RadioGroup.OnCheckedChangeListener {
 	private static final int REQUEST_CODE_CHOOSE = 23;
 	private static final int MY_PERMISSION_REQUEST_CODE = 6;
@@ -206,7 +212,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 				showBottomDialog(null, beds, null, mTcvBed);
 				break;
 			case R.id.aiv_pic:
-				mPresenter.showImageSelector();
+				PublishActivityPermissionsDispatcher.showImageSelectorWithCheck(this);//委托权限调用
 				break;
 			case R.id.bt_publish:
 				showIsPublishDialog();
@@ -215,6 +221,21 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 				startActivity(new Intent(this, MapActivity.class));
 				break;
 		}
+	}
+
+	@NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE})
+	public void showImageSelector() {
+		Matisse.from(this).choose(MimeType.of(MimeType.JPEG, MimeType.PNG)) // 选择 mime 的类型
+		  .theme(R.style.Matisse_Dracula) //选择主题 默认是蓝色主题，Matisse_Dracula为黑色主题
+		  .countable(false) //是否显示数字
+		  .capture(true)  //是否可以拍照
+		  .captureStrategy(new CaptureStrategy(true, "com.cjw.rhclient.fileprovider"))//参数1 true表示拍照存储在共有目录，false表示存储在私有目录；参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
+		  .maxSelectable(6) // 图片选择的最多数量
+		  //		  .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))//图片大小,不设置默认三列
+		  //		  .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K)) //添加自定义过滤器
+		  .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED).thumbnailScale(0.85f) // 缩略图的比例
+		  .imageEngine(new GlideEngine()) // 使用的图片加载引擎
+		  .forResult(REQUEST_CODE_CHOOSE); // 设置作为标记的请求码
 	}
 
 	private void showIsPublishDialog() {
@@ -348,25 +369,13 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 
 	@Override
 	public void initData() {
-		checkLocationPermission();
-	}
-
-	private void checkLocationPermission() {
-		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-			ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION_REQUEST_CODE);
-		} else {
-			startLocation();
-		}
+		PublishActivityPermissionsDispatcher.startLocationWithCheck(this);//委托权限调用
 	}
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if (requestCode == MY_PERMISSION_REQUEST_CODE) {
-			startLocation();
-		} else {
-			checkLocationPermission();
-		}
+		PublishActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
 	}
 
 	@Override
@@ -389,7 +398,8 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 		}
 	}
 
-	private void startLocation() {
+	@NeedsPermission({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+	public void startLocation() {
 		BaiduMapHelper.startLocation(getApplicationContext(), new BDAbstractLocationListener() {
 			@Override
 			public void onReceiveLocation(BDLocation location) {
@@ -401,5 +411,10 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 				mTvLocation.setText(address);
 			}
 		});
+	}
+
+	@OnPermissionDenied({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE})
+	public void onPermissionDenied() {
+		UI.showToast("部分功能需要必要权限!");
 	}
 }

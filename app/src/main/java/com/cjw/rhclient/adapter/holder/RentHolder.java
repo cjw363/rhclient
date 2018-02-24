@@ -63,6 +63,12 @@ public class RentHolder extends BaseHolder<Rent> {
 				mTvLabel3.setText(splitLabels[2]);
 			}
 		}
+		int distance = data.getDistance();
+		if (distance < 1000) {
+			mTvDistance.setText(distance + "m");
+		} else {
+			mTvDistance.setText(distance / 1000 + "km");
+		}
 
 		mTvTitle.setText(data.getTitle());
 		mTvHouseType.setText(data.getHouseType());
