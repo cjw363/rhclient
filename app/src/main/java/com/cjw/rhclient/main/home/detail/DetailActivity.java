@@ -21,6 +21,7 @@ import com.cjw.rhclient.adapter.BBsAdapter;
 import com.cjw.rhclient.base.BaseActivity;
 import com.cjw.rhclient.been.BBs;
 import com.cjw.rhclient.been.Rent;
+import com.cjw.rhclient.been.Session;
 import com.cjw.rhclient.main.home.map.MapActivity;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.utils.UrlUtils;
@@ -97,6 +98,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 	public void initData() {
 		mData = (Rent) getIntent().getSerializableExtra("data");
 		if (mData != null) {
+			mLlPic.removeAllViews();
 			mTvName.setText(mData.getTitle());
 			mTvContent.setText(mData.getContent());
 			mTvAmount.setText("￥" + mData.getAmount() + "/月");
@@ -131,7 +133,12 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.rl_location:
-				startActivity(new Intent(this, MapActivity.class));
+				Intent intent = new Intent(this, MapActivity.class);
+				intent.putExtra("target_longitude", mData.getLongitude());
+				intent.putExtra("target_latitude", mData.getLatitude());
+				intent.putExtra("mine_longitude", Session.location.getLongitude());
+				intent.putExtra("mine_latitude", Session.location.getLatitude());
+				startActivity(intent);
 				break;
 			case R.id.bt_bbs:
 				String input = mEtInput.getText().toString().trim();

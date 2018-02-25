@@ -60,7 +60,7 @@
 			android:name=".main.register.RegisterActivity"
 			android:windowSoftInputMode="adjustPan"/>
 
-		<activity android:name=".main.MainActivity"/>
+		<activity android:name=".main.MainActivity" android:hardwareAccelerated="false"/>
 
 		<activity android:name=".main.home.publish.PublishActivity"/>
 

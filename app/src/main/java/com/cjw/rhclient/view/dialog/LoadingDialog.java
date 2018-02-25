@@ -2,6 +2,7 @@ package com.cjw.rhclient.view.dialog;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 
 import com.cjw.rhclient.utils.LogUtils;
 
@@ -40,6 +41,13 @@ public class LoadingDialog {
 				mProgressDialog = new ProgressDialog(activity);
 			}
 		}
+		mProgressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				mProgressDialog = null;
+				mWeakReference = null;
+			}
+		});
 		//		if (!mProgressDialog.isShowing()) {
 		//			mProgressDialog.dismiss();
 		mProgressDialog.setMessage(message);
