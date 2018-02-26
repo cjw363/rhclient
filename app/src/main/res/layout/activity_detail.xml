@@ -95,13 +95,13 @@
 					/>
 
 				<android.support.v7.widget.AppCompatImageView
-					android:layout_width="10dp"
-					android:layout_height="15dp"
+					android:layout_width="8dp"
+					android:layout_height="12dp"
 					android:layout_alignParentEnd="true"
 					android:layout_centerVertical="true"
 					android:layout_gravity="end"
 					android:layout_marginEnd="10dp"
-					android:background="@mipmap/arrow_right_gray"/>
+					android:background="@mipmap/arrow_right"/>
 			</RelativeLayout>
 
 			<View

@@ -62,7 +62,6 @@ public class MainActivity extends BaseActivity {
 			public void onGetGeoCodeResult(GeoCodeResult result) {
 				if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
 					new ContentDialog.Builder(MainActivity.this).setSingleButton().setContent("抱歉，没有检索到该大学，数据库暂时未录入!").build().showDialog();
-					geoCoder.geocode(new GeoCodeOption().address(Session.user.getSchoolName()));
 				} else {
 					//获取地理编码结果
 					LatLng location = result.getLocation();

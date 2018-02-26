@@ -1,7 +1,15 @@
 package com.cjw.rhclient.main.home.map;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -13,20 +21,18 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.core.SearchResult;
-import com.baidu.mapapi.search.route.BikingRouteResult;
-import com.baidu.mapapi.search.route.DrivingRouteResult;
-import com.baidu.mapapi.search.route.IndoorRouteResult;
 import com.baidu.mapapi.search.route.MassTransitRouteLine;
 import com.baidu.mapapi.search.route.MassTransitRoutePlanOption;
 import com.baidu.mapapi.search.route.MassTransitRouteResult;
-import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
 import com.baidu.mapapi.search.route.PlanNode;
 import com.baidu.mapapi.search.route.RoutePlanSearch;
-import com.baidu.mapapi.search.route.TransitRouteResult;
-import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.cjw.rhclient.R;
+import com.cjw.rhclient.adapter.TransitRouteAdapter;
 import com.cjw.rhclient.base.BaseActivity;
+import com.cjw.rhclient.utils.DrawableUtils;
+import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.utils.mapapi.overlayutil.MassTransitRouteOverlay;
+import com.cjw.rhclient.view.dialog.ContentDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +41,32 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MapActivity extends BaseActivity {
+	public static final String ACTION_MAP_NAVIGATION = "action_map_navigation";
+	public static final String ACTION_MAP_LOCATION = "action_map_location";
+
 	@BindView(R.id.bmapView)
 	MapView mMapView;
 	@BindView(R.id.bt_nav)
 	Button mBtNav;
+	@BindView(R.id.aiv_arrow)
+	AppCompatImageView mAivArrow;
+	@BindView(R.id.rl_transit_route)
+	RelativeLayout mRlTransitRoute;
+	@BindView(R.id.recyclerView)
+	RecyclerView mRecyclerView;
+	@BindView(R.id.ll_transit_route)
+	LinearLayout mLlTransitRoute;
+	@BindView(R.id.tv_title)
+	TextView mTvTitle;
+	@BindView(R.id.tv_tips)
+	TextView mTvTips;
 
 	private BaiduMap mBaiduMap;
 	private LatLng mTargetPoint;
 	private LatLng mMinePoint;
 	private RoutePlanSearch mRouteSearch;
+	private LinearLayout.LayoutParams mParams;
+	private int mHeight;
 
 	@Override
 	public int getContentLayoutId() {
@@ -55,11 +78,29 @@ public class MapActivity extends BaseActivity {
 		mMapView.showZoomControls(false);
 		mBaiduMap = mMapView.getMap();
 		mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+		mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(18));
+
+		mRlTransitRoute.setTag(true);//默认打开
+		mParams = (LinearLayout.LayoutParams) mRecyclerView.getLayoutParams();
+		mHeight = mParams.height;
 	}
 
 	@Override
 	public void initData() {
 		Intent intent = getIntent();
+		String action = intent.getAction();
+		if (ACTION_MAP_NAVIGATION.equals(action)) {
+			actionNavigation(intent);
+		} else if (ACTION_MAP_LOCATION.equals(action)) {
+			actionLocation(intent);
+		}
+	}
+
+	private void actionLocation(Intent intent) {
+
+	}
+
+	private void actionNavigation(Intent intent) {
 		double targetLongitude = intent.getDoubleExtra("target_longitude", 0);
 		double targetLatitude = intent.getDoubleExtra("target_latitude", 0);
 		double mineLongitude = intent.getDoubleExtra("mine_longitude", 0);
@@ -68,19 +109,46 @@ public class MapActivity extends BaseActivity {
 		//定义Maker坐标点
 		mTargetPoint = new LatLng(targetLatitude, targetLongitude);
 		mMinePoint = new LatLng(mineLatitude, mineLongitude);
-		createMaker(mTargetPoint);
-		createMaker(mMinePoint);
+		createMaker(mTargetPoint, R.drawable.ic_house);
+		createMaker(mMinePoint, R.drawable.ic_marker);
 
 		List<LatLng> points = new ArrayList<>();//可以将多点放到list集合中
+		//可以将多点放到list集合中
 		points.add(mMinePoint);//起点坐标
 		points.add(mTargetPoint);//终点坐标
 		fitMap(points);
-
 	}
 
-	@OnClick(R.id.bt_nav)
-	public void onClickView() {
-		startTransitRoute(mMinePoint, mTargetPoint);
+	@OnClick({R.id.bt_nav, R.id.rl_transit_route})
+	public void onClickView(View v) {
+		switch (v.getId()) {
+			case R.id.bt_nav:
+				startTransitRoute(mMinePoint, mTargetPoint);
+				break;
+			case R.id.rl_transit_route:
+				boolean isOpen = (Boolean) mRlTransitRoute.getTag();
+				ValueAnimator animator;
+				if (isOpen) {
+					mTvTips.setText("(点击展开)");
+					mAivArrow.setBackgroundResource(R.mipmap.arrow_down);
+					animator = ValueAnimator.ofInt(mHeight, 0);
+				} else {
+					mTvTips.setText("(点击收起)");
+					mAivArrow.setBackgroundResource(R.mipmap.arrow_up);
+					animator = ValueAnimator.ofInt(0, mHeight);
+				}
+				mRlTransitRoute.setTag(!isOpen);
+				animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+					@Override
+					public void onAnimationUpdate(ValueAnimator animator) {
+						mParams.height = (Integer) animator.getAnimatedValue();
+						mRecyclerView.setLayoutParams(mParams);
+					}
+				});
+				animator.setDuration(800);
+				animator.start();
+				break;
+		}
 	}
 
 	//开始路线规划
@@ -88,23 +156,12 @@ public class MapActivity extends BaseActivity {
 		mRouteSearch = RoutePlanSearch.newInstance();
 		PlanNode startMassNode = PlanNode.withLocation(startPoint);
 		PlanNode endMassNode = PlanNode.withLocation(endPoint);
-		mRouteSearch.setOnGetRoutePlanResultListener(new OnGetRoutePlanResultListener() {
-
-			@Override
-			public void onGetWalkingRouteResult(WalkingRouteResult walkingRouteResult) {
-
-			}
-
-			@Override
-			public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
-
-			}
-
+		mRouteSearch.setOnGetRoutePlanResultListener(new OnGetMassRoutePlanResultListener() {
 			@Override
 			public void onGetMassTransitRouteResult(MassTransitRouteResult result) {
 				//获取跨城综合公共交通线路规划结果
 				if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-					//未找到结果
+					new ContentDialog.Builder(MapActivity.this).setSingleButton().setContent("未找到结果!").build().showDialog();
 					return;
 				}
 				if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
@@ -114,6 +171,8 @@ public class MapActivity extends BaseActivity {
 				}
 				if (result.error == SearchResult.ERRORNO.NO_ERROR) {
 					MassTransitRouteLine route = result.getRouteLines().get(0);
+					//展示路线面板
+					showTransitRoutePanel(route);
 					//创建公交路线规划线路覆盖物
 					MassTransitRouteOverlay overlay = new MassTransitRouteOverlay(mBaiduMap);
 					//设置公交路线规划数据
@@ -123,47 +182,48 @@ public class MapActivity extends BaseActivity {
 					overlay.zoomToSpan();
 				}
 			}
-
-			@Override
-			public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
-
-			}
-
-			@Override
-			public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
-
-			}
-
-			@Override
-			public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
-
-			}
 		});
 		mRouteSearch.masstransitSearch(new MassTransitRoutePlanOption().from(startMassNode).to(endMassNode));
 	}
 
-	private void createMaker(LatLng point) {
+	//展示路线面板
+	private void showTransitRoutePanel(MassTransitRouteLine route) {
+		if (route != null) {
+			mLlTransitRoute.setVisibility(View.VISIBLE);
+
+			mTvTitle.setText("总路程:" + route.getDistance() + "m");
+
+			LinearLayoutManager layoutManager = new LinearLayoutManager(UI.getContext());
+			layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+			mRecyclerView.setLayoutManager(layoutManager);
+			mRecyclerView.setAdapter(new TransitRouteAdapter(this, route.getNewSteps()));
+		} else {
+			mLlTransitRoute.setVisibility(View.GONE);
+		}
+	}
+
+	private void createMaker(LatLng point, int iconResource) {
 		//构建Marker图标
-		BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher);
+		BitmapDescriptor bitmap = BitmapDescriptorFactory.fromBitmap(DrawableUtils.getBitmapFromDrawable(this, iconResource));
 		//构建MarkerOption，用于在地图上添加Marker
 		OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
 		//在地图上添加Marker，并显示
 		mBaiduMap.addOverlay(option);
 	}
 
-	/**
-	 * marker都显示在视野
-	 *
-	 * @param points
-	 */
-	private void fitMap(List<LatLng> points) {
-		LatLngBounds.Builder builder = new LatLngBounds.Builder();
-		for (LatLng p : points) {
-			builder = builder.include(p);
-		}
-		mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLngBounds(builder.build()));
+	//marker都显示在视野
+	private void fitMap(final List<LatLng> points) {
+		mBaiduMap.setOnMapLoadedCallback(new BaiduMap.OnMapLoadedCallback() {
+			@Override
+			public void onMapLoaded() {
+				LatLngBounds.Builder builder = new LatLngBounds.Builder();
+				for (LatLng p : points) {
+					builder = builder.include(p);
+				}
+				mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLngBounds(builder.build()));
+			}
+		});
 	}
-
 
 	@Override
 	protected void onDestroy() {

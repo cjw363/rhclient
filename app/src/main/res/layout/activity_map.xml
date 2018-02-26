@@ -15,4 +15,55 @@
 		android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true"
 		android:text="开始导航"/>
+
+	<LinearLayout
+		android:id="@+id/ll_transit_route"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="15dp"
+		android:background="@drawable/bg_rectangle_white"
+		android:orientation="vertical"
+		android:visibility="gone">
+
+		<RelativeLayout
+			android:id="@+id/rl_transit_route"
+			android:layout_width="match_parent"
+			android:layout_height="35dp">
+
+			<TextView
+				android:id="@+id/tv_title"
+				style="@style/tv_normal"
+				android:layout_centerVertical="true"
+				android:layout_marginStart="10dp"
+				/>
+
+			<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/aiv_arrow"
+				android:layout_width="12dp"
+				android:layout_height="8dp"
+				android:layout_alignParentEnd="true"
+				android:layout_centerVertical="true"
+				android:layout_marginEnd="10dp"
+				android:background="@mipmap/arrow_up"/>
+
+			<TextView
+				style="@style/tv_hint"
+				android:id="@+id/tv_tips"
+				android:layout_centerVertical="true"
+				android:layout_marginEnd="5dp"
+				android:layout_toStartOf="@id/aiv_arrow"
+				android:text="(点击收起)"
+				android:textSize="13sp"/>
+
+			<View
+				style="@style/view_divider_2"
+				android:layout_alignParentBottom="true"/>
+		</RelativeLayout>
+
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/recyclerView"
+			android:layout_width="match_parent"
+			android:layout_height="180dp">
+		</android.support.v7.widget.RecyclerView>
+	</LinearLayout>
 </RelativeLayout>

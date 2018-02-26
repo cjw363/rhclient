@@ -134,6 +134,7 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 		switch (v.getId()) {
 			case R.id.rl_location:
 				Intent intent = new Intent(this, MapActivity.class);
+				intent.setAction(MapActivity.ACTION_MAP_NAVIGATION);
 				intent.putExtra("target_longitude", mData.getLongitude());
 				intent.putExtra("target_latitude", mData.getLatitude());
 				intent.putExtra("mine_longitude", Session.location.getLongitude());

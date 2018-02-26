@@ -16,6 +16,7 @@ android {
             jniLibs.srcDir "libs"
             jni.srcDirs = []
         }
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
