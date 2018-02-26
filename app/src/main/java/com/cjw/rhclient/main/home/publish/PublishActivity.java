@@ -196,7 +196,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 		}
 	}
 
-	@OnClick({R.id.tcv_amount, R.id.tcv_house_type, R.id.tcv_area, R.id.tcv_bed, R.id.aiv_pic, R.id.bt_publish})
+	@OnClick({R.id.tcv_amount, R.id.tcv_house_type, R.id.tcv_area, R.id.tcv_bed, R.id.aiv_pic, R.id.bt_publish, R.id.rl_location})
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.tcv_amount:

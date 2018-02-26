@@ -157,7 +157,7 @@ public class MapActivity extends BaseActivity {
 						mRecyclerView.setLayoutParams(mParams);
 					}
 				});
-				animator.setDuration(800);
+				animator.setDuration(300);
 				animator.start();
 				break;
 		}
