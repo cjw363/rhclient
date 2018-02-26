@@ -1,7 +1,9 @@
 package com.cjw.rhclient.main.home.map;
 
+import android.Manifest;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,12 +13,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
@@ -39,7 +45,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class MapActivity extends BaseActivity {
 	public static final String ACTION_MAP_NAVIGATION = "action_map_navigation";
 	public static final String ACTION_MAP_LOCATION = "action_map_location";
@@ -92,15 +102,17 @@ public class MapActivity extends BaseActivity {
 		if (ACTION_MAP_NAVIGATION.equals(action)) {
 			actionNavigation(intent);
 		} else if (ACTION_MAP_LOCATION.equals(action)) {
-			actionLocation(intent);
+			actionLocation();
 		}
 	}
 
-	private void actionLocation(Intent intent) {
-
+	private void actionLocation() {
+		mBtNav.setVisibility(View.GONE);
+		MapActivityPermissionsDispatcher.startLocationWithCheck(this);
 	}
 
 	private void actionNavigation(Intent intent) {
+		mBtNav.setVisibility(View.VISIBLE);
 		double targetLongitude = intent.getDoubleExtra("target_longitude", 0);
 		double targetLatitude = intent.getDoubleExtra("target_latitude", 0);
 		double mineLongitude = intent.getDoubleExtra("mine_longitude", 0);
@@ -223,6 +235,39 @@ public class MapActivity extends BaseActivity {
 				mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLngBounds(builder.build()));
 			}
 		});
+	}
+
+	@NeedsPermission({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+	public void startLocation() {
+		BaiduMapHelper.startLocation(getApplicationContext(), new BDAbstractLocationListener() {
+			@Override
+			public void onReceiveLocation(BDLocation location) {
+				// 开启定位图层
+				mBaiduMap.setMyLocationEnabled(true);
+
+				// 构造定位数据
+				MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
+				  // 此处设置开发者获取到的方向信息，顺时针0-360
+				  .direction(0).latitude(location.getLatitude()).longitude(location.getLongitude()).build();
+
+				// 设置定位数据
+				mBaiduMap.setMyLocationData(locData);
+				LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+				MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(latLng);
+				mBaiduMap.animateMapStatus(update);
+			}
+		});
+	}
+
+	@OnPermissionDenied({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
+	public void onPermissionDenied() {
+		UI.showToast("定位功能需要必要权限!");
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		MapActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
 	}
 
 	@Override

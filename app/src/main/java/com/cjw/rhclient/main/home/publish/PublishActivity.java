@@ -218,7 +218,9 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 				showIsPublishDialog();
 				break;
 			case R.id.rl_location:
-				startActivity(new Intent(this, MapActivity.class));
+				Intent intent = new Intent(this, MapActivity.class);
+				intent.setAction(MapActivity.ACTION_MAP_LOCATION);
+				startActivity(intent);
 				break;
 		}
 	}
