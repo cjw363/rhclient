@@ -17,13 +17,13 @@ public class MoreHolder extends BaseHolder<Integer> {
 	public static final int STATE_NONE = 1;
 	public static final int STATE_FAIL = 2;
 
-	private LinearLayout ll_load_more;
-	private TextView tv_more_fail;
+	private LinearLayout mLlLoadMore;
+	private TextView mTvMoreFail;
 
 	public MoreHolder(View itemView, boolean hasMore) {
 		super(itemView);
-		ll_load_more = (LinearLayout) itemView.findViewById(R.id.ll_load_more);
-		tv_more_fail = (TextView) itemView.findViewById(R.id.tv_more_fail);
+		mLlLoadMore = (LinearLayout) itemView.findViewById(R.id.ll_load_more);
+		mTvMoreFail = (TextView) itemView.findViewById(R.id.tv_more_fail);
 
 		loadData(hasMore ? STATE_MORE : STATE_NONE);
 	}
@@ -32,16 +32,16 @@ public class MoreHolder extends BaseHolder<Integer> {
 	public void refreshData(Integer itemData) {
 		switch (itemData) {
 			case STATE_MORE:
-				ll_load_more.setVisibility(View.VISIBLE);
-				tv_more_fail.setVisibility(View.GONE);
+				mLlLoadMore.setVisibility(View.VISIBLE);
+				mTvMoreFail.setVisibility(View.GONE);
 				break;
 			case STATE_NONE:
-				ll_load_more.setVisibility(View.GONE);
-				tv_more_fail.setVisibility(View.GONE);
+				mLlLoadMore.setVisibility(View.GONE);
+				mTvMoreFail.setVisibility(View.GONE);
 				break;
 			case STATE_FAIL:
-				ll_load_more.setVisibility(View.GONE);
-				tv_more_fail.setVisibility(View.VISIBLE);
+				mLlLoadMore.setVisibility(View.GONE);
+				mTvMoreFail.setVisibility(View.VISIBLE);
 				break;
 		}
 	}

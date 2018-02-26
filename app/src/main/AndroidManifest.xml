@@ -29,7 +29,7 @@
 
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.CAMERA"/>
 
 
 	<application
@@ -47,7 +47,7 @@
 		</meta-data>
 
 		<activity
-			android:name=".main.home.map.MapActivity"
+			android:name=".main.login.LoginActivity"
 			android:windowSoftInputMode="adjustPan">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -68,7 +68,7 @@
 			android:name=".main.home.detail.DetailActivity"
 			android:windowSoftInputMode="adjustPan"/>
 
-		<!--<activity android:name=".main.home.map.MapActivity" android:hardwareAccelerated="false"/>-->
+		<activity android:name=".main.home.map.MapActivity"/>
 
 		<!--百度地图-->
 		<service
@@ -84,7 +84,7 @@
 			android:grantUriPermissions="true">
 			<meta-data
 				android:name="android.support.FILE_PROVIDER_PATHS"
-				android:resource="@xml/file_paths_public"></meta-data>
+				android:resource="@xml/file_paths_public"/>
 		</provider>
 	</application>
 
