@@ -21,17 +21,17 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 	private static final int TYPE_FOOTER_ITEM = 0;// 表示加载更多的布局的类型
 	public final Context mContext;
 
-	public List<T> data;
+	public List<T> mData;
 
 	public BaseRecyclerViewAdapter(Context context, List<T> data) {
 		// 通过构造方法把数据传入进来
-		this.data = data;
+		this.mData = data;
 		this.mContext = context;
 	}
 
 	@Override
 	public int getItemCount() {
-		return data == null ? 0 : data.size() + 1;
+		return mData == null ? 0 : mData.size() + 1;
 	}
 
 	@Override
@@ -54,10 +54,10 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 			moreHolder = (MoreHolder) viewHolder;
 			if (moreHolder.getData() == MoreHolder.STATE_MORE) {
 				// 只有在加载更多的状态下才加载更多
-				if (data.size() > 9) loadMoreData(moreHolder);
+				if (mData.size() > 9) loadMoreData(moreHolder);
 			}
 		} else {
-			viewHolder.loadData(data.get(position));// 刷新数据ui
+			viewHolder.loadData(mData.get(position));// 刷新数据ui
 		}
 	}
 
@@ -94,7 +94,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 			}
 
 			// 将更多数据追加到当前集合中
-			data.addAll(moreData);
+			mData.addAll(moreData);
 			// 刷新界面
 			BaseRecyclerViewAdapter.this.notifyDataSetChanged();
 		} else {

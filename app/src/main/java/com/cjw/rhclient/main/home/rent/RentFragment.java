@@ -87,7 +87,7 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 
 	@Override
 	public void showRentList(List<Rent> result) {
-		RentAdapter rentAdapter = new RentAdapter(getActivity(), result);
+		RentAdapter rentAdapter = new RentAdapter(getActivity(), result, mRentType, mSortType);
 		mRecyclerView.setAdapter(rentAdapter);
 		rentAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<Rent>() {
 			@Override
