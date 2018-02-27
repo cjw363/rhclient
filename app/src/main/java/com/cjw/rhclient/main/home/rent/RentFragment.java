@@ -97,13 +97,11 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 				startActivity(intent);
 			}
 		});
-		mSwipeRefresh.setRefreshing(false);
 	}
 
 	@Override
 	public void showNoData() {
 		new ContentDialog.Builder(getActivity()).setSingleButton().setContent("暂无数据").build().showDialog();
-		mSwipeRefresh.setRefreshing(false);
 	}
 
 	@Override
@@ -148,5 +146,6 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 	@Override
 	public void onRefresh() {
 		mRentPresenter.getRentList(mRentType, mSortType);
+		mSwipeRefresh.setRefreshing(false);
 	}
 }

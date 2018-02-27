@@ -83,7 +83,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 	/**
 	 * 根据网络加载后的结果，更新更多数据,子类调用
 	 */
-	public void updateMoreData(final List<T> moreData) {
+	public void updateMoreData(List<T> moreData) {
 		// 在主线程中更新UI
 		if (moreData != null) {
 			if (moreData.size() < 9) {// 一次加载9条数据

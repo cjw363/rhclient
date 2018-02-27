@@ -66,17 +66,16 @@ public class CampusFragment extends BaseFragment implements CampusContract.Campu
 				startActivity(intent);
 			}
 		});
-		mSwipeRefresh.setRefreshing(false);
 	}
 
 	@Override
 	public void showNoData() {
 		new ContentDialog.Builder(getActivity()).setSingleButton().setContent("暂无数据").build().showDialog();
-		mSwipeRefresh.setRefreshing(false);
 	}
 
 	@Override
 	public void onRefresh() {
 		mCampusPresenter.getCampusList();
+		mSwipeRefresh.setRefreshing(false);
 	}
 }
