@@ -14,8 +14,6 @@ public class BaseApplication extends Application {
 	private static Handler handler;
 	private static int mainThreadId;
 	private static Stack<Activity> mStack = new Stack<>();
-//	private static String baseUrl = "http://10.0.3.2:8090/mipserver/rh/";
-	private static String baseUrl = "http://cjw2529275344.free.ngrok.cc/mipserver/rh/";
 
 	@Override
 	public void onCreate() {
@@ -26,14 +24,6 @@ public class BaseApplication extends Application {
 		mainThreadId = android.os.Process.myTid();
 
 		SDKInitializer.initialize(getApplicationContext());//百度地图api,我们建议该方法放在Application的初始化方法中
-	}
-
-	public static String getBaseUrl() {
-		return baseUrl;
-	}
-
-	public static void setBaseUrl(String baseUrl) {
-		BaseApplication.baseUrl = baseUrl;
 	}
 
 	public static Context getContext() {

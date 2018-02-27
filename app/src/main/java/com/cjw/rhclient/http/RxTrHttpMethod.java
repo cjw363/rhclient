@@ -1,6 +1,6 @@
 package com.cjw.rhclient.http;
 
-import com.cjw.rhclient.base.BaseApplication;
+import com.cjw.rhclient.been.common.Common;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,7 +33,7 @@ public class RxTrHttpMethod {
      * }
      */
     public <S> S createService(Class<S> serviceClass) {
-        String baseUrl = BaseApplication.getBaseUrl();
+        String baseUrl = Common.baseUrl;
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
