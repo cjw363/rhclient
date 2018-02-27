@@ -54,7 +54,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 			moreHolder = (MoreHolder) viewHolder;
 			if (moreHolder.getData() == MoreHolder.STATE_MORE) {
 				// 只有在加载更多的状态下才加载更多
-				loadMoreData(moreHolder);
+				if (data.size() > 9) loadMoreData(moreHolder);
 			}
 		} else {
 			viewHolder.loadData(data.get(position));// 刷新数据ui
@@ -73,7 +73,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
 	private boolean isLoadMore = false;// 标记是否正在加载更多
 
-	private void loadMoreData(final MoreHolder moreHolder) {
+	private void loadMoreData(MoreHolder moreHolder) {
 		if (!isLoadMore) {
 			isLoadMore = true;// 正在加载更多
 			onLoadMore();
@@ -86,7 +86,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 	public void updateMoreData(List<T> moreData) {
 		// 在主线程中更新UI
 		if (moreData != null) {
-			if (moreData.size() < 9) {// 一次加载9条数据
+			if (moreData.size() < 10) {// 一次加载10条数据
 				moreHolder.loadData(MoreHolder.STATE_NONE);// 没有更多数据
 				UI.showToast("没有更多数据了");
 			} else {
