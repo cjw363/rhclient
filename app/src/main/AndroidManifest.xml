@@ -70,6 +70,8 @@
 
 		<activity android:name=".main.home.map.MapActivity"/>
 
+		<activity android:name=".main.mine.publish.MyPublishActivity"/>
+
 		<!--百度地图-->
 		<service
 			android:name="com.baidu.location.f"

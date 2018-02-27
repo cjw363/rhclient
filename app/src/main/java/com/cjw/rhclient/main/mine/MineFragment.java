@@ -9,6 +9,7 @@ import com.cjw.rhclient.R;
 import com.cjw.rhclient.base.BaseFragment;
 import com.cjw.rhclient.been.Session;
 import com.cjw.rhclient.main.login.LoginActivity;
+import com.cjw.rhclient.main.mine.publish.MyPublishActivity;
 import com.cjw.rhclient.view.TypeContentView;
 
 import javax.inject.Inject;
@@ -50,6 +51,7 @@ public class MineFragment extends BaseFragment implements MineContract.MineView 
 			case R.id.tcv_mine_favorite:
 				break;
 			case R.id.tcv_mine_publish:
+				startActivity(new Intent(getActivity(), MyPublishActivity.class));
 				break;
 			case R.id.bt_login_out:
 				mMinePresenter.outLogin();

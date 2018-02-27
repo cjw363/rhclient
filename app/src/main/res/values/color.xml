@@ -9,6 +9,7 @@
     <color name="black">#000000</color>
     <color name="divider">#ffd7d7d7</color>
     <color name="transparent_black">#99000000</color>
+    <color name="transparent_withe">#99ffffff</color>
 
     <color name="tv_white">#ffffff</color>
     <color name="tv_black">#333333</color>

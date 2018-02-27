@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * 自动一行一行的排序view
+ */
 public class FlowLayout extends ViewGroup {
 	public static final int DEFAULT_SPACING = 20;
 	/** 横向间隔 */

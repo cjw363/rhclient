@@ -68,7 +68,6 @@ import static com.cjw.rhclient.R.id.tv_ok;
 @RuntimePermissions
 public class PublishActivity extends BaseActivity implements PublishContract.View, RadioGroup.OnCheckedChangeListener {
 	private static final int REQUEST_CODE_CHOOSE = 23;
-	private static final int MY_PERMISSION_REQUEST_CODE = 6;
 
 	@Inject
 	PublishPresenter mPresenter;

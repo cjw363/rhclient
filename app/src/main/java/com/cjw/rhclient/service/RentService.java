@@ -32,4 +32,8 @@ public interface RentService {
 	@FormUrlEncoded
 	@POST("bbsList")
 	Observable<HttpResult<List<BBs>>> getBBsList(@FieldMap Map<String, String> map);
+
+	@FormUrlEncoded
+	@POST("myPublishList")
+	Observable<HttpResult<List<Rent>>> getMyPublishList(@FieldMap Map<String, String> map);
 }
