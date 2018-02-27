@@ -26,7 +26,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 	public BaseRecyclerViewAdapter(Context context, List<T> data) {
 		// 通过构造方法把数据传入进来
 		this.data = data;
-		this.mContext=context;
+		this.mContext = context;
 	}
 
 	@Override
