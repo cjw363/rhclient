@@ -203,7 +203,9 @@ public class MapActivity extends BaseActivity {
 		if (route != null) {
 			mLlTransitRoute.setVisibility(View.VISIBLE);
 
-			mTvTitle.setText("总路程:" + route.getDistance() + "m");
+			int distance = route.getDistance();
+			if (distance < 1000) mTvTitle.setText("总路程:" + distance + "m");
+			else mTvTitle.setText("总路程:" + distance / 1000 + "km");
 
 			LinearLayoutManager layoutManager = new LinearLayoutManager(UI.getContext());
 			layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
