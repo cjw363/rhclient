@@ -17,6 +17,7 @@ import com.cjw.rhclient.adapter.RentAdapter;
 import com.cjw.rhclient.base.BaseActivity;
 import com.cjw.rhclient.base.BaseRecyclerViewAdapter;
 import com.cjw.rhclient.been.Rent;
+import com.cjw.rhclient.been.common.Common;
 import com.cjw.rhclient.main.home.detail.DetailActivity;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.utils.viewutils.OnRecyclerItemClickListener;
@@ -88,7 +89,7 @@ public class MyPublishActivity extends BaseActivity implements MyPublishContract
 
 	@Override
 	public void showMyPublishList(List<Rent> result) {
-		RentAdapter rentAdapter = new RentAdapter(this, result);
+		final RentAdapter rentAdapter = new RentAdapter(this, result);
 		mRecyclerView.setAdapter(rentAdapter);
 		rentAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<Rent>() {
 			@Override
@@ -101,9 +102,9 @@ public class MyPublishActivity extends BaseActivity implements MyPublishContract
 		mRecyclerView.addOnItemTouchListener(new OnRecyclerItemClickListener(mRecyclerView) {
 			@Override
 			public void onItemLOngClick(View view, int position, MotionEvent event) {
-				List<String> popupMenuItemList = new ArrayList<>();
-				popupMenuItemList.add("下架");
-				popupMenuItemList.add("删除");
+				final Rent rent = rentAdapter.getData().get(position);
+				int status = rent.getStatus();
+				final List<String> popupMenuItemList = menuItemList(status);
 				PopupList popupList = new PopupList(MyPublishActivity.this);
 				popupList.showPopupListWindow(view, position, event.getRawX(), event.getRawY(), popupMenuItemList, new PopupList.PopupListListener() {
 					@Override
@@ -113,10 +114,44 @@ public class MyPublishActivity extends BaseActivity implements MyPublishContract
 
 					@Override
 					public void onPopupListClick(View contextView, int contextPosition, int position) {
-						UI.showToast(position + "");
+						String menuName = popupMenuItemList.get(position);
+						if ("删除".equals(menuName)) {
+							mPresenter.deleteRent(rent.getId());
+						} else if ("下架".equals(menuName)) {
+							mPresenter.offShelfRent(rent.getId());
+						} else if ("上架".equals(menuName)) {
+							mPresenter.onShelfRent(rent.getId());
+						}
 					}
 				});
 			}
 		});
+	}
+
+	private List<String> menuItemList(int status) {
+		List<String> popupMenuItemList = new ArrayList<>();
+		switch (status) {
+			case Common.STATUS_0_UNDER_REVIEWING:
+				popupMenuItemList.add("删除");
+				break;
+			case Common.STATUS_1_ON_SHELFING:
+				popupMenuItemList.add("下架");
+				popupMenuItemList.add("删除");
+				break;
+			case Common.STATUS_2_REVIEW_FAIL:
+				popupMenuItemList.add("删除");
+				break;
+			case Common.STATUS_3_OFF_SHELF_BY_SELF:
+				popupMenuItemList.add("上架");
+				popupMenuItemList.add("删除");
+				break;
+			case Common.STATUS_4_OFF_SHELF_ILLEGAL:
+				popupMenuItemList.add("删除");
+				break;
+			case Common.STATUS_5_OFF_SHELF_COMMON:
+				popupMenuItemList.add("删除");
+				break;
+		}
+		return popupMenuItemList;
 	}
 }

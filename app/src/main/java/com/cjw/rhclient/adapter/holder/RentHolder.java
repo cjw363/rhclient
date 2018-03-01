@@ -3,6 +3,7 @@ package com.cjw.rhclient.adapter.holder;
 import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -10,6 +11,7 @@ import com.cjw.rhclient.R;
 import com.cjw.rhclient.base.BaseHolder;
 import com.cjw.rhclient.base.BaseRecyclerViewAdapter;
 import com.cjw.rhclient.been.Rent;
+import com.cjw.rhclient.been.common.Common;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.utils.UrlUtils;
 
@@ -36,6 +38,10 @@ public class RentHolder extends BaseHolder<Rent> {
 	TextView mTvLabel3;
 	@BindView(R.id.tv_amount)
 	TextView mTvAmount;
+	@BindView(R.id.rl_rent_status)
+	RelativeLayout mRlRentStatus;
+	@BindView(R.id.tv_rent_status)
+	TextView mTvRentStatus;
 
 	public RentHolder(View itemView, BaseRecyclerViewAdapter.OnItemClickListener<Rent> itemClickListener) {
 		super(itemView, itemClickListener);
@@ -75,6 +81,40 @@ public class RentHolder extends BaseHolder<Rent> {
 		mTvLocation.setText(data.getLocation());
 		mTvAmount.setText("￥" + data.getAmount() + "/月");
 		Glide.with(UI.getContext()).load(UrlUtils.getImageUrl(data.getTitleImg())).into(mAivHead);
+
+		int status = data.getStatus();
+		if (Common.STATUS_1_ON_SHELFING == status) {//有效的条目
+			mRlRentStatus.setVisibility(View.GONE);
+		} else {
+			mRlRentStatus.setVisibility(View.VISIBLE);
+			switch (status) {
+				case Common.STATUS_0_UNDER_REVIEWING:
+					mTvRentStatus.setText("审核中");
+					mTvRentStatus.setTextColor(UI.getColor(R.color.colorPrimaryDark));
+					mTvRentStatus.setBackground(UI.getDrawable(R.drawable.bg_rotation_text_yellow));
+					break;
+				case Common.STATUS_2_REVIEW_FAIL:
+					mTvRentStatus.setText("审核未通过");
+					mTvRentStatus.setTextColor(UI.getColor(R.color.action_red));
+					mTvRentStatus.setBackground(UI.getDrawable(R.drawable.bg_rotation_text_red));
+					break;
+				case Common.STATUS_3_OFF_SHELF_BY_SELF:
+					mTvRentStatus.setText("主动下架");
+					mTvRentStatus.setTextColor(UI.getColor(R.color.tv_colorPrimaryHint));
+					mTvRentStatus.setBackground(UI.getDrawable(R.drawable.bg_rotation_text_gray));
+					break;
+				case Common.STATUS_4_OFF_SHELF_ILLEGAL:
+					mTvRentStatus.setText("违规下架");
+					mTvRentStatus.setTextColor(UI.getColor(R.color.action_red));
+					mTvRentStatus.setBackground(UI.getDrawable(R.drawable.bg_rotation_text_red));
+					break;
+				case Common.STATUS_5_OFF_SHELF_COMMON:
+					mTvRentStatus.setText("已下架");
+					mTvRentStatus.setTextColor(UI.getColor(R.color.tv_colorPrimaryHint));
+					mTvRentStatus.setBackground(UI.getDrawable(R.drawable.bg_rotation_text_gray));
+					break;
+			}
+		}
 	}
 
 }

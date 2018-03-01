@@ -27,6 +27,15 @@ public class Rent implements Serializable {
 	private double longitude;
 	private double latitude;
 	private int distance;
+	private int status;//0 审核中，1 上架中，2 审核未过，3 主动下架，4 违规下架，5 已下架
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 	public int getDistance() {
 		return distance;

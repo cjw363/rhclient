@@ -34,12 +34,27 @@ class MyPublishPresenter implements MyPublishContract.MyPublishPresenter {
 	public void getMyPublish() {
 		Map<String, String> map = new HashMap<>();
 		map.put("token", Session.user.getToken());
-		map.put("user_id", Session.user.getId()+"");
+		map.put("user_id", Session.user.getId() + "");
 		RxTrHttpMethod.getInstance().createService(RentService.class).getMyPublishList(map).compose(RxSchedulers.<HttpResult<List<Rent>>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<List<Rent>>(mContext) {
 			@Override
 			public void _onSuccess(List<Rent> result) {
 				mMyPublishView.showMyPublishList(result);
 			}
 		});
+	}
+
+	@Override
+	public void deleteRent(int rentId) {
+
+	}
+
+	@Override
+	public void offShelfRent(int rentId) {
+
+	}
+
+	@Override
+	public void onShelfRent(int rentId) {
+
 	}
 }

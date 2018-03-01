@@ -21,7 +21,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 	private static final int TYPE_FOOTER_ITEM = 0;// 表示加载更多的布局的类型
 	public final Context mContext;
 
-	public List<T> mData;
+	private List<T> mData;
 
 	public BaseRecyclerViewAdapter(Context context, List<T> data) {
 		// 通过构造方法把数据传入进来
@@ -108,6 +108,10 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 	// 子类可以重写
 	public boolean isHasMore() {
 		return true;
+	}
+
+	public List<T> getData() {
+		return mData;
 	}
 
 	public abstract void onLoadMore();// 子类去加载更多数据,已经运行在子线程中

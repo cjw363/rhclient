@@ -134,13 +134,18 @@
 		android:background="@color/transparent_withe"
 		android:visibility="gone">
 
-		<android.support.v7.widget.AppCompatImageView
-			android:id="@+id/aiv_rent_status"
-			android:layout_width="80dp"
-			android:layout_height="80dp"
+		<TextView
+			android:id="@+id/tv_rent_status"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
 			android:layout_alignParentEnd="true"
 			android:layout_centerVertical="true"
 			android:layout_marginEnd="40dp"
-			/>
+			android:background="@drawable/bg_rotation_text_red"
+			android:padding="8dp"
+			android:rotation="15"
+			android:textColor="@color/action_red"
+			android:textSize="17sp"
+			android:textStyle="bold"/>
 	</RelativeLayout>
 </RelativeLayout>

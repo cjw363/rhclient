@@ -8,7 +8,14 @@ public interface MyPublishContract {
 	interface MyPublishView {
 		void showMyPublishList(List<Rent> result);
 	}
+
 	interface MyPublishPresenter {
 		void getMyPublish();
+
+		void deleteRent(int rentId);
+
+		void offShelfRent(int rentId);
+
+		void onShelfRent(int rentId);
 	}
 }
