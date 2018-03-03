@@ -44,17 +44,29 @@ class MyPublishPresenter implements MyPublishContract.MyPublishPresenter {
 	}
 
 	@Override
-	public void deleteRent(int rentId) {
-
+	public void deleteRent(int rentId, final int position) {
+		Map<String, String> map = new HashMap<>();
+		map.put("token", Session.user.getToken());
+		map.put("rent_id", rentId + "");
+		RxTrHttpMethod.getInstance().createService(RentService.class).deleteRent(map).compose(RxSchedulers.<HttpResult<Void>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<Void>(mContext) {
+			@Override
+			public void _onSuccess(Void result) {
+				mMyPublishView.deleteRentAdapter(position);
+			}
+		});
 	}
 
 	@Override
-	public void offShelfRent(int rentId) {
-
-	}
-
-	@Override
-	public void onShelfRent(int rentId) {
-
+	public void updateStatusRent(int rentId, final int status, final int position) {
+		Map<String, String> map = new HashMap<>();
+		map.put("token", Session.user.getToken());
+		map.put("rent_id", rentId + "");
+		map.put("status", status + "");
+		RxTrHttpMethod.getInstance().createService(RentService.class).updateStatusRent(map).compose(RxSchedulers.<HttpResult<Void>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<Void>(mContext) {
+			@Override
+			public void _onSuccess(Void result) {
+				mMyPublishView.updateStatusAdapter(position, status);
+			}
+		});
 	}
 }

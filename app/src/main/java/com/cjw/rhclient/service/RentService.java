@@ -36,4 +36,12 @@ public interface RentService {
 	@FormUrlEncoded
 	@POST("myPublishList")
 	Observable<HttpResult<List<Rent>>> getMyPublishList(@FieldMap Map<String, String> map);
+
+	@FormUrlEncoded
+	@POST("deleteRent")
+	Observable<HttpResult<Void>> deleteRent(@FieldMap Map<String, String> map);
+
+	@FormUrlEncoded
+	@POST("updateStatusRent")
+	Observable<HttpResult<Void>> updateStatusRent(@FieldMap Map<String, String> map);
 }

@@ -42,6 +42,7 @@ public class MyPublishActivity extends BaseActivity implements MyPublishContract
 	RecyclerView mRecyclerView;
 	@BindView(R.id.swipeRefresh)
 	SwipeRefreshLayout mSwipeRefresh;
+	private RentAdapter mRentAdapter;
 
 	@Override
 	public int getContentLayoutId() {
@@ -89,9 +90,9 @@ public class MyPublishActivity extends BaseActivity implements MyPublishContract
 
 	@Override
 	public void showMyPublishList(List<Rent> result) {
-		final RentAdapter rentAdapter = new RentAdapter(this, result);
-		mRecyclerView.setAdapter(rentAdapter);
-		rentAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<Rent>() {
+		mRentAdapter = new RentAdapter(this, result);
+		mRecyclerView.setAdapter(mRentAdapter);
+		mRentAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<Rent>() {
 			@Override
 			public void onItemClick(View view, int position, Rent data) {
 				Intent intent = new Intent(MyPublishActivity.this, DetailActivity.class);
@@ -102,7 +103,7 @@ public class MyPublishActivity extends BaseActivity implements MyPublishContract
 		mRecyclerView.addOnItemTouchListener(new OnRecyclerItemClickListener(mRecyclerView) {
 			@Override
 			public void onItemLOngClick(View view, int position, MotionEvent event) {
-				final Rent rent = rentAdapter.getData().get(position);
+				final Rent rent = mRentAdapter.getData().get(position);
 				int status = rent.getStatus();
 				final List<String> popupMenuItemList = menuItemList(status);
 				PopupList popupList = new PopupList(MyPublishActivity.this);
@@ -116,16 +117,28 @@ public class MyPublishActivity extends BaseActivity implements MyPublishContract
 					public void onPopupListClick(View contextView, int contextPosition, int position) {
 						String menuName = popupMenuItemList.get(position);
 						if ("删除".equals(menuName)) {
-							mPresenter.deleteRent(rent.getId());
+							mPresenter.deleteRent(rent.getId(), contextPosition);
 						} else if ("下架".equals(menuName)) {
-							mPresenter.offShelfRent(rent.getId());
+							mPresenter.updateStatusRent(rent.getId(), 3, contextPosition);
 						} else if ("上架".equals(menuName)) {
-							mPresenter.onShelfRent(rent.getId());
+							mPresenter.updateStatusRent(rent.getId(), 1, contextPosition);
 						}
 					}
 				});
 			}
 		});
+	}
+
+	@Override
+	public void updateStatusAdapter(int position, int status) {
+		mRentAdapter.getData().get(position).setStatus(status);
+		mRentAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void deleteRentAdapter(int position) {
+		mRentAdapter.getData().remove(position);
+		mRentAdapter.notifyDataSetChanged();
 	}
 
 	private List<String> menuItemList(int status) {

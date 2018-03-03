@@ -7,15 +7,17 @@ import java.util.List;
 public interface MyPublishContract {
 	interface MyPublishView {
 		void showMyPublishList(List<Rent> result);
+
+		void updateStatusAdapter(int position, int status);
+
+		void deleteRentAdapter(int position);
 	}
 
 	interface MyPublishPresenter {
 		void getMyPublish();
 
-		void deleteRent(int rentId);
+		void deleteRent(int rentId, int position);
 
-		void offShelfRent(int rentId);
-
-		void onShelfRent(int rentId);
+		void updateStatusRent(int rentId, int status, int position);
 	}
 }

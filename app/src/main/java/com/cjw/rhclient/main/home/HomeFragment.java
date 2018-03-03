@@ -33,7 +33,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.HomeView 
 
 	private void initPager() {
 		mViewPager.setAdapter(new InnerFraPagerAdapter(getChildFragmentManager()));
-		mViewPager.setOffscreenPageLimit(1);// 缓存当前界面每一侧的界面数
+		mViewPager.setOffscreenPageLimit(3);// 缓存当前界面每一侧的界面数
 		mPagerTab.setViewPager(mViewPager);
 		mViewPager.setCurrentItem(0);
 	}
