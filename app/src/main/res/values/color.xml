@@ -7,7 +7,7 @@
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="divider">#ffd7d7d7</color>
+    <color name="divider">#F0F0F0</color>
     <color name="transparent_black">#99000000</color>
     <color name="transparent_withe">#99ffffff</color>
 
@@ -32,7 +32,7 @@
     <color name="txt_title">#ff333333</color>
     <color name="txt_small">#ff7a7a7a</color>
     <color name="txt_big">#ff717171</color>
-    <color name="item_divider">#ffd7d7d7</color>
+    <color name="item_divider">#F0F0F0</color>
     <color name="detail_screen_bg">#adadad</color>
     <color name="progress">#0294f0</color>
     <color name="menu_bg_normal">#f0f1f3</color>
