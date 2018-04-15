@@ -110,16 +110,103 @@
 			<TextView
 				style="@style/tv_normal"
 				android:padding="10dp"
+				android:text="房屋信息"/>
+
+			<View
+				style="@style/view_divider_2"/>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:padding="5dp">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:padding="3dp"
+					>
+
+					<TextView
+						android:id="@+id/tv_type"
+						style="@style/tv_normal"
+						android:layout_width="0dp"
+						android:layout_marginStart="3dp"
+						android:layout_weight="1"
+						/>
+
+					<TextView
+						android:id="@+id/tv_house_type"
+						style="@style/tv_normal"
+						android:layout_width="0dp"
+						android:layout_weight="1"
+						/>
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:padding="3dp"
+					>
+
+					<TextView
+						android:id="@+id/tv_amount2"
+						style="@style/tv_normal"
+						android:layout_width="0dp"
+						android:layout_marginStart="3dp"
+						android:layout_weight="1"
+						/>
+
+					<TextView
+						android:id="@+id/tv_label"
+						style="@style/tv_normal"
+						android:layout_width="0dp"
+						android:layout_weight="1"
+						/>
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:padding="3dp"
+					>
+
+					<TextView
+						android:id="@+id/tv_area"
+						style="@style/tv_normal"
+						android:layout_width="0dp"
+						android:layout_marginStart="3dp"
+						android:layout_weight="1"
+						/>
+
+					<TextView
+						android:id="@+id/tv_time"
+						style="@style/tv_normal"
+						android:layout_width="0dp"
+						android:layout_weight="1"
+						/>
+				</LinearLayout>
+			</LinearLayout>
+
+			<View
+				style="@style/view_divider_2"/>
+
+			<TextView
+				style="@style/tv_normal"
+				android:padding="10dp"
 				android:text="留言区"/>
 
 			<View
 				style="@style/view_divider_2"/>
 
-			<android.support.v7.widget.RecyclerView
+			<com.cjw.rhclient.view.ScrollRecyclerView
 				android:id="@+id/rcv_bbs"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
-			</android.support.v7.widget.RecyclerView>
+			</com.cjw.rhclient.view.ScrollRecyclerView>
 		</LinearLayout>
 	</ScrollView>
 

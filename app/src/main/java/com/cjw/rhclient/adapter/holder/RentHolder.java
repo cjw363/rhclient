@@ -12,6 +12,7 @@ import com.cjw.rhclient.base.BaseHolder;
 import com.cjw.rhclient.base.BaseRecyclerViewAdapter;
 import com.cjw.rhclient.been.Rent;
 import com.cjw.rhclient.been.common.Common;
+import com.cjw.rhclient.utils.DateUtil;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.utils.UrlUtils;
 
@@ -42,6 +43,8 @@ public class RentHolder extends BaseHolder<Rent> {
 	RelativeLayout mRlRentStatus;
 	@BindView(R.id.tv_rent_status)
 	TextView mTvRentStatus;
+	@BindView(R.id.tv_time)
+	TextView mTvTime;
 
 	public RentHolder(View itemView, BaseRecyclerViewAdapter.OnItemClickListener<Rent> itemClickListener) {
 		super(itemView, itemClickListener);
@@ -70,16 +73,22 @@ public class RentHolder extends BaseHolder<Rent> {
 			}
 		}
 		int distance = data.getDistance();
-		if (distance < 1000) {
-			mTvDistance.setText(distance + "m");
+		if (distance > 0) {
+			mTvDistance.setVisibility(View.VISIBLE);
+			if (distance < 1000) {
+				mTvDistance.setText(distance + "m");
+			} else {
+				mTvDistance.setText(distance / 1000 + "km");
+			}
 		} else {
-			mTvDistance.setText(distance / 1000 + "km");
+			mTvDistance.setVisibility(View.GONE);
 		}
 
 		mTvTitle.setText(data.getTitle());
 		mTvHouseType.setText(data.getHouseType());
 		mTvLocation.setText(data.getLocation());
 		mTvAmount.setText("￥" + data.getAmount() + "/月");
+		mTvTime.setText(DateUtil.stampToDate(data.getTime()));
 		Glide.with(UI.getContext()).load(UrlUtils.getImageUrl(data.getTitleImg())).into(mAivHead);
 
 		int status = data.getStatus();

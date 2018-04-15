@@ -24,6 +24,7 @@
 			android:layout_height="20dp"
 			android:layout_alignParentBottom="true"
 			android:background="@color/transparent_black"
+			android:visibility="gone"
 			android:gravity="center"
 			android:text="距离100m"
 			android:textColor="@color/tv_white"
@@ -125,6 +126,14 @@
 			android:text="￥1500/月"
 			android:textColor="@color/bg_pink"
 			android:textSize="18sp"/>
+
+		<TextView
+			android:id="@+id/tv_time"
+			style="@style/tv_hint"
+			android:textSize="12sp"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentEnd="true"
+			android:layout_marginEnd="3dp"/>
 	</RelativeLayout>
 
 	<RelativeLayout

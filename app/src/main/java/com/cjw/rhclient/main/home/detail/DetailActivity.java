@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -23,8 +22,10 @@ import com.cjw.rhclient.been.BBs;
 import com.cjw.rhclient.been.Rent;
 import com.cjw.rhclient.been.Session;
 import com.cjw.rhclient.main.home.map.MapActivity;
+import com.cjw.rhclient.utils.DateUtil;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.utils.UrlUtils;
+import com.cjw.rhclient.view.ScrollRecyclerView;
 
 import java.util.List;
 
@@ -60,7 +61,19 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 	@BindView(R.id.tv_location)
 	TextView mTvLocation;
 	@BindView(R.id.rcv_bbs)
-	RecyclerView mRcvBBs;
+	ScrollRecyclerView mRcvBBs;
+	@BindView(R.id.tv_type)
+	TextView mTvType;
+	@BindView(R.id.tv_house_type)
+	TextView mTvHouseType;
+	@BindView(R.id.tv_amount2)
+	TextView mTvAmount2;
+	@BindView(R.id.tv_label)
+	TextView mTvLabel;
+	@BindView(R.id.tv_area)
+	TextView mTvArea;
+	@BindView(R.id.tv_time)
+	TextView mTvTime;
 	private Rent mData;
 
 	@Override
@@ -103,6 +116,35 @@ public class DetailActivity extends BaseActivity implements DetailContract.Detai
 			mTvContent.setText(mData.getContent());
 			mTvAmount.setText("￥" + mData.getAmount() + "/月");
 			mTvLocation.setText(mData.getLocation());
+
+			String type = "";
+			switch (mData.getType()) {
+				case 1:
+					type = "整租";
+					break;
+				case 2:
+					type = "单间";
+					break;
+				case 3:
+					type = "日租";
+					break;
+				case 4:
+					type = "办公";
+					break;
+				case 5:
+					type = "校内出租";
+					break;
+				default:
+					type = "其他";
+					break;
+			}
+
+			mTvType.setText("类型：" + type);
+			mTvHouseType.setText("户型：" + mData.getHouseType());
+			mTvAmount2.setText("租金：" + mData.getAmount() + "/月");
+			mTvLabel.setText("标签：" + mData.getLabel());
+			mTvArea.setText("面积：" + mData.getArea() + "平米");
+			mTvTime.setText("时间：" + DateUtil.stampToDate(mData.getTime()));
 
 			String titleImg = mData.getTitleImg();
 			if (!TextUtils.isEmpty(titleImg)) setPic(titleImg);
