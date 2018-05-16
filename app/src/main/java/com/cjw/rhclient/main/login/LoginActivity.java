@@ -49,7 +49,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
 	@Override
 	public void initData() {
 		mEtLoginName.setText(SPUtils.getString("name"));//读取数据库
-		mEtLoginPassword.setText(SPUtils.getString("password"));
+//		mEtLoginPassword.setText(SPUtils.getString("password"));
 
 		Intent intent = getIntent();
 		String registerName = intent.getStringExtra("register_name");

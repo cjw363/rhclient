@@ -13,5 +13,6 @@ public interface RentContract {
 
 	interface RentPresenter {
 		void getRentList(int type, String sortType);
+		void getRentList(int type, String sortType,double lng,double lat);
 	}
 }

@@ -1,23 +1,36 @@
 package com.cjw.rhclient.main.home.rent;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.cjw.rhclient.R;
 import com.cjw.rhclient.adapter.RentAdapter;
 import com.cjw.rhclient.base.BaseFragment;
 import com.cjw.rhclient.base.BaseRecyclerViewAdapter;
 import com.cjw.rhclient.been.Rent;
+import com.cjw.rhclient.been.Session;
 import com.cjw.rhclient.main.home.detail.DetailActivity;
+import com.cjw.rhclient.utils.StringUtils;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.view.dialog.ContentDialog;
 
@@ -49,6 +62,8 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 	RadioButton mRbSort4;
 	@BindView(R.id.rg_sort)
 	RadioGroup mRgSort;
+	@BindView(R.id.aiv_search)
+	AppCompatImageView mAivSearch;
 
 	private static final int ARROW_UP = 1;
 	private static final int ARROW_DOWN = 2;
@@ -141,6 +156,38 @@ public class RentFragment extends BaseFragment implements RentContract.RentView,
 		drawable.setBounds(0, 0, UI.dip2px(20), UI.dip2px(20));
 		mRbSort4.setCompoundDrawables(null, null, drawable, null);
 		mRentPresenter.getRentList(mRentType, mSortType);
+	}
+
+	@OnClick(R.id.aiv_search)
+	public void onClickSearch(View v) {
+		final EditText editText = new EditText(getActivity());
+		new AlertDialog.Builder(getActivity()).setTitle("请输入搜索地址").setView(editText).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				String input = editText.getText().toString();
+				if(!StringUtils.isEmpty(input))
+					GeoCoderSearch(input);
+			}
+		}).show();
+	}
+	private void GeoCoderSearch(String input) {
+		GeoCoder geoCoder = GeoCoder.newInstance();
+		geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+			@Override
+			public void onGetGeoCodeResult(GeoCodeResult result) {
+				if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+					new ContentDialog.Builder(getActivity()).setSingleButton().setContent("抱歉，没有检索该地址").build().showDialog();
+				} else {
+					//获取地理编码结果
+					LatLng location = result.getLocation();
+					mRentPresenter.getRentList(mRentType, mSortType,location.longitude,location.latitude);
+				}
+			}
+
+			@Override
+			public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {}
+		});
+		geoCoder.geocode(new GeoCodeOption().city(Session.user.getProvince()).address(input));
 	}
 
 	@Override

@@ -33,12 +33,17 @@ class RentPresenter implements RentContract.RentPresenter {
 
 	@Override
 	public void getRentList(int type, String sortType) {
+		getRentList(type,sortType,Session.location.getLongitude(),Session.location.getLatitude());
+	}
+
+	@Override
+	public void getRentList(int type, String sortType, double lng, double lat) {
 		Map<String, String> map = new HashMap<>();
 		map.put("token", Session.user.getToken());
 		map.put("type", type + "");
 		map.put("sort_type", sortType);
-		map.put("longitude", Session.location.getLongitude() + "");
-		map.put("latitude", Session.location.getLatitude() + "");
+		map.put("longitude", lng+ "");
+		map.put("latitude", lat + "");
 		RxTrHttpMethod.getInstance().createService(RentService.class).getCampusList(map).compose(RxSchedulers.<HttpResult<List<Rent>>>defaultSchedulers()).doOnSubscribe(new RxDoOnSubscribe(mContext)).subscribeOn(AndroidSchedulers.mainThread()).subscribe(new HttpResultSubscriber<List<Rent>>(mContext) {
 			@Override
 			public void _onSuccess(List<Rent> result) {

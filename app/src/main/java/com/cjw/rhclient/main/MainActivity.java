@@ -51,12 +51,11 @@ public class MainActivity extends BaseActivity {
 	protected void initView() {
 		initToolBar();// 初始化toolbar
 		initGeoCoder();
-		//		initPager();// 初始化radiobutton点击事件和viewpager
 		initMine();//初始化我的
 	}
 
 	private void initGeoCoder() {
-		final GeoCoder geoCoder = GeoCoder.newInstance();
+		GeoCoder geoCoder = GeoCoder.newInstance();
 		geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
 			@Override
 			public void onGetGeoCodeResult(GeoCodeResult result) {
