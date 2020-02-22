@@ -28,7 +28,6 @@ import com.cjw.rhclient.main.home.publish.PublishActivity;
 import com.cjw.rhclient.main.mine.MineFragment;
 import com.cjw.rhclient.utils.FragmentFactory;
 import com.cjw.rhclient.utils.UI;
-import com.cjw.rhclient.view.dialog.ContentDialog;
 
 import butterknife.BindView;
 
@@ -60,7 +59,8 @@ public class MainActivity extends BaseActivity {
 			@Override
 			public void onGetGeoCodeResult(GeoCodeResult result) {
 				if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-					new ContentDialog.Builder(MainActivity.this).setSingleButton().setContent("抱歉，没有检索到该大学，数据库暂时未录入!").build().showDialog();
+//					new ContentDialog.Builder(MainActivity.this).setSingleButton().setContent("抱歉，没有检索到该大学，数据库暂时未录入!").build().showDialog();
+					initPager();// 初始化radiobutton点击事件和viewpager
 				} else {
 					//获取地理编码结果
 					LatLng location = result.getLocation();

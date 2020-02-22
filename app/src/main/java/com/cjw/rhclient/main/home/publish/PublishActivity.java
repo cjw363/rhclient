@@ -36,6 +36,7 @@ import com.cjw.rhclient.base.BaseActivity;
 import com.cjw.rhclient.been.Session;
 import com.cjw.rhclient.main.home.map.BaiduMapHelper;
 import com.cjw.rhclient.main.home.map.MapActivity;
+import com.cjw.rhclient.utils.StringUtils;
 import com.cjw.rhclient.utils.UI;
 import com.cjw.rhclient.view.FlowLayout;
 import com.cjw.rhclient.view.TypeContentView;
@@ -111,8 +112,8 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 
 	private List<String> checkedLabels = new ArrayList<>();
 	private List<Uri> mUris;
-	private double mLatitude;
-	private double mLongitude;
+	private double mLongitude = 113.28697867723801;
+	private double mLatitude = 23.113492321480198;
 
 	@Override
 	public int getContentLayoutId() {
@@ -409,7 +410,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 				//获取纬度信息
 				mLatitude = location.getLatitude();
 				String address = location.getAddrStr().replace("中国", "");    //获取详细地址信息
-				mTvLocation.setText(address);
+				if(!StringUtils.isEmpty(address))mTvLocation.setText(address);
 			}
 		});
 	}
