@@ -107,7 +107,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
 	// 子类可以重写
 	public boolean isHasMore() {
-		return true;
+		return false;
 	}
 
 	public List<T> getData() {

@@ -49,7 +49,8 @@ public class MainActivity extends BaseActivity {
 	@Override
 	protected void initView() {
 		initToolBar();// 初始化toolbar
-		initGeoCoder();
+		initGeoCoder();////todo
+//		initPager();// 初始化radiobutton点击事件和viewpager
 		initMine();//初始化我的
 	}
 
